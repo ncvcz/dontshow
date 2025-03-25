@@ -5,12 +5,12 @@ export {}
 
 const storage = new Storage();
 
-const observer = new MutationObserver(() => {
-  storage.get<boolean>("enabled").then((enabled) => {
-    if (!enabled) return
+const observer = new MutationObserver(async () => {
+  const enabled = await storage.get<boolean>("enabled");
+  if (!enabled) return;
 
-    applyFiltersToDOM(getFilters())
-  })
+  const filters = await getFilters();
+  applyFiltersToDOM(filters);
 })
 
 observer.observe(document.body, {

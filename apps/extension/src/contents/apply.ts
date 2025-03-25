@@ -3,20 +3,26 @@ import { Storage } from "@plasmohq/storage";
 
 export { }
 
-const storage = new Storage();
+const showContent = () => {
+  if (document.body.style.visibility === "visible") return;
 
-storage.get<boolean>("enabled").then((enabled) => {
-  if (!enabled) return
+  const styleOverride = document.createElement("style");
 
-  applyFiltersToDOM(getFilters())
-});
-
-const styleOverride = document.createElement("style");
-
-styleOverride.innerText = `
+  styleOverride.innerText = `
     body {
       visibility: visible !important;
     }
   `
 
-document.head.appendChild(styleOverride)
+  document.head.appendChild(styleOverride)
+}
+
+const storage = new Storage();
+
+storage.get<boolean>("enabled").then(async (enabled) => {
+  if (!enabled) return showContent();
+
+  const filters = await getFilters();
+  applyFiltersToDOM(filters);
+  showContent();
+});

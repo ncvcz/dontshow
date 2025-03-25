@@ -6,28 +6,13 @@ export type Filter = {
   pattern: string
   domain: string
   selector?: string
-  action: "blur" | "remove" | "replace"
-  maskType?: "stars" | "redacted" | "custom"
+  action: "blur" | "remove" | "stars" | "redacted"
   customText?: string
 }
 
-export const getFilters = (): Filter[] => {
-  const filters: Filter[] = [
-    {
-      pattern: "valerio.clemenzi@*",
-      domain: "*",
-      action: "replace",
-      maskType: "stars",
-    }
-  ];
 
-  storage.get<Filter[]>("filters").then((filters) => {
-    filters.forEach((filter) => {
-      filters.push(filter)
-    })
-  })
-
-  return filters
+export const getFilters = async (): Promise<Filter[]> => {
+  return storage.get<Filter[]>("filters") || [];
 }
 
 export const applyFiltersToDOM = (filters: Filter[]) => {
@@ -36,6 +21,7 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
 
   while ((node = walker.nextNode())) {
     const parent = node.parentElement
+
     if (!parent) continue
 
     const originalText = node.textContent ?? ""
@@ -54,14 +40,11 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
           case "remove":
             parent.remove()
             break
-          case "replace":
-            if (filter.maskType === "stars") {
-              node.textContent = originalText.replace(regex, (m) => "*".repeat(m.length))
-            } else if (filter.maskType === "redacted") {
-              node.textContent = originalText.replace(regex, "[REDACTED]")
-            } else if (filter.maskType === "custom" && filter.customText) {
-              node.textContent = originalText.replace(regex, filter.customText)
-            }
+          case "stars":
+            node.textContent = originalText.replace(regex, (m) => "*".repeat(m.length))
+            break
+          case "redacted":
+            node.textContent = originalText.replace(regex, "[REDACTED]")
             break
         }
       }

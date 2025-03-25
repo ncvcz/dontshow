@@ -102,12 +102,11 @@ function Filters() {
                   <select
                     id="action"
                     value={newFilter.action}
-                    onChange={(e) => setNewFilter({ ...newFilter, action: e.target.value as Filter["action"]})}
+                    onChange={(e) => setNewFilter({ ...newFilter, action: e.target.value as "blur" | "remove" | "stars" | "redacted" })}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     <option value="stars">Stars</option>
                     <option value="blur">Blur</option>
                     <option value="remove">Remove</option>
-                    <option value="redacted">Redacted</option>
                   </select>
                 </div>
 

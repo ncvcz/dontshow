@@ -1,4 +1,5 @@
 import { Storage } from "@plasmohq/storage";
+import { matchWildcard } from "./wildcard";
 
 const storage = new Storage();
 
@@ -9,7 +10,6 @@ export type Filter = {
   action: "blur" | "remove" | "stars" | "redacted"
   customText?: string
 }
-
 
 export const getFilters = async (): Promise<Filter[]> => {
   return storage.get<Filter[]>("filters") || [];
@@ -27,7 +27,7 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
     const originalText = node.textContent ?? ""
 
     filters.forEach((filter) => {
-      if (filter.domain !== "*" && !location.hostname.includes(filter.domain)) return
+      if (!matchWildcard(filter.domain, location.hostname)) return
 
       const regex = new RegExp(filter.pattern, "gi")
 

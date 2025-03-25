@@ -17,7 +17,7 @@ function IndexPopup() {
   }
 
   return (
-    <div className="w-[320px] bg-white rounded-lg shadow-lg p-4">
+    <div className="w-[320px] rounded-lg shadow-lg p-4">
       <div className="pb-2">
         <div className="flex justify-end space-x-2">
           <button
@@ -58,7 +58,7 @@ function IndexPopup() {
       <div className="pt-2">
         <button
           onClick={handleToggle}
-          className={`w-full py-2 px-4 rounded-lg font-medium text-white transition-colors duration-200 ${
+          className={`w-full py-2 px-4 rounded-full font-medium text-white transition-colors duration-200 text-lg ${
             enabled 
               ? "bg-red-500 hover:bg-red-600" 
               : "bg-green-500 hover:bg-green-600"

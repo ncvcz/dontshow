@@ -1,8 +1,5 @@
 import { useStorage } from "@plasmohq/storage/hook"
 import { PenIcon, SettingsIcon } from "lucide-react"
-import { Button } from "@blurthat/ui/src/components/ui/button"
-import { Card, CardHeader, CardContent, CardFooter } from "@blurthat/ui/src/components/ui/card"
-import { cn } from "@blurthat/ui/src/lib/utils"
 
 import "./style.css"
 
@@ -20,8 +17,8 @@ function IndexPopup() {
   }
 
   return (
-    <Card className="w-[320px] border-none shadow-lg">
-      <CardHeader className="pb-2">
+    <div className="w-[320px] bg-white rounded-lg shadow-lg p-4">
+      <div className="pb-2">
         <div className="flex justify-end space-x-2">
           <button
             className="p-2 rounded-full hover:bg-white/50 transition-colors duration-200"
@@ -36,9 +33,9 @@ function IndexPopup() {
             <SettingsIcon className="w-5 h-5 text-gray-600" />
           </button>
         </div>
-      </CardHeader>
+      </div>
 
-      <CardContent className="flex flex-col items-center justify-center space-y-6 py-4">
+      <div className="flex flex-col items-center justify-center space-y-6 py-4">
         <div className="relative">
           <div className="absolute inset-0 bg-blue-100 rounded-full blur-xl opacity-50 animate-pulse"></div>
           <div className="relative text-8xl transform transition-all duration-300 hover:scale-110 hover:rotate-12">
@@ -56,23 +53,21 @@ function IndexPopup() {
               : "Information is currently visible"}
           </p>
         </div>
-      </CardContent>
+      </div>
 
-      <CardFooter className="pt-2">
-        <Button
+      <div className="pt-2">
+        <button
           onClick={handleToggle}
-          size="lg"
-          className={cn(
-            "w-full",
+          className={`w-full py-2 px-4 rounded-lg font-medium text-white transition-colors duration-200 ${
             enabled 
-              ? "bg-red-500 hover:bg-red-600 text-white" 
-              : "bg-green-500 hover:bg-green-600 text-white"
-          )}
+              ? "bg-red-500 hover:bg-red-600" 
+              : "bg-green-500 hover:bg-green-600"
+          }`}
         >
           {enabled ? "Disable" : "Enable"}
-        </Button>
-      </CardFooter>
-    </Card>
+        </button>
+      </div>
+    </div>
   )
 }
 

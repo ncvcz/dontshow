@@ -35,7 +35,6 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
         switch (filter.action) {
           case "blur":
             parent.style.filter = "blur(5px)"
-            parent.style.transition = "filter 0.2s"
             break
           case "remove":
             parent.remove()

@@ -7,6 +7,7 @@ const storage = new Storage();
 
 const observer = new MutationObserver(async () => {
   const enabled = await storage.get<boolean>("enabled");
+
   if (!enabled) return;
 
   const filters = await getFilters();

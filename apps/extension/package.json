@@ -1,6 +1,6 @@
 {
   "name": "@hidewords/extension",
-  "displayName": "hidewords",
+  "displayName": "HideWords: Hide Sensitive Information",
   "version": "0.0.1",
   "description": "Automatically blur or hide personal info while browsing, streaming, or screen sharing.",
   "author": "The hidewords Team <us@hidewords.com>",

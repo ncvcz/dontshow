@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { useStorage } from "@plasmohq/storage/hook"
+import { PlusIcon, TrashIcon, PencilIcon, CheckIcon, XIcon } from "lucide-react"
 
 import type { Filter } from "~src/lib/filters"
 import "../style.css"
+import Layout from "~src/components/Layout"
 
 function Filters() {
   const [open, setOpen] = useState(false)
@@ -12,6 +14,8 @@ function Filters() {
     domain: "*",
     action: "stars"
   })
+  const [editingIndex, setEditingIndex] = useState<number | null>(null)
+  const [editingFilter, setEditingFilter] = useState<Filter | null>(null)
 
   const handleAddFilter = () => {
     if (!newFilter.pattern) return
@@ -28,106 +32,185 @@ function Filters() {
     setFilters(filters.filter((f) => f !== filter))
   }
 
+  const handleStartEdit = (filter: Filter, index: number) => {
+    setEditingIndex(index)
+    setEditingFilter({ ...filter })
+  }
+
+  const handleSaveEdit = () => {
+    if (!editingFilter || editingIndex === null) return
+    const newFilters = [...filters]
+    newFilters[editingIndex] = editingFilter
+    setFilters(newFilters)
+    setEditingIndex(null)
+    setEditingFilter(null)
+  }
+
+  const handleCancelEdit = () => {
+    setEditingIndex(null)
+    setEditingFilter(null)
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white shadow sm:rounded-lg">
-          <div className="px-4 py-5 sm:p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Content Filters</h2>
-            
-            {/* Existing Filters List */}
-            <div className="space-y-4 mb-6">
-              {filters.map((filter, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">Pattern: {filter.pattern}</p>
-                    <p className="text-sm text-gray-500">Domain: {filter.domain}</p>
-                    <p className="text-sm text-gray-500">Action: {filter.action}</p>
-                  </div>
-                  <button
-                    onClick={() => handleDeleteFilter(filter)}
-                    className="ml-4 text-red-600 hover:text-red-800">
-                    Delete
-                  </button>
-                </div>
-              ))}
-            </div>
+    <Layout>
+      <div className="max-w-2xl mx-auto space-y-4">
+        <div className="flex justify-between items-center">
+          <h1 className="text-xl font-semibold">Filters</h1>
+          <button
+            className="btn btn-sm btn-primary gap-1"
+            onClick={() => setOpen(true)}>
+            <PlusIcon className="w-4 h-4" />
+            Add
+          </button>
+        </div>
 
-            {/* Add New Filter Button */}
-            {!open && (
-              <button
-                onClick={() => setOpen(true)}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                Add New Filter
-              </button>
-            )}
-
-            {/* Add Filter Form */}
-            {open && (
-              <div className="mt-6 space-y-4 bg-gray-50 p-4 rounded-lg">
-                <div>
-                  <label htmlFor="pattern" className="block text-sm font-medium text-gray-700">
-                    Pattern
-                  </label>
+        {/* Filters List */}
+        <div className="space-y-2">
+          {filters.map((filter, index) => (
+            <div key={index} className="flex items-center gap-2 p-2 bg-base-200 rounded-lg hover:bg-base-300 transition-colors">
+              {editingIndex === index ? (
+                <>
                   <input
                     type="text"
-                    id="pattern"
-                    value={newFilter.pattern}
-                    onChange={(e) => setNewFilter({ ...newFilter, pattern: e.target.value })}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Enter pattern..."
+                    className="input input-sm input-bordered flex-1"
+                    value={editingFilter?.pattern || ""}
+                    onChange={(e) =>
+                      setEditingFilter({ ...editingFilter!, pattern: e.target.value })
+                    }
+                    placeholder="Pattern"
                   />
-                </div>
-
-                <div>
-                  <label htmlFor="domain" className="block text-sm font-medium text-gray-700">
-                    Domain
-                  </label>
                   <input
                     type="text"
-                    id="domain"
-                    value={newFilter.domain}
-                    onChange={(e) => setNewFilter({ ...newFilter, domain: e.target.value })}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="* for all domains"
+                    className="input input-sm input-bordered w-32"
+                    value={editingFilter?.domain || ""}
+                    onChange={(e) =>
+                      setEditingFilter({ ...editingFilter!, domain: e.target.value })
+                    }
+                    placeholder="Domain"
                   />
-                </div>
-
-                <div>
-                  <label htmlFor="action" className="block text-sm font-medium text-gray-700">
-                    Action
-                  </label>
                   <select
-                    id="action"
-                    value={newFilter.action}
-                    onChange={(e) => setNewFilter({ ...newFilter, action: e.target.value as "blur" | "remove" | "stars" | "redacted" })}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <option value="stars">Stars</option>
+                    className="select select-sm select-bordered w-24"
+                    value={editingFilter?.action || "stars"}
+                    onChange={(e) =>
+                      setEditingFilter({
+                        ...editingFilter!,
+                        action: e.target.value as Filter["action"]
+                      })
+                    }>
                     <option value="blur">Blur</option>
                     <option value="remove">Remove</option>
+                    <option value="stars">Stars</option>
+                    <option value="redacted">Redacted</option>
                   </select>
-                </div>
-
-                <div className="flex justify-end space-x-3 mt-4">
                   <button
-                    onClick={() => setOpen(false)}
-                    className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Cancel
+                    className="btn btn-ghost btn-sm btn-square"
+                    onClick={handleCancelEdit}>
+                    <XIcon className="w-4 h-4" />
                   </button>
                   <button
-                    onClick={handleAddFilter}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Add Filter
+                    className="btn btn-ghost btn-sm btn-square"
+                    onClick={handleSaveEdit}>
+                    <CheckIcon className="w-4 h-4" />
                   </button>
-                </div>
-              </div>
-            )}
-          </div>
+                </>
+              ) : (
+                <>
+                  <code className="flex-1 bg-base-300 px-2 py-1 rounded text-sm">{filter.pattern}</code>
+                  <code className="w-32 bg-base-300 px-2 py-1 rounded text-sm">{filter.domain}</code>
+                  <span className={`badge badge-sm ${
+                    filter.action === "blur" ? "badge-info" :
+                    filter.action === "remove" ? "badge-error" :
+                    filter.action === "stars" ? "badge-warning" :
+                    "badge-success"
+                  }`}>
+                    {filter.action}
+                  </span>
+                  <button
+                    className="btn btn-ghost btn-sm btn-square"
+                    onClick={() => handleStartEdit(filter, index)}>
+                    <PencilIcon className="w-4 h-4" />
+                  </button>
+                  <button
+                    className="btn btn-ghost btn-sm btn-square text-error"
+                    onClick={() => handleDeleteFilter(filter)}>
+                    <TrashIcon className="w-4 h-4" />
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
+          {filters.length === 0 && (
+            <div className="text-center py-4 text-base-content/60 text-sm">
+              No filters added yet. Click "Add" to create one.
+            </div>
+          )}
         </div>
+
+        {/* Add Filter Modal */}
+        <dialog className={`modal ${open ? "modal-open" : ""}`}>
+          <div className="modal-box">
+            <h3 className="font-bold text-lg mb-4">Add New Filter</h3>
+            <div className="space-y-4">
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Pattern</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered"
+                  value={newFilter.pattern}
+                  onChange={(e) =>
+                    setNewFilter({ ...newFilter, pattern: e.target.value })
+                  }
+                  placeholder="Enter text pattern to match"
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Domain</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered"
+                  value={newFilter.domain}
+                  onChange={(e) =>
+                    setNewFilter({ ...newFilter, domain: e.target.value })
+                  }
+                  placeholder="Enter domain (use * for all)"
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Action</span>
+                </label>
+                <select
+                  className="select select-bordered"
+                  value={newFilter.action}
+                  onChange={(e) =>
+                    setNewFilter({
+                      ...newFilter,
+                      action: e.target.value as Filter["action"]
+                    })
+                  }>
+                  <option value="blur">Blur</option>
+                  <option value="remove">Remove</option>
+                  <option value="stars">Stars</option>
+                  <option value="redacted">Redacted</option>
+                </select>
+              </div>
+            </div>
+            <div className="modal-action">
+              <button className="btn" onClick={() => setOpen(false)}>
+                Cancel
+              </button>
+              <button className="btn btn-primary" onClick={handleAddFilter}>
+                Add Filter
+              </button>
+            </div>
+          </div>
+        </dialog>
       </div>
-    </div>
+    </Layout>
   )
 }
 

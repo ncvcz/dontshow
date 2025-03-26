@@ -12,7 +12,7 @@ export type Filter = {
 }
 
 export const getFilters = async (): Promise<Filter[]> => {
-  return storage.get<Filter[]>("filters") || [];
+  return await storage.get<Filter[]>("filters") ?? [];
 }
 
 export const applyFiltersToDOM = (filters: Filter[]) => {
@@ -26,8 +26,8 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
 
     const originalText = node.textContent ?? ""
 
-    filters.forEach((filter) => {
-      if (!matchWildcard(filter.domain, location.hostname)) return
+    for (const filter of filters) {
+      if (!matchWildcard(filter.domain, location.hostname)) continue
 
       const regex = new RegExp(filter.pattern, "gi")
 
@@ -47,6 +47,6 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
             break
         }
       }
-    })
+    }
   }
 }

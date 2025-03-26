@@ -1,9 +1,9 @@
 {
-  "name": "@blurthat/extension",
-  "displayName": "blurthat",
+  "name": "@hidewords/extension",
+  "displayName": "hidewords",
   "version": "0.0.1",
   "description": "Automatically blur or hide personal info while browsing, streaming, or screen sharing.",
-  "author": "The blurthat Team <us@blurthat.com>",
+  "author": "The hidewords Team <us@hidewords.com>",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
@@ -14,8 +14,7 @@
     "lucide-react": "^0.483.0",
     "plasmo": "0.90.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "@blurthat/ui": "workspace:*"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
@@ -24,6 +23,7 @@
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "autoprefixer": "^10.4.21",
+    "daisyui": "4",
     "postcss": "^8.5.3",
     "prettier": "3.2.4",
     "tailwindcss": "3",

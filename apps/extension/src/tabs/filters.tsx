@@ -52,7 +52,7 @@ function Filters() {
   }
 
   return (
-    <Layout>
+    <Layout isSensitive>
       <div className="max-w-2xl mx-auto space-y-4">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">Filters</h1>

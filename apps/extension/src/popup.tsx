@@ -55,23 +55,17 @@ function IndexPopup() {
             <div className="flex justify-around w-full">
               <button
                 onClick={() => handleRedirect("filters")}
-                className="btn btn-ghost btn-circle">
+                className="btn btn-ghost flex items-center gap-2"
+              >
                 <FunnelIcon className="w-6 h-6" />
+                <span>Filters</span>
               </button>
               <button
                 onClick={() => handleRedirect("settings")}
-                className="btn btn-ghost btn-circle">
+                className="btn btn-ghost flex items-center gap-2"
+              >
                 <SettingsIcon className="w-6 h-6" />
-              </button>
-              <button
-                onClick={() => handleRedirect("support")}
-                className="btn btn-ghost btn-circle">
-                <LifeBuoyIcon className="w-6 h-6" />
-              </button>
-              <button
-                onClick={() => handleRedirect("about")}
-                className="btn btn-ghost btn-circle">
-                <InfoIcon className="w-6 h-6" />
+                <span>Settings</span>
               </button>
             </div>
           </div>

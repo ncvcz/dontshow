@@ -1,8 +1,6 @@
 import { applyFiltersToDOM, getFilters } from "~src/lib/filters";
 import { Storage } from "@plasmohq/storage";
 
-export { }
-
 const showContent = () => {
   if (document.body.style.visibility === "visible") return;
 

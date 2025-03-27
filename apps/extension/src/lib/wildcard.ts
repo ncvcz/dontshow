@@ -1,35 +1,33 @@
-// Cache for compiled regex patterns
 const regexPatternCache = new Map<string, RegExp>();
 
 export const matchWildcard = (pattern: string, value: string): boolean => {
-  // Fast path for exact match or universal wildcard
-  if (pattern === value || pattern === "*") return true;
-
-  const normalizedDomain = value.toLowerCase();
-  const normalizedWildcard = pattern.toLowerCase();
-
-  // Fast path for exact match after normalization
-  if (normalizedWildcard === normalizedDomain) return true;
+  const patterns = pattern.split(',').map(p => p.trim());
   
-  // Fast path for non-wildcard patterns
-  if (!normalizedWildcard.includes("*")) {
-    return normalizedDomain === normalizedWildcard;
-  }
+  return patterns.some(singlePattern => {
+    if (singlePattern === value || singlePattern === "*") return true;
 
-  // Check cache for compiled regex
-  let regex = regexPatternCache.get(normalizedWildcard);
-  
-  if (!regex) {
-    // Create and cache the regex pattern
-    const regexPattern = "^" + 
-      normalizedWildcard
-        .replace(/\./g, "\\.")
-        .replace(/\*/g, "[^.]+") +
-      "$";
+    const normalizedDomain = value.toLowerCase();
+    const normalizedWildcard = singlePattern.toLowerCase();
+
+    if (normalizedWildcard === normalizedDomain) return true;
     
-    regex = new RegExp(regexPattern);
-    regexPatternCache.set(normalizedWildcard, regex);
-  }
+    if (!normalizedWildcard.includes("*")) {
+      return normalizedDomain === normalizedWildcard;
+    }
 
-  return regex.test(normalizedDomain); 
+    let regex = regexPatternCache.get(normalizedWildcard);
+    
+    if (!regex) {
+      const regexPattern = "^" + 
+        normalizedWildcard
+          .replace(/\./g, "\\.")
+          .replace(/\*/g, "[^.]+") +
+        "$";
+      
+      regex = new RegExp(regexPattern);
+      regexPatternCache.set(normalizedWildcard, regex);
+    }
+
+    return regex.test(normalizedDomain);
+  });
 }

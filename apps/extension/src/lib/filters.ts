@@ -1,7 +1,5 @@
-import { Storage } from "@plasmohq/storage";
 import { matchWildcard } from "./wildcard";
-
-const storage = new Storage();
+import { storage } from "@wxt-dev/storage";
 
 export type Filter = {
   pattern: string
@@ -12,7 +10,7 @@ export type Filter = {
 }
 
 export const getFilters = async (): Promise<Filter[]> => {
-  return await storage.get<Filter[]>("filters") ?? [];
+  return await storage.getItem<Filter[]>("sync:filters") ?? [];
 }
 
 // Cache compiled regex patterns for better performance

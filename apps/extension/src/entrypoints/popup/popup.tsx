@@ -2,38 +2,25 @@ import {
   EyeIcon,
   EyeOffIcon,
   FunnelIcon,
-  InfoIcon,
-  LifeBuoyIcon,
-  SettingsIcon
-} from "lucide-react"
+  SettingsIcon,
+} from "lucide-react";
 
-import { useStorage } from "@plasmohq/storage/hook"
-
-import "./style.css"
-
-function IndexPopup() {
-  const [enabled, setEnabled] = useStorage("enabled", true)
+export default function Popup() {
+  const [enabled, setEnabled] = useStorage("sync:enabled", true);
 
   const handleToggle = () => {
-    setEnabled(!enabled)
-    chrome.tabs.query(
-      { active: true, currentWindow: true },
-      function (arrayOfTabs) {
-        chrome.tabs.reload(arrayOfTabs[0].id)
-      }
-    )
-  }
+    setEnabled(!enabled);
+  };
 
   const handleRedirect = (page: string) => {
-    chrome.tabs.create({ url: chrome.runtime.getURL(`/tabs/${page}.html`) })
-  }
+    // @ts-ignore
+    browser.tabs.create({ url: browser.runtime.getURL(`/${page}.html`) });
+  };
 
   return (
     <div className="card w-[300px] bg-base-100 shadow-xl">
       <div className="navbar flex justify-between items-center bg-base-200 rounded-t-lg px-4 py-2">
-        <h2 className="text-xl font-bold">
-          HideWords
-        </h2>
+        <h2 className="text-xl font-bold">HideWords</h2>
 
         <div className="badge badge-primary">FREE</div>
       </div>
@@ -41,7 +28,8 @@ function IndexPopup() {
         <div className="flex-1 flex items-center justify-center">
           <button
             onClick={handleToggle}
-            className={enabled ? "text-error" : "text-success"}>
+            className={enabled ? "text-error" : "text-success"}
+          >
             {enabled ? (
               <EyeOffIcon className="w-32 h-32" />
             ) : (
@@ -72,7 +60,5 @@ function IndexPopup() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
-export default IndexPopup

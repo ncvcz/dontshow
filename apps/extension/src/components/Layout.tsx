@@ -1,20 +1,24 @@
 import { AlertTriangleIcon, FunnelIcon, SettingsIcon } from "lucide-react"
 
-import { useStorage } from "@plasmohq/storage/hook"
+import { useStorage } from "@/hooks/storage";
 import { useState } from "react"
+
 interface LayoutProps {
   children: React.ReactNode
   isSensitive?: boolean
 }
 
 export default function Layout({ children, isSensitive }: LayoutProps) {
-  const [enabled, setEnabled] = useStorage<boolean>("enabled", false)
+  const [enabled, setEnabled] = useStorage<boolean>("sync:enabled", false)
   const [continueBrowsing, setContinueBrowsing] = useState(false)
 
   const handleRedirect = (page: string) => {
-    chrome.tabs.getCurrent((tab) => {
-      chrome.tabs.update(tab.id, {
-        url: chrome.runtime.getURL(`/tabs/${page}.html`)
+    browser.tabs.getCurrent((tab) => {
+      if (!tab?.id) return;
+
+      browser.tabs.update(tab.id, {
+        // @ts-ignore
+        url: browser.runtime.getURL(`/${page}.html`)
       })
     })
   }

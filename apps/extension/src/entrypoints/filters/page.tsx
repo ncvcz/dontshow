@@ -1,14 +1,9 @@
-import { useState } from "react"
-import { useStorage } from "@plasmohq/storage/hook"
+import type { Filter } from "@/lib/filters"
 import { PlusIcon, TrashIcon, PencilIcon, CheckIcon, XIcon } from "lucide-react"
 
-import type { Filter } from "~src/lib/filters"
-import "../style.css"
-import Layout from "~src/components/Layout"
-
-function Filters() {
+export default function Page() {
   const [open, setOpen] = useState(false)
-  const [filters, setFilters] = useStorage<Filter[]>("filters", [])
+  const [filters, setFilters] = useStorage<Filter[]>("sync:filters", [])
   const [newFilter, setNewFilter] = useState<Filter>({
     pattern: "",
     domain: "*",
@@ -45,7 +40,7 @@ function Filters() {
     setEditingIndex(null)
     setEditingFilter(null)
   }
-
+  
   const handleCancelEdit = () => {
     setEditingIndex(null)
     setEditingFilter(null)
@@ -211,7 +206,5 @@ function Filters() {
         </dialog>
       </div>
     </Layout>
-  )
+  );
 }
-
-export default Filters

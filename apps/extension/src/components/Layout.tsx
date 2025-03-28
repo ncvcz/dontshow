@@ -9,7 +9,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, isSensitive }: LayoutProps) {
-  const [enabled, setEnabled] = useStorage<boolean>("sync:enabled", false)
+  const [enabled, setEnabled] = useStorage<boolean>("local:enabled", false)
   const [continueBrowsing, setContinueBrowsing] = useState(false)
 
   const handleRedirect = (page: string) => {

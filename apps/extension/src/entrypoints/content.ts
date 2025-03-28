@@ -19,7 +19,7 @@ export default defineContentScript({
   runAt: "document_start",
   cssInjectionMode: "manifest",
   async main(_ctx) {
-    const enabled = await storage.getItem<boolean>("sync:enabled");
+    const enabled = await storage.getItem<boolean>("local:enabled");
     
     if (!enabled) return showContent();
 
@@ -28,7 +28,7 @@ export default defineContentScript({
     showContent();
 
     const observer = new MutationObserver(async () => {
-      const enabled = await storage.getItem<boolean>("sync:enabled");
+      const enabled = await storage.getItem<boolean>("local:enabled");
 
       if (!enabled) return;
 

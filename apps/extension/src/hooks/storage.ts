@@ -7,7 +7,12 @@ export const useStorage = <T>(key: StorageItemKey, defaultValue: T): [T, (value:
   useEffect(() => {
     const loadValue = async () => {
       const value = await storage.getItem<T>(key);
-      setStoredValue(value ?? defaultValue);
+      if (value === null || value === undefined) {
+        await storage.setItem(key, defaultValue);
+        setStoredValue(defaultValue);
+      } else {
+        setStoredValue(value);
+      }
     };
     
     loadValue();

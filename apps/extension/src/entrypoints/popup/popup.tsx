@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 
 export default function Popup() {
-  const [enabled, setEnabled] = useStorage("local:enabled", true);
+  const [enabled, setEnabled] = useStorage("sync:enabled", true);
 
   const handleToggle = () => {
     setEnabled(!enabled);

@@ -18,7 +18,7 @@ export default defineContentScript({
   matches: ["<all_urls>"],
   async main(_ctx) {
     const enabled = await storage.getItem<boolean>("sync:enabled");
-
+    
     if (!enabled) return showContent();
 
     const filters = await getFilters();
@@ -39,5 +39,5 @@ export default defineContentScript({
       subtree: true,
       characterData: true
     })
-  },
+  }, 
 })

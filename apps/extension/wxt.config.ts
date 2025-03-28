@@ -14,6 +14,13 @@ export default defineConfig({
     return {
       name: "Hidewords",
       permissions: ["storage", "contextMenus"],
+      content_scripts: [
+        {
+          matches: ["<all_urls>"],
+          css: ["./content-scripts/hide.css"],
+          run_at: "document_start",
+        },
+      ],
     };
   },
 });

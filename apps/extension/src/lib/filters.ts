@@ -38,7 +38,14 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
   });
   
   // For non-selector filters, use TreeWalker for text nodes
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: node => {
+      if (!node.nodeValue?.trim()) return NodeFilter.FILTER_SKIP;
+      if (node.parentElement?.tagName === 'SCRIPT') return NodeFilter.FILTER_SKIP;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+
   let node: Node | null;
   
   // Process nodes in batches to avoid blocking the main thread

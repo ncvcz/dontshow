@@ -19,7 +19,7 @@ export default defineContentScript({
   async main(_ctx) {
     const enabled = await storage.getItem<boolean>("sync:enabled");
     
-    if (!enabled) return showContent();
+    if (!enabled) return;
 
     const filters = await getFilters();
     applyFiltersToDOM(filters);

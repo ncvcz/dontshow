@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-  themes: hidewords --default, hidewords-dark --prefersdark;
+  themes: dont-show --default, dont-show-dark --prefersdark;
 }
 
 @plugin "daisyui/theme" {
-  name: "hidewords";
+  name: "dont-show";
   default: true;
   prefersdark: false;
   color-scheme: "light";
@@ -40,7 +40,7 @@
 }
 
 @plugin "daisyui/theme" {
-  name: "hidewords-dark";
+  name: "dont-show-dark";
   default: false;
   prefersdark: true;
   color-scheme: "dark";

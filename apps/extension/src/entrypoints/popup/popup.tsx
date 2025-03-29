@@ -20,7 +20,7 @@ export default function Popup() {
   return (
     <div className="card w-[300px] bg-base-100 shadow-xl">
       <div className="navbar bg-primary flex justify-between px-4 py-2">
-        <h2 className="text-xl font-bold">HideWords</h2>
+        <h2 className="text-xl font-bold">Don't Show</h2>
 
         <div className="badge badge-ghost">
           {enabled ? "Enabled" : "Disabled"}
@@ -44,11 +44,11 @@ export default function Popup() {
           <div className="flex-1">
             <div className="flex justify-around w-full">
               <button
-                onClick={() => handleRedirect("filters")}
+                onClick={() => handleRedirect("word-filters")}
                 className="btn btn-ghost flex items-center gap-2"
               >
                 <FunnelIcon className="w-6 h-6" />
-                <span>Filters</span>
+                <span>Word Filters</span>
               </button>
               <button
                 onClick={() => handleRedirect("settings")}

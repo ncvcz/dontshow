@@ -53,7 +53,7 @@ export default function Page() {
     <Layout isSensitive>
       <div className="max-w-6xl mx-auto space-y-4">
         <div className="flex justify-between items-center">
-          <h1 className="text-xl font-semibold">Filters</h1>
+          <h1 className="text-xl font-semibold">Word Filters</h1>
           <button
             className="btn btn-sm btn-primary gap-1"
             onClick={() => setOpen(true)}>
@@ -161,7 +161,7 @@ export default function Page() {
           ))}
           {filters.length === 0 && (
             <div className="text-center py-8 text-base-content/60">
-              No filters added yet. Click "Add" to create one.
+              No word filters added yet. Click "Add" to create one.
             </div>
           )}
         </div>
@@ -169,7 +169,7 @@ export default function Page() {
         {/* Add Filter Modal */}
         <dialog className={`modal ${open ? "modal-open" : ""}`}>
           <div className="modal-box">
-            <h3 className="font-bold text-lg mb-4">Add New Filter</h3>
+            <h3 className="font-bold text-lg mb-4">Add New Word Filter</h3>
             <div className="space-y-4">
               <div className="form-control">
                 <label className="label">
@@ -224,7 +224,7 @@ export default function Page() {
                 Cancel
               </button>
               <button className="btn btn-primary" onClick={handleAddFilter}>
-                Add Filter
+                Add Word Filter
               </button>
             </div>
           </div>

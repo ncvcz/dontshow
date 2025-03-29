@@ -24,7 +24,7 @@ export default function Page() {
               </div>
             </h2>
             <p className="text-base-content/70 mb-4">
-              Enable or disable HideWords. When active, website content will be modified according to your filters.
+              Enable or disable Don't Show. When active, website content will be modified according to your filters.
             </p>
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-2 text-lg">
@@ -99,7 +99,7 @@ export default function Page() {
               <div className="stat">
                 <div className="stat-title">Version</div>
                 <div className="stat-value text-xl">1.0.0</div>
-                <div className="stat-desc">HideWords Extension</div>
+                <div className="stat-desc">Don't Show Extension</div>
               </div>
               
               <div className="stat">

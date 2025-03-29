@@ -5,7 +5,7 @@ export default defineBackground(() => {
   browser.runtime.onInstalled.addListener(() => {
     browser.contextMenus.create({
       id: "filter-menu",
-      title: "Add to filters",
+      title: "Add to word filters",
       contexts: ["selection"]
     })
 

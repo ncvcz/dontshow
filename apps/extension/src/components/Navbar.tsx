@@ -31,13 +31,11 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <span className="text-lg font-semibold">
-              Hidewords
-            </span>
+            <img src="/icon.png" alt="Don't Show" />
           </div>
           
           <div className="flex space-x-1 menu menu-horizontal">
-            <li><a onClick={() => handleRedirect("filters")}>Filters</a></li>
+            <li><a onClick={() => handleRedirect("word-filters")}>Word Filters</a></li>
             <li><a onClick={() => handleRedirect("settings")}>Settings</a></li>
           </div>
         </div>

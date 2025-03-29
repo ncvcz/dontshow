@@ -12,7 +12,7 @@ export default defineConfig({
   
   manifest: ({ browser, manifestVersion, mode, command }) => {
     return {
-      name: "Hidewords",
+      name: "Don't Show",
       permissions: ["storage", "contextMenus"],
       content_scripts: [
         {

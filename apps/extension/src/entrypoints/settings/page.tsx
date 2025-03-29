@@ -1,7 +1,7 @@
 import { defaultSettings, Settings } from "@/lib/settings";
 import Layout from "@/components/Layout";
 import { useStorage } from "@/hooks/storage";
-import { AlertTriangleIcon, EyeIcon, EyeOffIcon, ShieldIcon } from "lucide-react";
+import { AlertTriangleIcon, ClipboardIcon, EyeIcon, EyeOffIcon, ShieldIcon } from "lucide-react";
 
 export default function Page() {
   const [enabled, setEnabled] = useStorage<boolean>("sync:enabled", false);
@@ -69,21 +69,21 @@ export default function Page() {
                   onChange={() => updateSetting("sensitiveAlert", !(settings.sensitiveAlert ?? true))}
                 />
               </div>
-              
-              {/* Placeholder for future settings */}
+
+              {/* Clipboard Cleaner - Coming Soon */}
               <div className="py-4 flex items-center justify-between opacity-60">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <ShieldIcon className="w-5 h-5 text-info" />
-                    <h3 className="font-semibold">Advanced Protection</h3>
+                    <ClipboardIcon className="w-5 h-5 text-secondary" />
+                    <h3 className="font-semibold">Clipboard Cleaner</h3>
                   </div>
                   <p className="text-base-content/70 max-w-2xl">
-                    Coming soon: Enable advanced protection for an enhanced level of security and privacy.
+                    Coming soon: Automatically clean your clipboard from censored words and sensitive content.
                   </p>
                 </div>
                 <input
                   type="checkbox"
-                  className="toggle toggle-info"
+                  className="toggle toggle-secondary"
                   disabled
                 />
               </div>

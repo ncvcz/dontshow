@@ -1,5 +1,8 @@
 import type { Filter } from "@/lib/filters"
 import { PlusIcon, TrashIcon, PencilIcon, CheckIcon, XIcon } from "lucide-react"
+import { useState } from "react"
+import { useStorage } from "@/hooks/storage"
+import Layout from "@/components/Layout"
 
 export default function Page() {
   const [open, setOpen] = useState(false)
@@ -24,7 +27,7 @@ export default function Page() {
   }
 
   const handleDeleteFilter = (filter: Filter) => {
-    setFilters(filters.filter((f) => f !== filter))
+    setFilters(filters.filter((f: Filter) => f !== filter))
   }
 
   const handleStartEdit = (filter: Filter, index: number) => {
@@ -48,7 +51,7 @@ export default function Page() {
 
   return (
     <Layout isSensitive>
-      <div className="max-w-2xl mx-auto space-y-4">
+      <div className="max-w-6xl mx-auto space-y-4">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">Filters</h1>
           <button
@@ -60,82 +63,104 @@ export default function Page() {
         </div>
 
         {/* Filters List */}
-        <div className="space-y-2">
-          {filters.map((filter, index) => (
-            <div key={index} className="flex items-center gap-2 p-2 bg-base-200 rounded-lg hover:bg-base-300 transition-colors">
+        <div className="space-y-3">
+          {filters.map((filter: Filter, index: number) => (
+            <div key={index} className="p-3 bg-base-200 rounded-lg hover:bg-base-300 transition-colors">
               {editingIndex === index ? (
-                <>
-                  <input
-                    type="text"
-                    className="input input-sm input-bordered flex-1"
-                    value={editingFilter?.pattern || ""}
-                    onChange={(e) =>
-                      setEditingFilter({ ...editingFilter!, pattern: e.target.value })
-                    }
-                    placeholder="Pattern"
-                  />
-                  <input
-                    type="text"
-                    className="input input-sm input-bordered w-32"
-                    value={editingFilter?.domain || ""}
-                    onChange={(e) =>
-                      setEditingFilter({ ...editingFilter!, domain: e.target.value })
-                    }
-                    placeholder="Domain"
-                  />
-                  <select
-                    className="select select-sm select-bordered w-24"
-                    value={editingFilter?.action || "stars"}
-                    onChange={(e) =>
-                      setEditingFilter({
-                        ...editingFilter!,
-                        action: e.target.value as Filter["action"]
-                      })
-                    }>
-                    <option value="blur">Blur</option>
-                    <option value="remove">Remove</option>
-                    <option value="stars">Stars</option>
-                    <option value="redacted">Redacted</option>
-                  </select>
-                  <button
-                    className="btn btn-ghost btn-sm btn-square"
-                    onClick={handleCancelEdit}>
-                    <XIcon className="w-4 h-4" />
-                  </button>
-                  <button
-                    className="btn btn-ghost btn-sm btn-square"
-                    onClick={handleSaveEdit}>
-                    <CheckIcon className="w-4 h-4" />
-                  </button>
-                </>
+                <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_auto] gap-3 items-center">
+                  <div>
+                    <div className="font-semibold text-xs uppercase mb-1">Pattern</div>
+                    <input
+                      type="text"
+                      className="input input-sm input-bordered w-full"
+                      value={editingFilter?.pattern || ""}
+                      onChange={(e) =>
+                        setEditingFilter({ ...editingFilter!, pattern: e.target.value })
+                      }
+                      placeholder="Pattern"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-xs uppercase mb-1">Domain</div>
+                    <input
+                      type="text"
+                      className="input input-sm input-bordered w-full"
+                      value={editingFilter?.domain || ""}
+                      onChange={(e) =>
+                        setEditingFilter({ ...editingFilter!, domain: e.target.value })
+                      }
+                      placeholder="Domain"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-xs uppercase mb-1">Type of censorship</div>
+                    <select
+                      className="select select-sm select-bordered w-full"
+                      value={editingFilter?.action || "stars"}
+                      onChange={(e) =>
+                        setEditingFilter({
+                          ...editingFilter!,
+                          action: e.target.value as Filter["action"]
+                        })
+                      }>
+                      <option value="blur">Blur - Make content unreadable but present</option>
+                      <option value="remove">Remove - Completely hide the content</option>
+                      <option value="stars">Stars - Replace with asterisks (***)</option>
+                      <option value="redacted">Redacted - Black box censorship</option>
+                    </select>
+                  </div>
+                  <div className="flex justify-end gap-2 self-end">
+                    <button
+                      className="btn btn-ghost btn-sm btn-square"
+                      onClick={handleCancelEdit}>
+                      <XIcon className="w-4 h-4" />
+                    </button>
+                    <button
+                      className="btn btn-ghost btn-sm btn-square"
+                      onClick={handleSaveEdit}>
+                      <CheckIcon className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
               ) : (
-                <>
-                  <code className="flex-1 bg-base-300 px-2 py-1 rounded text-sm">{filter.pattern}</code>
-                  <code className="w-32 bg-base-300 px-2 py-1 rounded text-sm">{filter.domain}</code>
-                  <span className={`badge badge-sm ${
-                    filter.action === "blur" ? "badge-info" :
-                    filter.action === "remove" ? "badge-error" :
-                    filter.action === "stars" ? "badge-warning" :
-                    "badge-success"
-                  }`}>
-                    {filter.action}
-                  </span>
-                  <button
-                    className="btn btn-ghost btn-sm btn-square"
-                    onClick={() => handleStartEdit(filter, index)}>
-                    <PencilIcon className="w-4 h-4" />
-                  </button>
-                  <button
-                    className="btn btn-ghost btn-sm btn-square text-error"
-                    onClick={() => handleDeleteFilter(filter)}>
-                    <TrashIcon className="w-4 h-4" />
-                  </button>
-                </>
+                <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_auto] gap-3 items-center">
+                  <div className="overflow-x-auto">
+                    <div className="font-semibold text-xs uppercase mb-1">Pattern</div>
+                    <code className="bg-base-300 px-2 py-1 rounded text-sm block truncate">{filter.pattern}</code>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-xs uppercase mb-1">Domain</div>
+                    <code className="bg-base-300 px-2 py-1 rounded text-sm block truncate">{filter.domain}</code>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-xs uppercase mb-1">Type of censorship</div>
+                    <span className={`badge ${
+                      filter.action === "blur" ? "badge-info" :
+                      filter.action === "remove" ? "badge-error" :
+                      filter.action === "stars" ? "badge-warning" :
+                      "badge-success"
+                    }`}>
+                      {filter.action}
+                    </span>
+                  </div>
+                  <div className="flex justify-end gap-2">
+                    <button
+                      className="btn btn-ghost btn-sm btn-square"
+                      onClick={() => handleStartEdit(filter, index)}>
+                      <PencilIcon className="w-4 h-4" />
+                    </button>
+                    <button
+                      className="btn btn-ghost btn-sm btn-square text-error"
+                      onClick={() => handleDeleteFilter(filter)}>
+                      <TrashIcon className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
               )}
             </div>
           ))}
           {filters.length === 0 && (
-            <div className="text-center py-4 text-base-content/60 text-sm">
+            <div className="text-center py-8 text-base-content/60">
               No filters added yet. Click "Add" to create one.
             </div>
           )}
@@ -176,7 +201,7 @@ export default function Page() {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Action</span>
+                  <span className="label-text">Type of censorship</span>
                 </label>
                 <select
                   className="select select-bordered"
@@ -187,10 +212,10 @@ export default function Page() {
                       action: e.target.value as Filter["action"]
                     })
                   }>
-                  <option value="blur">Blur</option>
-                  <option value="remove">Remove</option>
-                  <option value="stars">Stars</option>
-                  <option value="redacted">Redacted</option>
+                  <option value="blur">Blur - Make content unreadable but present</option>
+                  <option value="remove">Remove - Completely hide the content</option>
+                  <option value="stars">Stars - Replace with asterisks (***)</option>
+                  <option value="redacted">Redacted - Black box censorship</option>
                 </select>
               </div>
             </div>

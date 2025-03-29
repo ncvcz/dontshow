@@ -2,6 +2,8 @@ import { AlertTriangleIcon, FunnelIcon, SettingsIcon } from "lucide-react"
 
 import { useStorage } from "@/hooks/storage";
 import { useState } from "react"
+import { defaultSettings, Settings } from "@/lib/settings";
+import Navbar from "./Navbar";
 
 interface LayoutProps {
   children: React.ReactNode
@@ -9,40 +11,14 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, isSensitive }: LayoutProps) {
-  const [enabled, setEnabled] = useStorage<boolean>("sync:enabled", false)
   const [continueBrowsing, setContinueBrowsing] = useState(false)
+  const [enabled, _setEnabled] = useStorage<boolean>("sync:enabled", false)
+  const [settings, _setSettings] = useStorage<Settings>("sync:settings", defaultSettings)
 
-  const handleRedirect = (page: string) => {
-    browser.tabs.getCurrent((tab) => {
-      if (!tab?.id) return;
 
-      browser.tabs.update(tab.id, {
-        // @ts-ignore
-        url: browser.runtime.getURL(`/${page}.html`)
-      })
-    })
-  }
-
-  return !enabled || (continueBrowsing || !isSensitive) ? (
+  return !enabled || (continueBrowsing || !settings.sensitiveAlert || !isSensitive) ? (
     <div className="min-h-screen bg-base-100">
-      <div className="navbar bg-base-200 border-b border-base-300">
-        <div className="flex-1">
-          <div className="flex gap-2">
-            <button
-              className="btn btn-ghost gap-2"
-              onClick={() => handleRedirect("filters")}>
-              <FunnelIcon className="w-5 h-5" />
-              <span>Filters</span>
-            </button>
-            <button
-              className="btn btn-ghost gap-2"
-              onClick={() => handleRedirect("settings")}>
-              <SettingsIcon className="w-5 h-5" />
-              <span>Settings</span>
-            </button>
-          </div>
-        </div>
-      </div>
+      <Navbar />
       <main className="container mx-auto p-4">{children}</main>
     </div>
   ) : (

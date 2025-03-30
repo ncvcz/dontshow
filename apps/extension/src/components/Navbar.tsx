@@ -30,8 +30,8 @@ export default function Navbar() {
     <nav className="bg-primary shadow-sm" aria-label="Main navigation">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center">
-            <img src="/icon.png" alt="Don't Show" />
+          <div className="flex items-center bg-base-200 rounded-full p-1.5">
+            <img src="/icon.png" alt="Don't Show" className="w-10 h-10" />
           </div>
           
           <div className="flex space-x-1 menu menu-horizontal">

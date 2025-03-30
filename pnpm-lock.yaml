@@ -48,6 +48,9 @@ importers:
       '@types/react-dom':
         specifier: 18.2.18
         version: 18.2.18
+      '@wxt-dev/auto-icons':
+        specifier: ^1.0.2
+        version: 1.0.2(wxt@0.20.0(@types/node@20.11.5)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.3)(rollup@4.37.0)(sass@1.86.0)(yaml@2.7.0))
       tailwindcss:
         specifier: ^4.0.17
         version: 4.0.17
@@ -924,6 +927,11 @@ packages:
 
   '@webext-core/match-patterns@1.0.3':
     resolution: {integrity: sha512-NY39ACqCxdKBmHgw361M9pfJma8e4AZo20w9AY+5ZjIj1W2dvXC8J31G5fjfOGbulW9w4WKpT8fPooi0mLkn9A==}
+
+  '@wxt-dev/auto-icons@1.0.2':
+    resolution: {integrity: sha512-Wp1pZnRysvDvxkkkys6ZPXL9O2Q9RDjooAZeV19vBg4NXPyE21qO2fu3QmIcug3fPzKzpcFa6dm1Y1dX8qhfEg==}
+    peerDependencies:
+      wxt: '>=0.19.0'
 
   '@wxt-dev/browser@0.0.310':
     resolution: {integrity: sha512-0uQlrxUmbEczWFo2KGFTmJlQWpODqMDQOmQmIQGjQiiDs2aE4J6EsVmtmSSCXGMMYQ+jvNR+azf689xOWo0JGw==}
@@ -4482,6 +4490,13 @@ snapshots:
 
   '@webext-core/match-patterns@1.0.3': {}
 
+  '@wxt-dev/auto-icons@1.0.2(wxt@0.20.0(@types/node@20.11.5)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.3)(rollup@4.37.0)(sass@1.86.0)(yaml@2.7.0))':
+    dependencies:
+      defu: 6.1.4
+      fs-extra: 11.3.0
+      sharp: 0.33.5
+      wxt: 0.20.0(@types/node@20.11.5)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.3)(rollup@4.37.0)(sass@1.86.0)(yaml@2.7.0)
+
   '@wxt-dev/browser@0.0.310':
     dependencies:
       '@types/filesystem': 0.0.36
@@ -4908,13 +4923,11 @@ snapshots:
     dependencies:
       color-name: 1.1.4
       simple-swizzle: 0.2.2
-    optional: true
 
   color@4.2.3:
     dependencies:
       color-convert: 2.0.1
       color-string: 1.9.1
-    optional: true
 
   colorette@2.0.20: {}
 
@@ -5662,8 +5675,7 @@ snapshots:
 
   is-arrayish@0.2.1: {}
 
-  is-arrayish@0.3.2:
-    optional: true
+  is-arrayish@0.3.2: {}
 
   is-ci@3.0.1:
     dependencies:
@@ -7039,7 +7051,6 @@ snapshots:
       '@img/sharp-wasm32': 0.33.5
       '@img/sharp-win32-ia32': 0.33.5
       '@img/sharp-win32-x64': 0.33.5
-    optional: true
 
   shebang-command@2.0.0:
     dependencies:
@@ -7069,7 +7080,6 @@ snapshots:
   simple-swizzle@0.2.2:
     dependencies:
       is-arrayish: 0.3.2
-    optional: true
 
   sisteransi@1.0.5: {}
 

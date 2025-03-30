@@ -1,5 +1,5 @@
 import { applyFiltersToDOM, getFilters } from "@/lib/filters";
-import { storage } from "@wxt-dev/storage";
+import { storageType } from "@/lib/storage";
 
 const showContent = () => {
   if (document.body.style.visibility === "visible") return;
@@ -7,8 +7,8 @@ const showContent = () => {
   const styleOverride = document.createElement("style");
 
   styleOverride.innerText = `
-    body {
-      visibility: visible !important;
+    ${import.meta.env.CHROME ? "body" : "*"} {
+      opacity: 1 !important;
     }
   `
   document.head.appendChild(styleOverride)
@@ -17,7 +17,7 @@ const showContent = () => {
 export default defineContentScript({
   matches: ["<all_urls>"],
   async main(_ctx) {
-    const enabled = await storage.getItem<boolean>("sync:enabled");
+    const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
     
     if (!enabled) return;
 
@@ -26,7 +26,7 @@ export default defineContentScript({
     showContent();
 
     const observer = new MutationObserver(async () => {
-      const enabled = await storage.getItem<boolean>("sync:enabled");
+      const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
 
       if (!enabled) return;
 

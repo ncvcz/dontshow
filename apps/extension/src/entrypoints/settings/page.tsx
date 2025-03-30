@@ -1,11 +1,12 @@
 import { defaultSettings, Settings } from "@/lib/settings";
 import Layout from "@/components/Layout";
 import { useStorage } from "@/hooks/storage";
-import { AlertTriangleIcon, ClipboardIcon, EyeIcon, EyeOffIcon, ShieldIcon } from "lucide-react";
+import { AlertTriangleIcon, ClipboardIcon, EyeIcon, EyeOffIcon } from "lucide-react";
+import { storageType } from "@/lib/storage";
 
 export default function Page() {
-  const [enabled, setEnabled] = useStorage<boolean>("sync:enabled", false);
-  const [settings, setSettings] = useStorage<Settings>("sync:settings", defaultSettings);
+  const [enabled, setEnabled] = useStorage<boolean>(`${storageType}:enabled`, false);
+  const [settings, setSettings] = useStorage<Settings>(`${storageType}:settings`, defaultSettings);
 
   const updateSetting = (key: keyof Settings, value: boolean) => {
     setSettings({ ...settings, [key]: value });

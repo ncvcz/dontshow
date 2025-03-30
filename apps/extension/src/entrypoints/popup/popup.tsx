@@ -4,9 +4,10 @@ import {
   FunnelIcon,
   SettingsIcon,
 } from "lucide-react";
+import { storageType } from "@/lib/storage";
 
 export default function Popup() {
-  const [enabled, setEnabled] = useStorage("sync:enabled", true);
+  const [enabled, setEnabled] = useStorage(`${storageType}:enabled`, true);
 
   const handleToggle = () => {
     setEnabled(!enabled);

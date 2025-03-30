@@ -1,5 +1,5 @@
 import { matchWildcard } from "./wildcard";
-import { storage } from "@wxt-dev/storage";
+import { storageType } from "./storage";
 
 export type Filter = {
   pattern: string
@@ -10,7 +10,7 @@ export type Filter = {
 }
 
 export const getFilters = async (): Promise<Filter[]> => {
-  return await storage.getItem<Filter[]>("sync:filters") ?? [];
+  return await storage.getItem<Filter[]>(`${storageType}:filters`) ?? [];
 }
 
 // Cache compiled regex patterns for better performance

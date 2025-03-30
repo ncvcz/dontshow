@@ -1,18 +1,19 @@
 import "../assets/hide.css";
+import { storageType } from "@/lib/storage";
 
 export default defineContentScript({
   matches: ["<all_urls>"],
   runAt: "document_start",
-  async main(_ctx) {
-    const enabled = await storage.getItem<boolean>("sync:enabled");
+  async main(ctx) {
+    const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
 
     if (enabled) return;
 
     const styleOverride = document.createElement("style");
 
     styleOverride.innerText = `
-    body {
-      visibility: visible !important;
+    ${import.meta.env.CHROME ? "body" : "*"} {
+      opacity: 1 !important;
     }
     `
     document.head.appendChild(styleOverride)

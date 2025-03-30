@@ -12,8 +12,8 @@ interface LayoutProps {
 
 export default function Layout({ children, isSensitive }: LayoutProps) {
   const [continueBrowsing, setContinueBrowsing] = useState(false)
-  const [enabled, _setEnabled] = useStorage<boolean>("sync:enabled", false)
-  const [settings, _setSettings] = useStorage<Settings>("sync:settings", defaultSettings)
+  const [enabled, _setEnabled] = useStorage<boolean>(`${import.meta.env.CHROME ? "sync" : "local"}:enabled`, false)
+  const [settings, _setSettings] = useStorage<Settings>(`${import.meta.env.CHROME ? "sync" : "local"}:settings`, defaultSettings)
 
 
   return !enabled || (continueBrowsing || !settings.sensitiveAlert || !isSensitive) ? (

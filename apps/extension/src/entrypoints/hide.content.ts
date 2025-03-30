@@ -14,6 +14,7 @@ export default defineContentScript({
     styleOverride.innerText = `
     ${import.meta.env.CHROME ? "body" : "*"} {
       opacity: 1 !important;
+      pointer-events: auto !important;
     }
     `
     document.head.appendChild(styleOverride)

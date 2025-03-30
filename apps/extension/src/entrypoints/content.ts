@@ -2,17 +2,7 @@ import { applyFiltersToDOM, getFilters } from "@/lib/filters";
 import { storageType } from "@/lib/storage";
 
 const showContent = () => {
-  if (document.body.style.visibility === "visible") return;
-
-  const styleOverride = document.createElement("style");
-
-  styleOverride.innerText = `
-    ${import.meta.env.CHROME ? "body" : "*"} {
-      opacity: 1 !important;
-      pointer-events: auto !important;
-    }
-  `
-  document.head.appendChild(styleOverride)
+  document.documentElement.setAttribute("data-ds-ready", "true");
 }
 
 export default defineContentScript({

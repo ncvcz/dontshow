@@ -9,14 +9,6 @@ export default defineContentScript({
 
     if (enabled) return;
 
-    const styleOverride = document.createElement("style");
-
-    styleOverride.innerText = `
-    ${import.meta.env.CHROME ? "body" : "*"} {
-      opacity: 1 !important;
-      pointer-events: auto !important;
-    }
-    `
-    document.head.appendChild(styleOverride)
+    document.documentElement.setAttribute("data-ds-ready", "true");
   },
 });

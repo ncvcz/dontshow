@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
 ---
 
 <Layout title="Don't Show - Hide words from websites">
@@ -18,12 +19,12 @@ import Layout from "../layouts/Layout.astro";
           </p>
 
           <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
-            <a href="#download" class="btn btn-accent btn-lg rounded-full"
-              >Install Extension</a
-            >
-            <a href="#learn-more" class="btn btn-outline btn-lg rounded-full"
-              >Learn More</a
-            >
+            <a href="#download" class="btn btn-accent btn-lg rounded-full">
+              Install for Chrome
+            </a>
+            <a href="#download" class="btn btn-accent btn-lg rounded-full">
+              Install for Firefox
+            </a>
           </div>
 
           <div class="card w-full bg-base-100 shadow-xl">
@@ -33,25 +34,7 @@ import Layout from "../layouts/Layout.astro";
               class="aspect-video bg-base-300 rounded-lg flex items-center justify-center"
             >
               <div class="text-center p-8">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-16 w-16 mx-auto mb-4 text-accent"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                  ></path>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
+                <Icon name="lucide:play-circle" class="h-16 w-16 mx-auto mb-4 text-accent" />
                 <p class="text-accent">Watch Don't Show in action</p>
               </div>
             </div>
@@ -71,20 +54,7 @@ import Layout from "../layouts/Layout.astro";
           <div class="card bg-base-200 shadow-md">
             <div class="card-body">
               <div class="text-primary mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-12 w-12"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  ></path>
-                </svg>
+                <Icon name="lucide:shield" class="h-12 w-12" />
               </div>
               <h3 class="card-title">Privacy Protection</h3>
               <p>
@@ -97,19 +67,7 @@ import Layout from "../layouts/Layout.astro";
           <div class="card bg-base-200 shadow-md">
             <div class="card-body">
               <div class="text-primary mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-12 w-12"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
-                </svg>
+                <Icon name="lucide:move-horizontal" class="h-12 w-12" />
               </div>
               <h3 class="card-title">Customizable Filters</h3>
               <p>
@@ -122,19 +80,7 @@ import Layout from "../layouts/Layout.astro";
           <div class="card bg-base-200 shadow-md">
             <div class="card-body">
               <div class="text-primary mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-12 w-12"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
+                <Icon name="lucide:zap" class="h-12 w-12" />
               </div>
               <h3 class="card-title">Instant Results</h3>
               <p>
@@ -194,7 +140,105 @@ import Layout from "../layouts/Layout.astro";
       </div>
     </section>
 
-    <!-- Beta & Future Plans Section -->
+    <!-- Who's It For Section -->
+    <section class="py-16 bg-base-100">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-12">
+          Who's Don't Show For?
+        </h2>
+
+        <div class="grid md:grid-cols-4 gap-6">
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <h3 class="card-title">Content Creators</h3>
+              <p>
+                Keep sensitive information hidden during livestreams and avoid accidental data exposure.
+              </p>
+            </div>
+          </div>
+
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <h3 class="card-title">Professionals</h3>
+              <p>
+                Protect client and company information when sharing your screen during presentations or meetings.
+              </p>
+            </div>
+          </div>
+
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <h3 class="card-title">Parents</h3>
+              <p>
+                Create a safer browsing experience by filtering unwanted content for your children.
+              </p>
+            </div>
+          </div>
+
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <h3 class="card-title">Tu</h3>
+              <p>
+                Everyone can benefit from a cleaner web experience and protection against accidental exposure of sensitive information.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-base-200">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-12">
+          Features
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <div class="badge badge-accent mb-2">Available Now</div>
+              <h3 class="card-title text-xl">Word Censoring</h3>
+              <p>
+                Hide sensitive words, phrases, and personal information from any website with customizable filters.
+              </p>
+            </div>
+          </div>
+
+          <div class="card bg-base-100 shadow-xl opacity-80">
+            <div class="card-body">
+              <div class="badge badge-secondary mb-2">Coming Soon</div>
+              <h3 class="card-title text-xl">Custom Replacement Text</h3>
+              <p>
+                Replace blocked content with personalized text or images of your choice.
+              </p>
+            </div>
+          </div>
+
+          <div class="card bg-base-100 shadow-xl opacity-80">
+            <div class="card-body">
+              <div class="badge badge-secondary mb-2">Coming Soon</div>
+              <h3 class="card-title text-xl">Sensitive Website Alert</h3>
+              <p>
+                Get notified when browsing websites with potentially sensitive content.
+              </p>
+            </div>
+          </div>
+
+          <div class="card bg-base-100 shadow-xl opacity-80">
+            <div class="card-body">
+              <div class="badge badge-secondary mb-2">Coming Soon</div>
+              <h3 class="card-title text-xl">Fake Data Generation</h3>
+              <p>
+                Automatically replace real sensitive data with realistic fake information.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Beta Section -->
     <section class="py-16 bg-base-100">
       <div class="container mx-auto px-6">
         <div class="text-center mb-12">
@@ -207,131 +251,10 @@ import Layout from "../layouts/Layout.astro";
           </p>
         </div>
 
-        <div class="max-w-4xl mx-auto">
-          <h3 class="text-2xl font-bold mb-6 text-center">Our Roadmap</h3>
-
-          <ul
-            class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical"
+        <div class="text-center mt-10">
+          <a href="#feedback" class="btn btn-primary btn-lg"
+            >Join Our Beta Community</a
           >
-            <li>
-              <div class="timeline-middle">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  class="h-5 w-5 text-primary"
-                  ><path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                    clip-rule="evenodd"></path></svg
-                >
-              </div>
-              <div class="timeline-start md:text-end mb-10">
-                <time class="font-mono italic">Now</time>
-                <div class="text-lg font-black">Core Functionality</div>
-                <p>Basic word filtering and hiding sensitive information</p>
-              </div>
-              <hr class="bg-primary" />
-            </li>
-            <li>
-              <hr class="bg-primary" />
-              <div class="timeline-middle">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  class="h-5 w-5 text-primary"
-                  ><path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                    clip-rule="evenodd"></path></svg
-                >
-              </div>
-              <div class="timeline-end mb-10">
-                <time class="font-mono italic">2025</time>
-                <div class="text-lg font-black">Custom Replacement Text</div>
-                <p>Replace blocked content with personalized text or images</p>
-              </div>
-              <hr class="bg-primary" />
-            </li>
-            <li>
-              <hr class="bg-primary" />
-              <div class="timeline-middle">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  class="h-5 w-5 text-primary"
-                  ><path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                    clip-rule="evenodd"></path></svg
-                >
-              </div>
-              <div class="timeline-start md:text-end mb-10">
-                <time class="font-mono italic">2025</time>
-                <div class="text-lg font-black">Sensitive Website Alert</div>
-                <p>
-                  Get notified when browsing websites with potentially sensitive
-                  content
-                </p>
-              </div>
-              <hr class="bg-primary" />
-            </li>
-            <li>
-              <hr class="bg-primary" />
-              <div class="timeline-middle">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  class="h-5 w-5 text-primary"
-                  ><path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                    clip-rule="evenodd"></path></svg
-                >
-              </div>
-              <div class="timeline-end mb-10">
-                <time class="font-mono italic">2025</time>
-                <div class="text-lg font-black">Fake Data Generation</div>
-                <p>
-                  Automatically replace real sensitive data with realistic fake
-                  information
-                </p>
-              </div>
-              <hr class="bg-primary" />
-            </li>
-            <li>
-              <hr class="bg-primary" />
-              <div class="timeline-middle">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  class="h-5 w-5 text-primary"
-                  ><path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                    clip-rule="evenodd"></path></svg
-                >
-              </div>
-              <div class="timeline-start md:text-end mb-10">
-                <time class="font-mono italic">2026</time>
-                <div class="text-lg font-black">Livestream Detection</div>
-                <p>
-                  Automatically enable maximum protection when streaming or
-                  screen sharing
-                </p>
-              </div>
-            </li>
-          </ul>
-
-          <div class="text-center mt-10">
-            <a href="#feedback" class="btn btn-primary btn-lg"
-              >Join Our Beta Community</a
-            >
-          </div>
         </div>
       </div>
     </section>
@@ -345,39 +268,21 @@ import Layout from "../layouts/Layout.astro";
           experience with Don't Show.
         </p>
 
-        <div class="flex flex-col sm:flex-row justify-center gap-6">
-          <a href="#chrome" class="btn btn-lg btn-accent gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              ></path>
-              <path
-                d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"
-              ></path>
-            </svg>
+        <div id="browser-buttons" class="flex flex-col sm:flex-row justify-center gap-6">
+          <a id="chrome-button" href="#chrome" class="btn btn-lg btn-accent gap-2 hidden">
+            <Icon name="lucide:plug" />
             Chrome Extension
           </a>
-          <a href="#firefox" class="btn btn-lg btn-accent gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              ></path>
-              <path
-                d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"
-              ></path>
-            </svg>
+          <a id="firefox-button" href="#firefox" class="btn btn-lg btn-accent gap-2 hidden">
+            <Icon name="lucide:plug" />
             Firefox Add-on
           </a>
+          <div id="mobile-message" class="hidden">
+            <div class="alert alert-warning">
+              <Icon name="lucide:alert-triangle" class="stroke-current shrink-0 h-6 w-6" />
+              <span>Not available on mobile devices</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

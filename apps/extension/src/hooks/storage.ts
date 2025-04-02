@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 export const useStorage = <T>(key: StorageItemKey, defaultValue: T): [T, (value: T) => void] => {
   const [storedValue, setStoredValue] = useState<T>(defaultValue);
-  
+
   useEffect(() => {
     const loadValue = async () => {
       const value = await storage.getItem<T>(key);
@@ -14,13 +14,13 @@ export const useStorage = <T>(key: StorageItemKey, defaultValue: T): [T, (value:
         setStoredValue(value);
       }
     };
-    
+
     loadValue();
-    
-    const unwatch = storage.watch<T>(key, (newValue) => {
+
+    const unwatch = storage.watch<T>(key, newValue => {
       setStoredValue(newValue ?? defaultValue);
     });
-    
+
     return () => {
       unwatch();
     };

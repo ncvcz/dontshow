@@ -1,7 +1,7 @@
 export interface Settings {
-  sensitiveAlert?: boolean
+  sensitiveAlert?: boolean;
 }
 
 export const defaultSettings: Settings = {
   sensitiveAlert: true,
-}
+};

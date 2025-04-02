@@ -1,22 +1,27 @@
-import { AlertTriangleIcon, FunnelIcon, SettingsIcon } from "lucide-react"
+import { AlertTriangleIcon, FunnelIcon, SettingsIcon } from 'lucide-react';
 
-import { useStorage } from "@/hooks/storage";
-import { useState } from "react"
-import { defaultSettings, Settings } from "@/lib/settings";
-import Navbar from "./Navbar";
+import { useStorage } from '@/hooks/storage';
+import { useState } from 'react';
+import { defaultSettings, Settings } from '@/lib/settings';
+import Navbar from './Navbar';
 
 interface LayoutProps {
-  children: React.ReactNode
-  isSensitive?: boolean
+  children: React.ReactNode;
+  isSensitive?: boolean;
 }
 
 export default function Layout({ children, isSensitive }: LayoutProps) {
-  const [continueBrowsing, setContinueBrowsing] = useState(false)
-  const [enabled, _setEnabled] = useStorage<boolean>(`${import.meta.env.CHROME ? "sync" : "local"}:enabled`, false)
-  const [settings, _setSettings] = useStorage<Settings>(`${import.meta.env.CHROME ? "sync" : "local"}:settings`, defaultSettings)
+  const [continueBrowsing, setContinueBrowsing] = useState(false);
+  const [enabled, _setEnabled] = useStorage<boolean>(
+    `${import.meta.env.CHROME ? 'sync' : 'local'}:enabled`,
+    false
+  );
+  const [settings, _setSettings] = useStorage<Settings>(
+    `${import.meta.env.CHROME ? 'sync' : 'local'}:settings`,
+    defaultSettings
+  );
 
-
-  return !enabled || (continueBrowsing || !settings.sensitiveAlert || !isSensitive) ? (
+  return !enabled || continueBrowsing || !settings.sensitiveAlert || !isSensitive ? (
     <div className="min-h-screen bg-base-100">
       <Navbar />
       <main className="container mx-auto p-4">{children}</main>
@@ -24,15 +29,14 @@ export default function Layout({ children, isSensitive }: LayoutProps) {
   ) : (
     <div className="min-h-screen bg-base-100 flex flex-col items-center justify-center space-y-4">
       <AlertTriangleIcon className="w-32 h-32 text-warning" />
-      <h1 className="text-5xl font-bold">
-        This page contains sensitive content
-      </h1>
+      <h1 className="text-5xl font-bold">This page contains sensitive content</h1>
       <p className="text-lg text-center max-w-2xl">
-        This page may display sensitive personal information. If you’re screen sharing or live streaming, consider enabling protection to avoid exposing private data.
+        This page may display sensitive personal information. If you're screen sharing or live
+        streaming, consider enabling protection to avoid exposing private data.
       </p>
       <button className="btn btn-error" onClick={() => setContinueBrowsing(true)}>
         Continue Browsing (at your own risk)
       </button>
     </div>
-  )
+  );
 }

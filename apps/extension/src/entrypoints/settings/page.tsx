@@ -1,8 +1,8 @@
-import { defaultSettings, Settings } from "@/lib/settings";
-import Layout from "@/components/Layout";
-import { useStorage } from "@/hooks/storage";
-import { AlertTriangleIcon, ClipboardIcon, EyeIcon, EyeOffIcon } from "lucide-react";
-import { storageType } from "@/lib/storage";
+import { defaultSettings, Settings } from '@/lib/settings';
+import Layout from '@/components/Layout';
+import { useStorage } from '@/hooks/storage';
+import { AlertTriangleIcon, ClipboardIcon, EyeIcon, EyeOffIcon } from 'lucide-react';
+import { storageType } from '@/lib/storage';
 
 export default function Page() {
   const [enabled, setEnabled] = useStorage<boolean>(`${storageType}:enabled`, false);
@@ -20,12 +20,11 @@ export default function Page() {
           <div className="card-body">
             <h2 className="card-title text-2xl flex justify-between">
               <span>Extension Status</span>
-              <div className="badge badge-lg badge-outline">
-                {enabled ? "Active" : "Inactive"}
-              </div>
+              <div className="badge badge-lg badge-outline">{enabled ? 'Active' : 'Inactive'}</div>
             </h2>
             <p className="text-base-content/70 mb-4">
-              Enable or disable Don't Show. When active, website content will be modified according to your filters.
+              Enable or disable Don't Show. When active, website content will be modified according
+              to your filters.
             </p>
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-2 text-lg">
@@ -34,7 +33,7 @@ export default function Page() {
                 ) : (
                   <EyeIcon className="w-6 h-6 text-error" />
                 )}
-                {enabled ? "Protection Active" : "Protection Inactive"}
+                {enabled ? 'Protection Active' : 'Protection Inactive'}
               </span>
               <input
                 type="checkbox"
@@ -50,7 +49,7 @@ export default function Page() {
         <div className="card bg-base-200 shadow-lg">
           <div className="card-body">
             <h2 className="card-title text-2xl mb-4">Settings</h2>
-            
+
             <div className="divide-y divide-base-300">
               {/* Sensitive Alert Setting */}
               <div className="py-4 flex items-center justify-between">
@@ -60,14 +59,17 @@ export default function Page() {
                     <h3 className="font-semibold">Sensitive Content Alert</h3>
                   </div>
                   <p className="text-base-content/70 max-w-2xl">
-                    Shows a warning when accessing pages with potentially sensitive or private settings. Useful during streaming or screen sharing.
+                    Shows a warning when accessing pages with potentially sensitive or private
+                    settings. Useful during streaming or screen sharing.
                   </p>
                 </div>
                 <input
                   type="checkbox"
                   className="toggle toggle-primary"
                   checked={settings.sensitiveAlert ?? true}
-                  onChange={() => updateSetting("sensitiveAlert", !(settings.sensitiveAlert ?? true))}
+                  onChange={() =>
+                    updateSetting('sensitiveAlert', !(settings.sensitiveAlert ?? true))
+                  }
                 />
               </div>
 
@@ -79,19 +81,16 @@ export default function Page() {
                     <h3 className="font-semibold">Clipboard Cleaner</h3>
                   </div>
                   <p className="text-base-content/70 max-w-2xl">
-                    Coming soon: Automatically clean your clipboard from censored words and sensitive content.
+                    Coming soon: Automatically clean your clipboard from censored words and
+                    sensitive content.
                   </p>
                 </div>
-                <input
-                  type="checkbox"
-                  className="toggle toggle-secondary"
-                  disabled
-                />
+                <input type="checkbox" className="toggle toggle-secondary" disabled />
               </div>
             </div>
           </div>
         </div>
-        
+
         {/* Status Information */}
         <div className="card bg-base-200 shadow-lg">
           <div className="card-body">
@@ -102,7 +101,7 @@ export default function Page() {
                 <div className="stat-value text-xl">1.0.0</div>
                 <div className="stat-desc">Don't Show Extension</div>
               </div>
-              
+
               <div className="stat">
                 <div className="stat-title">Status</div>
                 <div className="stat-value text-xl">
@@ -112,7 +111,9 @@ export default function Page() {
                     <span className="text-error">Inactive</span>
                   )}
                 </div>
-                <div className="stat-desc">{enabled ? "Protection running" : "Protection disabled"}</div>
+                <div className="stat-desc">
+                  {enabled ? 'Protection running' : 'Protection disabled'}
+                </div>
               </div>
             </div>
           </div>

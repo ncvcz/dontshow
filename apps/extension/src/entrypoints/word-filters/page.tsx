@@ -1,63 +1,61 @@
-import type { Filter } from "@/lib/filters"
-import { PlusIcon, TrashIcon, PencilIcon, CheckIcon, XIcon } from "lucide-react"
-import { useState } from "react"
-import { useStorage } from "@/hooks/storage"
-import Layout from "@/components/Layout"
-import { storageType } from "@/lib/storage"
+import type { Filter } from '@/lib/filters';
+import { PlusIcon, TrashIcon, PencilIcon, CheckIcon, XIcon } from 'lucide-react';
+import { useState } from 'react';
+import { useStorage } from '@/hooks/storage';
+import Layout from '@/components/Layout';
+import { storageType } from '@/lib/storage';
 
 export default function Page() {
-  const [open, setOpen] = useState(false)
-  const [filters, setFilters] = useStorage<Filter[]>(`${storageType}:filters`, [])
+  const [open, setOpen] = useState(false);
+  const [filters, setFilters] = useStorage<Filter[]>(`${storageType}:filters`, []);
   const [newFilter, setNewFilter] = useState<Filter>({
-    pattern: "",
-    domain: "*",
-    action: "stars"
-  })
-  const [editingIndex, setEditingIndex] = useState<number | null>(null)
-  const [editingFilter, setEditingFilter] = useState<Filter | null>(null)
+    pattern: '',
+    domain: '*',
+    action: 'stars',
+  });
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingFilter, setEditingFilter] = useState<Filter | null>(null);
 
   const handleAddFilter = () => {
-    if (!newFilter.pattern) return
-    setFilters([...filters, newFilter])
-    setOpen(false)
+    if (!newFilter.pattern) return;
+    setFilters([...filters, newFilter]);
+    setOpen(false);
     setNewFilter({
-      pattern: "",
-      domain: "*",
-      action: "stars"
-    })
-  }
+      pattern: '',
+      domain: '*',
+      action: 'stars',
+    });
+  };
 
   const handleDeleteFilter = (filter: Filter) => {
-    setFilters(filters.filter((f: Filter) => f !== filter))
-  }
+    setFilters(filters.filter((f: Filter) => f !== filter));
+  };
 
   const handleStartEdit = (filter: Filter, index: number) => {
-    setEditingIndex(index)
-    setEditingFilter({ ...filter })
-  }
+    setEditingIndex(index);
+    setEditingFilter({ ...filter });
+  };
 
   const handleSaveEdit = () => {
-    if (!editingFilter || editingIndex === null) return
-    const newFilters = [...filters]
-    newFilters[editingIndex] = editingFilter
-    setFilters(newFilters)
-    setEditingIndex(null)
-    setEditingFilter(null)
-  }
-  
+    if (!editingFilter || editingIndex === null) return;
+    const newFilters = [...filters];
+    newFilters[editingIndex] = editingFilter;
+    setFilters(newFilters);
+    setEditingIndex(null);
+    setEditingFilter(null);
+  };
+
   const handleCancelEdit = () => {
-    setEditingIndex(null)
-    setEditingFilter(null)
-  }
+    setEditingIndex(null);
+    setEditingFilter(null);
+  };
 
   return (
     <Layout isSensitive>
       <div className="max-w-6xl mx-auto space-y-4">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">Word Filters</h1>
-          <button
-            className="btn btn-sm btn-primary gap-1"
-            onClick={() => setOpen(true)}>
+          <button className="btn btn-sm btn-primary gap-1" onClick={() => setOpen(true)}>
             <PlusIcon className="w-4 h-4" />
             Add
           </button>
@@ -66,7 +64,10 @@ export default function Page() {
         {/* Filters List */}
         <div className="space-y-3">
           {filters.map((filter: Filter, index: number) => (
-            <div key={index} className="p-3 bg-base-200 rounded-lg hover:bg-base-300 transition-colors">
+            <div
+              key={index}
+              className="p-3 bg-base-200 rounded-lg hover:bg-base-300 transition-colors"
+            >
               {editingIndex === index ? (
                 <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_auto] gap-3 items-center">
                   <div>
@@ -74,8 +75,8 @@ export default function Page() {
                     <input
                       type="text"
                       className="input input-sm input-bordered w-full"
-                      value={editingFilter?.pattern || ""}
-                      onChange={(e) =>
+                      value={editingFilter?.pattern || ''}
+                      onChange={e =>
                         setEditingFilter({ ...editingFilter!, pattern: e.target.value })
                       }
                       placeholder="Pattern"
@@ -86,8 +87,8 @@ export default function Page() {
                     <input
                       type="text"
                       className="input input-sm input-bordered w-full"
-                      value={editingFilter?.domain || ""}
-                      onChange={(e) =>
+                      value={editingFilter?.domain || ''}
+                      onChange={e =>
                         setEditingFilter({ ...editingFilter!, domain: e.target.value })
                       }
                       placeholder="Domain"
@@ -97,13 +98,14 @@ export default function Page() {
                     <div className="font-semibold text-xs uppercase mb-1">Type of censorship</div>
                     <select
                       className="select select-sm select-bordered w-full"
-                      value={editingFilter?.action || "stars"}
-                      onChange={(e) =>
+                      value={editingFilter?.action || 'stars'}
+                      onChange={e =>
                         setEditingFilter({
                           ...editingFilter!,
-                          action: e.target.value as Filter["action"]
+                          action: e.target.value as Filter['action'],
                         })
-                      }>
+                      }
+                    >
                       <option value="blur">Blur - Make content unreadable but present</option>
                       <option value="remove">Remove - Completely hide the content</option>
                       <option value="stars">Stars - Replace with asterisks (***)</option>
@@ -111,14 +113,10 @@ export default function Page() {
                     </select>
                   </div>
                   <div className="flex justify-end gap-2 self-end">
-                    <button
-                      className="btn btn-ghost btn-sm btn-square"
-                      onClick={handleCancelEdit}>
+                    <button className="btn btn-ghost btn-sm btn-square" onClick={handleCancelEdit}>
                       <XIcon className="w-4 h-4" />
                     </button>
-                    <button
-                      className="btn btn-ghost btn-sm btn-square"
-                      onClick={handleSaveEdit}>
+                    <button className="btn btn-ghost btn-sm btn-square" onClick={handleSaveEdit}>
                       <CheckIcon className="w-4 h-4" />
                     </button>
                   </div>
@@ -127,32 +125,43 @@ export default function Page() {
                 <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_auto] gap-3 items-center">
                   <div className="overflow-x-auto">
                     <div className="font-semibold text-xs uppercase mb-1">Pattern</div>
-                    <code className="bg-base-300 px-2 py-1 rounded text-sm block truncate">{filter.pattern}</code>
+                    <code className="bg-base-300 px-2 py-1 rounded text-sm block truncate">
+                      {filter.pattern}
+                    </code>
                   </div>
                   <div>
                     <div className="font-semibold text-xs uppercase mb-1">Domain</div>
-                    <code className="bg-base-300 px-2 py-1 rounded text-sm block truncate">{filter.domain}</code>
+                    <code className="bg-base-300 px-2 py-1 rounded text-sm block truncate">
+                      {filter.domain}
+                    </code>
                   </div>
                   <div>
                     <div className="font-semibold text-xs uppercase mb-1">Type of censorship</div>
-                    <span className={`badge ${
-                      filter.action === "blur" ? "badge-info" :
-                      filter.action === "remove" ? "badge-error" :
-                      filter.action === "stars" ? "badge-warning" :
-                      "badge-success"
-                    }`}>
+                    <span
+                      className={`badge ${
+                        filter.action === 'blur'
+                          ? 'badge-info'
+                          : filter.action === 'remove'
+                            ? 'badge-error'
+                            : filter.action === 'stars'
+                              ? 'badge-warning'
+                              : 'badge-success'
+                      }`}
+                    >
                       {filter.action}
                     </span>
                   </div>
                   <div className="flex justify-end gap-2">
                     <button
                       className="btn btn-ghost btn-sm btn-square"
-                      onClick={() => handleStartEdit(filter, index)}>
+                      onClick={() => handleStartEdit(filter, index)}
+                    >
                       <PencilIcon className="w-4 h-4" />
                     </button>
                     <button
                       className="btn btn-ghost btn-sm btn-square text-error"
-                      onClick={() => handleDeleteFilter(filter)}>
+                      onClick={() => handleDeleteFilter(filter)}
+                    >
                       <TrashIcon className="w-4 h-4" />
                     </button>
                   </div>
@@ -168,7 +177,7 @@ export default function Page() {
         </div>
 
         {/* Add Filter Modal */}
-        <dialog className={`modal ${open ? "modal-open" : ""}`}>
+        <dialog className={`modal ${open ? 'modal-open' : ''}`}>
           <div className="modal-box">
             <h3 className="font-bold text-lg mb-4">Add New Word Filter</h3>
             <div className="space-y-4">
@@ -180,9 +189,7 @@ export default function Page() {
                   type="text"
                   className="input input-bordered"
                   value={newFilter.pattern}
-                  onChange={(e) =>
-                    setNewFilter({ ...newFilter, pattern: e.target.value })
-                  }
+                  onChange={e => setNewFilter({ ...newFilter, pattern: e.target.value })}
                   placeholder="Enter text pattern to match"
                 />
               </div>
@@ -194,9 +201,7 @@ export default function Page() {
                   type="text"
                   className="input input-bordered"
                   value={newFilter.domain}
-                  onChange={(e) =>
-                    setNewFilter({ ...newFilter, domain: e.target.value })
-                  }
+                  onChange={e => setNewFilter({ ...newFilter, domain: e.target.value })}
                   placeholder="Enter domain (use * for all)"
                 />
               </div>
@@ -207,12 +212,13 @@ export default function Page() {
                 <select
                   className="select select-bordered"
                   value={newFilter.action}
-                  onChange={(e) =>
+                  onChange={e =>
                     setNewFilter({
                       ...newFilter,
-                      action: e.target.value as Filter["action"]
+                      action: e.target.value as Filter['action'],
                     })
-                  }>
+                  }
+                >
                   <option value="blur">Blur - Make content unreadable but present</option>
                   <option value="remove">Remove - Completely hide the content</option>
                   <option value="stars">Stars - Replace with asterisks (***)</option>
@@ -224,8 +230,7 @@ export default function Page() {
               <button className="btn" onClick={() => setOpen(false)}>
                 Cancel
               </button>
-              <button className="btn btn-primary" 
-                onClick={handleAddFilter}>
+              <button className="btn btn-primary" onClick={handleAddFilter}>
                 Add Word Filter
               </button>
             </div>

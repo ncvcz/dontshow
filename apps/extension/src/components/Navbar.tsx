@@ -1,5 +1,5 @@
-import { FunnelIcon, SettingsIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { FunnelIcon, SettingsIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function Navbar() {
   const [activePage, setActivePage] = useState<string | null>(null);
@@ -7,23 +7,17 @@ export default function Navbar() {
   // Set active page based on current URL when component mounts
   useEffect(() => {
     const currentUrl = window.location.href;
-    if (currentUrl.includes("word-filters.html")) {
-      setActivePage("word-filters");
-    } else if (currentUrl.includes("settings.html")) {
-      setActivePage("settings");
+    if (currentUrl.includes('word-filters.html')) {
+      setActivePage('word-filters');
+    } else if (currentUrl.includes('settings.html')) {
+      setActivePage('settings');
     }
   }, []);
 
-  const handleRedirect = (page: string) => {
-    setActivePage(page);
-    browser.tabs.getCurrent((tab) => {
-      if (!tab?.id) return;
+  const getRedirectUrl = (page: string): string => {
+    // @ts-ignore
 
-      browser.tabs.update(tab.id, {
-        // @ts-ignore
-        url: browser.runtime.getURL(`/${page}.html`),
-      });
-    });
+    return browser.runtime.getURL(`/${page}.html`);
   };
 
   return (
@@ -34,17 +28,17 @@ export default function Navbar() {
 
           <div className="flex space-x-1 menu menu-horizontal">
             <li>
-              <a 
-                onClick={() => handleRedirect("word-filters")}
-                className={`cursor-pointer ${activePage === "word-filters" ? "active font-medium" : ""}`}
+              <a
+                href={getRedirectUrl('word-filters')}
+                className={`cursor-pointer ${activePage === 'word-filters' ? 'active font-medium' : ''}`}
               >
                 Word Filters
               </a>
             </li>
             <li>
-              <a 
-                onClick={() => handleRedirect("settings")}
-                className={`cursor-pointer ${activePage === "settings" ? "active font-medium" : ""}`}
+              <a
+                href={getRedirectUrl('settings')}
+                className={`cursor-pointer ${activePage === 'settings' ? 'active font-medium' : ''}`}
               >
                 Settings
               </a>

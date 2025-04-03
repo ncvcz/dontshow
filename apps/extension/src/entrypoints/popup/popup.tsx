@@ -1,4 +1,4 @@
-import { PowerIcon, PowerOffIcon, FunnelIcon, SettingsIcon, MoreVerticalIcon, AlertCircleIcon } from 'lucide-react';
+import { PowerIcon, PowerOffIcon, SettingsIcon, MoreVerticalIcon, AlertCircleIcon } from 'lucide-react';
 import { storageType } from '@/lib/storage';
 
 export default function Popup() {
@@ -37,16 +37,6 @@ export default function Popup() {
         <h2 className="text-xl font-bold uppercase">Don't Show</h2>
       </div>
       <div className="card-body items-center justify-between h-[350px] p-0 relative">
-        <div className="absolute right-1.5 top-1.5">
-          <div className="tooltip tooltip-left" data-tip="Segnala un problema">
-            <button
-              onClick={handleReportIssue}
-              className="btn btn-ghost btn-xs opacity-25 hover:opacity-70 p-0.5 h-auto min-h-0 text-base-content/50"
-            >
-              <AlertCircleIcon className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
         <div className="flex-1 flex items-center justify-center">
           <button
             onClick={handleToggle}
@@ -57,7 +47,7 @@ export default function Popup() {
         </div>
 
         <div className="navbar bg-base-200 rounded-b-lg">
-          <div className="flex items-center w-full px-4 gap-2">
+          <div className="flex items-center w-full px-0.5 gap-2">
             <button
               onClick={() => handleRedirect('settings')}
               className="btn btn-primary flex-1 flex items-center justify-center gap-2"

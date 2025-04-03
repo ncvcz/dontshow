@@ -180,37 +180,33 @@ export default function Page() {
         <dialog className={`modal ${open ? 'modal-open' : ''}`}>
           <div className="modal-box">
             <h3 className="font-bold text-lg mb-4">Add New Word Filter</h3>
-            <div className="space-y-4">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Pattern</span>
-                </label>
+            <div className="grid grid-cols-1 gap-4">
+              <label className="grid grid-cols-1 gap-2">
+                <span>Pattern</span>
                 <input
                   type="text"
-                  className="input input-bordered"
+                  className="input input-bordered w-full"
                   value={newFilter.pattern}
                   onChange={e => setNewFilter({ ...newFilter, pattern: e.target.value })}
                   placeholder="Enter text pattern to match"
                 />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Domain</span>
-                </label>
+              </label>
+
+              <label className="grid grid-cols-1 gap-2">
+                <span>Domain</span>
                 <input
                   type="text"
-                  className="input input-bordered"
+                  className="input input-bordered w-full"
                   value={newFilter.domain}
                   onChange={e => setNewFilter({ ...newFilter, domain: e.target.value })}
                   placeholder="Enter domain (use * for all)"
                 />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Type of censorship</span>
-                </label>
+              </label>
+
+              <label className="grid grid-cols-1 gap-2">
+                <span>Type of censorship</span>
                 <select
-                  className="select select-bordered"
+                  className="select select-bordered w-full"
                   value={newFilter.action}
                   onChange={e =>
                     setNewFilter({
@@ -224,7 +220,7 @@ export default function Page() {
                   <option value="stars">Stars - Replace with asterisks (***)</option>
                   <option value="redacted">Redacted - Black box censorship</option>
                 </select>
-              </div>
+              </label>
             </div>
             <div className="modal-action">
               <button className="btn" onClick={() => setOpen(false)}>

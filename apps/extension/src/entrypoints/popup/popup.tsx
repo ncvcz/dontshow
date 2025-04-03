@@ -76,7 +76,7 @@ export default function Popup() {
                     className="flex items-center gap-3"
                   >
                     <AlertCircleIcon className="w-4 h-4" />
-                    Segnala un problema
+                    Report broken site
                   </button>
                 </li>
               </ul>

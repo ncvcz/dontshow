@@ -98,9 +98,6 @@ export default function Page() {
                       }
                       placeholder="e.g. All websites"
                     />
-                    <div className="text-xs text-base-content/70 mt-1">
-                      * = everywhere
-                    </div>
                   </div>
                   <div>
                     <div className="font-semibold text-xs uppercase mb-1">How to hide it</div>

@@ -1,5 +1,5 @@
 import type { Filter } from '@/lib/filters';
-import { PlusIcon, TrashIcon, PencilIcon, CheckIcon, XIcon } from 'lucide-react';
+import { PlusIcon, TrashIcon, PencilIcon, CheckIcon, XIcon, InfoIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useStorage } from '@/hooks/storage';
 import Layout from '@/components/Layout';
@@ -71,7 +71,7 @@ export default function Page() {
               {editingIndex === index ? (
                 <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_auto] gap-3 items-center">
                   <div>
-                    <div className="font-semibold text-xs uppercase mb-1">Pattern</div>
+                    <div className="font-semibold text-xs uppercase mb-1">Text to hide</div>
                     <input
                       type="text"
                       className="input input-sm input-bordered w-full"
@@ -79,11 +79,16 @@ export default function Page() {
                       onChange={e =>
                         setEditingFilter({ ...editingFilter!, pattern: e.target.value })
                       }
-                      placeholder="Pattern"
+                      placeholder="Text to hide"
                     />
                   </div>
                   <div>
-                    <div className="font-semibold text-xs uppercase mb-1">Domain</div>
+                    <div className="flex items-center gap-1">
+                      <div className="font-semibold text-xs uppercase mb-1">Where to hide it</div>
+                      <div className="tooltip tooltip-right" data-tip="Use * for all websites">
+                        <InfoIcon className="w-3 h-3 text-info cursor-help" />
+                      </div>
+                    </div>
                     <input
                       type="text"
                       className="input input-sm input-bordered w-full"
@@ -91,11 +96,14 @@ export default function Page() {
                       onChange={e =>
                         setEditingFilter({ ...editingFilter!, domain: e.target.value })
                       }
-                      placeholder="Domain"
+                      placeholder="e.g. All websites"
                     />
+                    <div className="text-xs text-base-content/70 mt-1">
+                      * = everywhere
+                    </div>
                   </div>
                   <div>
-                    <div className="font-semibold text-xs uppercase mb-1">Type of censorship</div>
+                    <div className="font-semibold text-xs uppercase mb-1">How to hide it</div>
                     <select
                       className="select select-sm select-bordered w-full"
                       value={editingFilter?.action || 'stars'}
@@ -108,8 +116,8 @@ export default function Page() {
                     >
                       <option value="blur">Blur - Make content unreadable but present</option>
                       <option value="remove">Remove - Completely hide the content</option>
-                      <option value="stars">Stars - Replace with asterisks (***)</option>
-                      <option value="redacted">Redacted - Black box censorship</option>
+                      <option value="stars">Replace with "**"</option>
+                      <option value="redacted">Black box censorship</option>
                     </select>
                   </div>
                   <div className="flex justify-end gap-2 self-end">
@@ -124,19 +132,19 @@ export default function Page() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_auto] gap-3 items-center">
                   <div className="overflow-x-auto">
-                    <div className="font-semibold text-xs uppercase mb-1">Pattern</div>
+                    <div className="font-semibold text-xs uppercase mb-1">Text to hide</div>
                     <code className="bg-base-300 px-2 py-1 rounded text-sm block truncate">
                       {filter.pattern}
                     </code>
                   </div>
                   <div>
-                    <div className="font-semibold text-xs uppercase mb-1">Domain</div>
+                    <div className="font-semibold text-xs uppercase mb-1">Where to hide it</div>
                     <code className="bg-base-300 px-2 py-1 rounded text-sm block truncate">
                       {filter.domain}
                     </code>
                   </div>
                   <div>
-                    <div className="font-semibold text-xs uppercase mb-1">Type of censorship</div>
+                    <div className="font-semibold text-xs uppercase mb-1">How to hide it</div>
                     <span
                       className={`badge ${
                         filter.action === 'blur'
@@ -182,29 +190,34 @@ export default function Page() {
             <h3 className="font-bold text-lg mb-4">Add New Word Filter</h3>
             <div className="grid grid-cols-1 gap-4">
               <label className="grid grid-cols-1 gap-2">
-                <span>Pattern</span>
+                <span>Text to hide</span>
                 <input
                   type="text"
                   className="input input-bordered w-full"
                   value={newFilter.pattern}
                   onChange={e => setNewFilter({ ...newFilter, pattern: e.target.value })}
-                  placeholder="Enter text pattern to match"
+                  placeholder="Enter text you want to hide"
                 />
               </label>
 
               <label className="grid grid-cols-1 gap-2">
-                <span>Domain</span>
+                <div className="flex items-center gap-1">
+                  <span>Where to hide it</span>
+                  <div className="tooltip tooltip-right" data-tip="Use * for all websites">
+                    <InfoIcon className="w-4 h-4 text-info cursor-help" />
+                  </div>
+                </div>
                 <input
                   type="text"
                   className="input input-bordered w-full"
                   value={newFilter.domain}
                   onChange={e => setNewFilter({ ...newFilter, domain: e.target.value })}
-                  placeholder="Enter domain (use * for all)"
+                  placeholder="All websites (*) or specific sites"
                 />
               </label>
 
               <label className="grid grid-cols-1 gap-2">
-                <span>Type of censorship</span>
+                <span>How to hide it</span>
                 <select
                   className="select select-bordered w-full"
                   value={newFilter.action}
@@ -217,8 +230,8 @@ export default function Page() {
                 >
                   <option value="blur">Blur - Make content unreadable but present</option>
                   <option value="remove">Remove - Completely hide the content</option>
-                  <option value="stars">Stars - Replace with asterisks (***)</option>
-                  <option value="redacted">Redacted - Black box censorship</option>
+                  <option value="stars">Replace with "**"</option>
+                  <option value="redacted">Black box censorship</option>
                 </select>
               </label>
             </div>

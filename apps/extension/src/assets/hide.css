@@ -1,4 +1,9 @@
-html:not([data-ds-ready]) body {
+html:not([data-ds-ready]), html[data-ds-ready="false"] body {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+[data-ds-el-ready="false"] {
   opacity: 0 !important;
   pointer-events: none !important;
 }

@@ -10,5 +10,15 @@ export default defineContentScript({
     if (enabled) return;
 
     document.documentElement.setAttribute("data-ds-ready", "true");
+
+    const observer = new MutationObserver(() => {
+      document.documentElement.setAttribute("data-ds-ready", "true");
+    });
+
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
   },
 });

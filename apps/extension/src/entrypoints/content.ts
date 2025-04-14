@@ -16,16 +16,17 @@ export default defineContentScript({
     applyFiltersToDOM(filters);
     showContent();
 
-    const observer = new MutationObserver(async () => {
+    const observer = new MutationObserver(async (el) => {
       const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
 
       if (!enabled) return;
 
       const filters = await getFilters();
       applyFiltersToDOM(filters);
+      showContent();
     });
 
-    observer.observe(document.body, {
+    observer.observe(document.documentElement, {
       childList: true,
       subtree: true,
       characterData: true,

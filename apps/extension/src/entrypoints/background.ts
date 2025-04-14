@@ -1,42 +1,42 @@
-import { Filter } from '@/lib/filters';
-import { storageType } from '@/lib/storage';
+import { Filter } from "@/lib/filters";
+import { storageType } from "@/lib/storage";
 
 export default defineBackground(() => {
   browser.runtime.onInstalled.addListener(() => {
     browser.contextMenus.create({
-      id: 'filter-menu',
-      title: 'Add to word filters',
-      contexts: ['selection'],
+      id: "filter-menu",
+      title: "Add to word filters",
+      contexts: ["selection"],
     });
 
     browser.contextMenus.create({
-      id: 'add-to-global-filters',
-      title: 'All websites',
-      contexts: ['selection'],
-      parentId: 'filter-menu',
+      id: "add-to-global-filters",
+      title: "All websites",
+      contexts: ["selection"],
+      parentId: "filter-menu",
     });
 
     browser.contextMenus.create({
-      id: 'add-to-filters',
-      title: 'Only this website',
-      contexts: ['selection'],
-      parentId: 'filter-menu',
+      id: "add-to-filters",
+      title: "Only this website",
+      contexts: ["selection"],
+      parentId: "filter-menu",
     });
   });
 
   browser.contextMenus.onClicked.addListener(async (info, tab) => {
-    if (info.menuItemId === 'add-to-global-filters' || info.menuItemId === 'add-to-filters') {
+    if (info.menuItemId === "add-to-global-filters" || info.menuItemId === "add-to-filters") {
       if (info.selectionText) {
         const filters = (await storage.getItem<Filter[]>(`${storageType}:filters`)) || [];
         const newFilter: Filter = {
           pattern: info.selectionText,
           domain:
-            info.menuItemId === 'add-to-global-filters'
-              ? '*'
+            info.menuItemId === "add-to-global-filters"
+              ? "*"
               : tab?.url
                 ? new URL(tab.url).hostname
-                : '*',
-          action: 'stars',
+                : "*",
+          action: "stars",
         };
 
         await storage.setItem(`${storageType}:filters`, [...filters, newFilter]);

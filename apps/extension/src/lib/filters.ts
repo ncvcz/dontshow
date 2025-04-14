@@ -1,11 +1,11 @@
-import { matchWildcard } from './wildcard';
-import { storageType } from './storage';
+import { storageType } from "./storage";
+import { matchWildcard } from "./wildcard";
 
 export type Filter = {
   pattern: string;
   domain: string;
   selector?: string;
-  action: 'blur' | 'remove' | 'stars' | 'redacted';
+  action: "blur" | "remove" | "stars" | "redacted";
   customText?: string;
 };
 
@@ -41,7 +41,7 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode: node => {
       if (!node.nodeValue?.trim()) return NodeFilter.FILTER_SKIP;
-      if (node.parentElement?.tagName === 'SCRIPT') return NodeFilter.FILTER_SKIP;
+      if (node.parentElement?.tagName === "SCRIPT") return NodeFilter.FILTER_SKIP;
       return NodeFilter.FILTER_ACCEPT;
     },
   });
@@ -57,7 +57,7 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
       const parent = node.parentElement;
       if (!parent) continue;
 
-      const originalText = node.textContent ?? '';
+      const originalText = node.textContent ?? "";
       if (!originalText.trim()) continue; // Skip empty text nodes
 
       for (const filter of applicableFilters) {
@@ -66,7 +66,7 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
         // Get or create the regex pattern
         let regex = regexCache.get(filter.pattern);
         if (!regex) {
-          regex = new RegExp(filter.pattern, 'gi');
+          regex = new RegExp(filter.pattern, "gi");
           regexCache.set(filter.pattern, regex);
         }
 
@@ -93,19 +93,19 @@ export const applyFiltersToDOM = (filters: Filter[]) => {
 function applyFilterToElement(element: Element, filter: Filter) {
   let regex = regexCache.get(filter.pattern);
   if (!regex) {
-    regex = new RegExp(filter.pattern, 'gi');
+    regex = new RegExp(filter.pattern, "gi");
     regexCache.set(filter.pattern, regex);
   }
 
   switch (filter.action) {
-    case 'blur':
-      (element as HTMLElement).style.filter = 'blur(5px)';
+    case "blur":
+      (element as HTMLElement).style.filter = "blur(5px)";
       break;
-    case 'remove':
+    case "remove":
       element.remove();
       break;
-    case 'stars':
-    case 'redacted':
+    case "stars":
+    case "redacted":
       applyTextNodeFilters(element, regex, filter.action, filter.customText);
       break;
   }
@@ -119,21 +119,21 @@ function applyFilterAction(
   filter: Filter
 ) {
   switch (filter.action) {
-    case 'blur':
-      (parent as HTMLElement).style.filter = 'blur(5px)';
+    case "blur":
+      (parent as HTMLElement).style.filter = "blur(5px)";
       break;
-    case 'remove':
+    case "remove":
       parent.remove();
       break;
-    case 'stars':
+    case "stars":
       // Reset regex state
       regex.lastIndex = 0;
-      node.textContent = originalText.replace(regex, m => '*'.repeat(m.length));
+      node.textContent = originalText.replace(regex, m => "*".repeat(m.length));
       break;
-    case 'redacted':
+    case "redacted":
       // Reset regex state
       regex.lastIndex = 0;
-      node.textContent = originalText.replace(regex, filter.customText || '[REDACTED]');
+      node.textContent = originalText.replace(regex, filter.customText || "[REDACTED]");
       break;
   }
 }
@@ -141,14 +141,14 @@ function applyFilterAction(
 function applyTextNodeFilters(
   element: Element,
   regex: RegExp,
-  action: 'stars' | 'redacted',
+  action: "stars" | "redacted",
   customText?: string
 ) {
   const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
   let textNode: Node | null;
 
   while ((textNode = walker.nextNode())) {
-    const text = textNode.textContent ?? '';
+    const text = textNode.textContent ?? "";
 
     // Reset regex state
     regex.lastIndex = 0;
@@ -157,11 +157,11 @@ function applyTextNodeFilters(
       // Reset regex again for the replacement
       regex.lastIndex = 0;
 
-      if (action === 'stars') {
-        textNode.textContent = text.replace(regex, m => '*'.repeat(m.length));
+      if (action === "stars") {
+        textNode.textContent = text.replace(regex, m => "*".repeat(m.length));
       } else {
         // redacted
-        textNode.textContent = text.replace(regex, customText || '[REDACTED]');
+        textNode.textContent = text.replace(regex, customText || "[REDACTED]");
       }
     }
   }

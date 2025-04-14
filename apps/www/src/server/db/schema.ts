@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, index } from "drizzle-orm/pg-core"
+import { index, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const posts = pgTable(
   "posts",
@@ -8,7 +8,5 @@ export const posts = pgTable(
     createdAt: timestamp("createdAt").defaultNow().notNull(),
     updatedAt: timestamp("updatedAt").defaultNow().notNull(),
   },
-  (table) => [
-    index("Post_name_idx").on(table.name)
-  ]
-)
+  table => [index("Post_name_idx").on(table.name)]
+);

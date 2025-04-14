@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
+  themes:
+    light --default,
+    dark --prefersdark;
 }
-
 
 @plugin "daisyui/theme" {
   name: "light";
@@ -39,7 +40,6 @@
   --depth: 1;
   --noise: 0;
 }
-
 
 @plugin "daisyui/theme" {
   name: "dark";

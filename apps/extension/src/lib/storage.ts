@@ -1,1 +1,1 @@
-export const storageType = import.meta.env.CHROME ? 'sync' : 'local';
+export const storageType = import.meta.env.CHROME ? "sync" : "local";

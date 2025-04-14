@@ -1,12 +1,12 @@
-import { applyFiltersToDOM, getFilters } from '@/lib/filters';
-import { storageType } from '@/lib/storage';
+import { applyFiltersToDOM, getFilters } from "@/lib/filters";
+import { storageType } from "@/lib/storage";
 
 const showContent = () => {
-  document.documentElement.setAttribute('data-ds-ready', 'true');
+  document.documentElement.setAttribute("data-ds-ready", "true");
 };
 
 export default defineContentScript({
-  matches: ['<all_urls>'],
+  matches: ["<all_urls>"],
   async main(_ctx) {
     const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
 

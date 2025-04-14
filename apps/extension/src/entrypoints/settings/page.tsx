@@ -1,8 +1,8 @@
-import { defaultSettings, Settings } from '@/lib/settings';
-import Layout from '@/components/Layout';
-import { useStorage } from '@/hooks/storage';
-import { AlertTriangleIcon, ClipboardIcon, EyeIcon, EyeOffIcon } from 'lucide-react';
-import { storageType } from '@/lib/storage';
+import Layout from "@/components/Layout";
+import { useStorage } from "@/hooks/storage";
+import { defaultSettings, Settings } from "@/lib/settings";
+import { storageType } from "@/lib/storage";
+import { AlertTriangleIcon, ClipboardIcon, EyeIcon, EyeOffIcon } from "lucide-react";
 
 export default function Page() {
   const [enabled, setEnabled] = useStorage<boolean>(`${storageType}:enabled`, false);
@@ -18,9 +18,9 @@ export default function Page() {
         {/* Main toggle */}
         <div className="card bg-base-200 shadow-lg">
           <div className="card-body">
-            <h2 className="card-title text-2xl flex justify-between">
+            <h2 className="card-title flex justify-between text-2xl">
               <span>Extension Status</span>
-              <div className="badge badge-lg badge-outline">{enabled ? 'Active' : 'Inactive'}</div>
+              <div className="badge badge-lg badge-outline">{enabled ? "Active" : "Inactive"}</div>
             </h2>
             <p className="text-base-content/70 mb-4">
               Enable or disable Don't Show. When active, website content will be modified according
@@ -29,11 +29,11 @@ export default function Page() {
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-2 text-lg">
                 {enabled ? (
-                  <EyeOffIcon className="w-6 h-6 text-success" />
+                  <EyeOffIcon className="text-success h-6 w-6" />
                 ) : (
-                  <EyeIcon className="w-6 h-6 text-error" />
+                  <EyeIcon className="text-error h-6 w-6" />
                 )}
-                {enabled ? 'Protection Active' : 'Protection Inactive'}
+                {enabled ? "Protection Active" : "Protection Inactive"}
               </span>
               <input
                 type="checkbox"
@@ -48,14 +48,14 @@ export default function Page() {
         {/* Settings options */}
         <div className="card bg-base-200 shadow-lg">
           <div className="card-body">
-            <h2 className="card-title text-2xl mb-4">Settings</h2>
+            <h2 className="card-title mb-4 text-2xl">Settings</h2>
 
-            <div className="divide-y divide-base-300">
+            <div className="divide-base-300 divide-y">
               {/* Sensitive Alert Setting */}
-              <div className="py-4 flex items-center justify-between">
+              <div className="flex items-center justify-between py-4">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <AlertTriangleIcon className="w-5 h-5 text-warning" />
+                    <AlertTriangleIcon className="text-warning h-5 w-5" />
                     <h3 className="font-semibold">Sensitive Content Alert</h3>
                   </div>
                   <p className="text-base-content/70 max-w-2xl">
@@ -68,16 +68,16 @@ export default function Page() {
                   className="toggle toggle-primary"
                   checked={settings.sensitiveAlert ?? true}
                   onChange={() =>
-                    updateSetting('sensitiveAlert', !(settings.sensitiveAlert ?? true))
+                    updateSetting("sensitiveAlert", !(settings.sensitiveAlert ?? true))
                   }
                 />
               </div>
 
               {/* Clipboard Cleaner - Coming Soon */}
-              <div className="py-4 flex items-center justify-between opacity-60">
+              <div className="flex items-center justify-between py-4 opacity-60">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <ClipboardIcon className="w-5 h-5 text-secondary" />
+                    <ClipboardIcon className="text-secondary h-5 w-5" />
                     <h3 className="font-semibold">Clipboard Cleaner</h3>
                   </div>
                   <p className="text-base-content/70 max-w-2xl">
@@ -94,8 +94,8 @@ export default function Page() {
         {/* Status Information */}
         <div className="card bg-base-200 shadow-lg">
           <div className="card-body">
-            <h2 className="card-title text-2xl mb-2">System Status</h2>
-            <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+            <h2 className="card-title mb-2 text-2xl">System Status</h2>
+            <div className="stats stats-vertical lg:stats-horizontal w-full shadow">
               <div className="stat">
                 <div className="stat-title">Version</div>
                 <div className="stat-value text-xl">1.0.0</div>
@@ -112,7 +112,7 @@ export default function Page() {
                   )}
                 </div>
                 <div className="stat-desc">
-                  {enabled ? 'Protection running' : 'Protection disabled'}
+                  {enabled ? "Protection running" : "Protection disabled"}
                 </div>
               </div>
             </div>

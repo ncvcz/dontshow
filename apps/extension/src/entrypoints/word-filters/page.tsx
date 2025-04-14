@@ -1,17 +1,17 @@
-import type { Filter } from '@/lib/filters';
-import { PlusIcon, TrashIcon, PencilIcon, CheckIcon, XIcon, InfoIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useStorage } from '@/hooks/storage';
-import Layout from '@/components/Layout';
-import { storageType } from '@/lib/storage';
+import Layout from "@/components/Layout";
+import { useStorage } from "@/hooks/storage";
+import type { Filter } from "@/lib/filters";
+import { storageType } from "@/lib/storage";
+import { CheckIcon, InfoIcon, PencilIcon, PlusIcon, TrashIcon, XIcon } from "lucide-react";
+import { useState } from "react";
 
 export default function Page() {
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useStorage<Filter[]>(`${storageType}:filters`, []);
   const [newFilter, setNewFilter] = useState<Filter>({
-    pattern: '',
-    domain: '*',
-    action: 'stars',
+    pattern: "",
+    domain: "*",
+    action: "stars",
   });
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingFilter, setEditingFilter] = useState<Filter | null>(null);
@@ -21,9 +21,9 @@ export default function Page() {
     setFilters([...filters, newFilter]);
     setOpen(false);
     setNewFilter({
-      pattern: '',
-      domain: '*',
-      action: 'stars',
+      pattern: "",
+      domain: "*",
+      action: "stars",
     });
   };
 
@@ -52,11 +52,11 @@ export default function Page() {
 
   return (
     <Layout isSensitive>
-      <div className="max-w-6xl mx-auto space-y-4">
-        <div className="flex justify-between items-center">
+      <div className="mx-auto max-w-6xl space-y-4">
+        <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold">Word Filters</h1>
           <button className="btn btn-sm btn-primary gap-1" onClick={() => setOpen(true)}>
-            <PlusIcon className="w-4 h-4" />
+            <PlusIcon className="h-4 w-4" />
             Add
           </button>
         </div>
@@ -66,16 +66,16 @@ export default function Page() {
           {filters.map((filter: Filter, index: number) => (
             <div
               key={index}
-              className="p-3 bg-base-200 rounded-lg hover:bg-base-300 transition-colors"
+              className="bg-base-200 hover:bg-base-300 rounded-lg p-3 transition-colors"
             >
               {editingIndex === index ? (
-                <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_auto] gap-3 items-center">
+                <div className="grid grid-cols-1 items-center gap-3 md:grid-cols-[2fr_1fr_1fr_auto]">
                   <div>
-                    <div className="font-semibold text-xs uppercase mb-1">Text to hide</div>
+                    <div className="mb-1 text-xs font-semibold uppercase">Text to hide</div>
                     <input
                       type="text"
                       className="input input-sm input-bordered w-full"
-                      value={editingFilter?.pattern || ''}
+                      value={editingFilter?.pattern || ""}
                       onChange={e =>
                         setEditingFilter({ ...editingFilter!, pattern: e.target.value })
                       }
@@ -84,15 +84,15 @@ export default function Page() {
                   </div>
                   <div>
                     <div className="flex items-center gap-1">
-                      <div className="font-semibold text-xs uppercase mb-1">Where to hide it</div>
+                      <div className="mb-1 text-xs font-semibold uppercase">Where to hide it</div>
                       <div className="tooltip tooltip-right" data-tip="Use * for all websites">
-                        <InfoIcon className="w-3 h-3 text-info cursor-help" />
+                        <InfoIcon className="text-info h-3 w-3 cursor-help" />
                       </div>
                     </div>
                     <input
                       type="text"
                       className="input input-sm input-bordered w-full"
-                      value={editingFilter?.domain || ''}
+                      value={editingFilter?.domain || ""}
                       onChange={e =>
                         setEditingFilter({ ...editingFilter!, domain: e.target.value })
                       }
@@ -100,14 +100,14 @@ export default function Page() {
                     />
                   </div>
                   <div>
-                    <div className="font-semibold text-xs uppercase mb-1">How to hide it</div>
+                    <div className="mb-1 text-xs font-semibold uppercase">How to hide it</div>
                     <select
                       className="select select-sm select-bordered w-full"
-                      value={editingFilter?.action || 'stars'}
+                      value={editingFilter?.action || "stars"}
                       onChange={e =>
                         setEditingFilter({
                           ...editingFilter!,
-                          action: e.target.value as Filter['action'],
+                          action: e.target.value as Filter["action"],
                         })
                       }
                     >
@@ -119,38 +119,38 @@ export default function Page() {
                   </div>
                   <div className="flex justify-end gap-2 self-end">
                     <button className="btn btn-ghost btn-sm btn-square" onClick={handleCancelEdit}>
-                      <XIcon className="w-4 h-4" />
+                      <XIcon className="h-4 w-4" />
                     </button>
                     <button className="btn btn-ghost btn-sm btn-square" onClick={handleSaveEdit}>
-                      <CheckIcon className="w-4 h-4" />
+                      <CheckIcon className="h-4 w-4" />
                     </button>
                   </div>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_auto] gap-3 items-center">
+                <div className="grid grid-cols-1 items-center gap-3 md:grid-cols-[2fr_1fr_1fr_auto]">
                   <div className="overflow-x-auto">
-                    <div className="font-semibold text-xs uppercase mb-1">Text to hide</div>
-                    <code className="bg-base-300 px-2 py-1 rounded text-sm block truncate">
+                    <div className="mb-1 text-xs font-semibold uppercase">Text to hide</div>
+                    <code className="bg-base-300 block truncate rounded px-2 py-1 text-sm">
                       {filter.pattern}
                     </code>
                   </div>
                   <div>
-                    <div className="font-semibold text-xs uppercase mb-1">Where to hide it</div>
-                    <code className="bg-base-300 px-2 py-1 rounded text-sm block truncate">
+                    <div className="mb-1 text-xs font-semibold uppercase">Where to hide it</div>
+                    <code className="bg-base-300 block truncate rounded px-2 py-1 text-sm">
                       {filter.domain}
                     </code>
                   </div>
                   <div>
-                    <div className="font-semibold text-xs uppercase mb-1">How to hide it</div>
+                    <div className="mb-1 text-xs font-semibold uppercase">How to hide it</div>
                     <span
                       className={`badge ${
-                        filter.action === 'blur'
-                          ? 'badge-info'
-                          : filter.action === 'remove'
-                            ? 'badge-error'
-                            : filter.action === 'stars'
-                              ? 'badge-warning'
-                              : 'badge-success'
+                        filter.action === "blur"
+                          ? "badge-info"
+                          : filter.action === "remove"
+                            ? "badge-error"
+                            : filter.action === "stars"
+                              ? "badge-warning"
+                              : "badge-success"
                       }`}
                     >
                       {filter.action}
@@ -161,13 +161,13 @@ export default function Page() {
                       className="btn btn-ghost btn-sm btn-square"
                       onClick={() => handleStartEdit(filter, index)}
                     >
-                      <PencilIcon className="w-4 h-4" />
+                      <PencilIcon className="h-4 w-4" />
                     </button>
                     <button
                       className="btn btn-ghost btn-sm btn-square text-error"
                       onClick={() => handleDeleteFilter(filter)}
                     >
-                      <TrashIcon className="w-4 h-4" />
+                      <TrashIcon className="h-4 w-4" />
                     </button>
                   </div>
                 </div>
@@ -175,16 +175,16 @@ export default function Page() {
             </div>
           ))}
           {filters.length === 0 && (
-            <div className="text-center py-8 text-base-content/60">
+            <div className="text-base-content/60 py-8 text-center">
               No word filters added yet. Click "Add" to create one.
             </div>
           )}
         </div>
 
         {/* Add Filter Modal */}
-        <dialog className={`modal ${open ? 'modal-open' : ''}`}>
+        <dialog className={`modal ${open ? "modal-open" : ""}`}>
           <div className="modal-box">
-            <h3 className="font-bold text-lg mb-4">Add New Word Filter</h3>
+            <h3 className="mb-4 text-lg font-bold">Add New Word Filter</h3>
             <div className="grid grid-cols-1 gap-4">
               <label className="grid grid-cols-1 gap-2">
                 <span>Text to hide</span>
@@ -201,7 +201,7 @@ export default function Page() {
                 <div className="flex items-center gap-1">
                   <span>Where to hide it</span>
                   <div className="tooltip tooltip-right" data-tip="Use * for all websites">
-                    <InfoIcon className="w-4 h-4 text-info cursor-help" />
+                    <InfoIcon className="text-info h-4 w-4 cursor-help" />
                   </div>
                 </div>
                 <input
@@ -221,7 +221,7 @@ export default function Page() {
                   onChange={e =>
                     setNewFilter({
                       ...newFilter,
-                      action: e.target.value as Filter['action'],
+                      action: e.target.value as Filter["action"],
                     })
                   }
                 >

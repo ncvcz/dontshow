@@ -1,5 +1,5 @@
-import { storage } from '@wxt-dev/storage';
-import { useState, useEffect } from 'react';
+import { storage } from "@wxt-dev/storage";
+import { useEffect, useState } from "react";
 
 export const useStorage = <T>(key: StorageItemKey, defaultValue: T): [T, (value: T) => void] => {
   const [storedValue, setStoredValue] = useState<T>(defaultValue);

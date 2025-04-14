@@ -1,5 +1,5 @@
-import type { AppRouter } from "@/server"
-import { createClient } from "jstack"
+import type { AppRouter } from "@/server";
+import { createClient } from "jstack";
 
 /**
  * Your type-safe API client
@@ -7,4 +7,4 @@ import { createClient } from "jstack"
  */
 export const client = createClient<AppRouter>({
   baseUrl: "http://localhost:3000/api",
-})
+});

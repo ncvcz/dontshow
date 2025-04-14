@@ -82,3 +82,8 @@ Learn more about the power of Turborepo:
 - [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
 - [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
 - [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+
+## Get the Extension
+
+- [Chrome Web Store](https://chromewebstore.google.com/detail/dont-show/gdebfgieajfdgdcdmpnbakflnkoaankk)
+- [Firefox Add-ons](https://addons.mozilla.org/it/firefox/addon/dontshow/)

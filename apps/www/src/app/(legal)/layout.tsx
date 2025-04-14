@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <div className="flex items-center gap-2">
             <Link
-              href="https://chrome.google.com/webstore"
+              href="https://chromewebstore.google.com/detail/dont-show/gdebfgieajfdgdcdmpnbakflnkoaankk"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-ghost"
@@ -29,7 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               Chrome Web Store
             </Link>
             <Link
-              href="https://addons.mozilla.org"
+              href="https://addons.mozilla.org/it/firefox/addon/dontshow/"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-ghost"

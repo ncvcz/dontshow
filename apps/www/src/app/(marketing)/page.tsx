@@ -16,14 +16,24 @@ export default async function Home() {
           </p>
 
           <div className="mx-auto flex w-full flex-col gap-2 pt-4 sm:w-1/2 sm:flex-row lg:mx-0">
-            <button className="btn w-full">
+            <Link
+              href="https://chromewebstore.google.com/detail/dont-show/gdebfgieajfdgdcdmpnbakflnkoaankk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn w-full"
+            >
               <SiChromewebstore />
               Install for Chrome
-            </button>
-            <button className="btn w-full">
+            </Link>
+            <Link
+              href="https://addons.mozilla.org/it/firefox/addon/dontshow/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn w-full"
+            >
               <SiFirefoxbrowser />
               Install for Firefox
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -164,7 +174,7 @@ export default async function Home() {
         </div>
         <div className="grid grid-flow-col gap-4">
           <Link
-            href="https://chrome.google.com/webstore"
+            href="https://chromewebstore.google.com/detail/dont-show/gdebfgieajfdgdcdmpnbakflnkoaankk"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-ghost"
@@ -173,7 +183,7 @@ export default async function Home() {
             Chrome Web Store
           </Link>
           <Link
-            href="https://addons.mozilla.org"
+            href="https://addons.mozilla.org/it/firefox/addon/dontshow/"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-ghost"

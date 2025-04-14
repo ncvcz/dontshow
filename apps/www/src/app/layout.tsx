@@ -18,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
+        {/* @ts-expect-error Async Server Component */}
         <Providers>{children}</Providers>
       </body>
     </html>

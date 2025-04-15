@@ -170,7 +170,7 @@ export default async function Home() {
 
       <footer className="footer footer-center bg-base-200 text-base-content rounded p-10">
         <div>
-          <p>Copyright © {new Date().getFullYear()} - All rights reserved by Blurri</p>
+          <p>Copyright © {new Date().getFullYear()} - All rights reserved by Don't Show</p>
         </div>
         <div className="grid grid-flow-col gap-4">
           <Link

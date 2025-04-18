@@ -1,4 +1,5 @@
 import { storageType } from "./storage";
+import { escapeRegex } from "./utils";
 import { matchWildcard } from "./wildcard";
 
 export type FilterAction = "blur" | "remove" | "stars" | "redacted";
@@ -16,9 +17,13 @@ const regexCache = new Map<string, RegExp>();
 
 const getRegex = (pattern: string): RegExp => {
   let regex = regexCache.get(pattern);
+  const isRegex = pattern.startsWith("/") && pattern.endsWith("/");
+
   if (!regex) {
-    regex = new RegExp(pattern, "gi");
-    regexCache.set(pattern, regex);
+    regex = new RegExp(
+      isRegex ? pattern.slice(1, -1) : escapeRegex(pattern),
+      "gi"
+    );
   }
   return regex;
 };
@@ -93,7 +98,7 @@ export const applyFiltersToDOM = (filters: Filter[]): void => {
   // Process selector-based filters first
   applicableFilters.forEach(filter => {
     if (filter.selector) {
-      document.querySelectorAll(filter.selector).forEach(el => 
+      document.querySelectorAll(filter.selector).forEach(el =>
         applyFilterToElement(el, filter)
       );
     }

@@ -72,6 +72,11 @@ export default function Page() {
                 <div className="grid grid-cols-1 items-center gap-3 md:grid-cols-[2fr_1fr_1fr_auto]">
                   <div>
                     <div className="mb-1 text-xs font-semibold uppercase">Text to hide</div>
+                    <div className="flex items-center gap-1">
+                      <div className="tooltip tooltip-right" data-tip="Use /regex/ for regular expressions">
+                        <InfoIcon className="text-info h-3 w-3 cursor-help" />
+                      </div>
+                    </div>
                     <input
                       type="text"
                       className="input input-sm input-bordered w-full"
@@ -187,7 +192,12 @@ export default function Page() {
             <h3 className="mb-4 text-lg font-bold">Add New Word Filter</h3>
             <div className="grid grid-cols-1 gap-4">
               <label className="grid grid-cols-1 gap-2">
-                <span>Text to hide</span>
+                <div className="flex items-center gap-1">
+                  <span>Text to hide</span>
+                  <div className="tooltip tooltip-right" data-tip="Use /regex/ for regular expressions">
+                    <InfoIcon className="text-info h-4 w-4 cursor-help" />
+                  </div>
+                </div>
                 <input
                   type="text"
                   className="input input-bordered w-full"

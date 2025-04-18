@@ -72,21 +72,6 @@ export default function Page() {
                   }
                 />
               </div>
-
-              {/* Clipboard Cleaner - Coming Soon */}
-              <div className="flex items-center justify-between py-4 opacity-60">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <ClipboardIcon className="text-secondary h-5 w-5" />
-                    <h3 className="font-semibold">Clipboard Cleaner</h3>
-                  </div>
-                  <p className="text-base-content/70 max-w-2xl">
-                    Coming soon: Automatically clean your clipboard from censored words and
-                    sensitive content.
-                  </p>
-                </div>
-                <input type="checkbox" className="toggle toggle-secondary" disabled />
-              </div>
             </div>
           </div>
         </div>

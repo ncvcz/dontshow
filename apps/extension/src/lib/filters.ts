@@ -17,23 +17,17 @@ export const getFilters = async (): Promise<Filter[]> => {
 const regexCache = new Map<string, RegExp>();
 
 const getRegex = (pattern: string): RegExp => {
-  let regex = regexCache.get(pattern);
-
-  if (!regex) {
-    regex = new RegExp(pattern, "gi");
-    regexCache.set(pattern, regex);
+  if (!regexCache.has(pattern)) {
+    regexCache.set(pattern, new RegExp(pattern, "gi"));
   }
-
-  return regex;
+  return regexCache.get(pattern)!;
 };
 
-const applyTextReplacement = (text: string, regex: RegExp, action: "stars" | "redacted", customText?: string): string => {
-  const re = getRegex(regex.source);
-  re.lastIndex = 0;
-
+const applyTextReplacement = (text: string, pattern: string, action: "stars" | "redacted", customText?: string): string => {
+  const regex = getRegex(pattern);
   return action === "stars" 
-    ? text.replaceAll(re, m => "*".repeat(m.length))
-    : text.replaceAll(re, customText || "[REDACTED]");
+    ? text.replaceAll(regex, m => "*".repeat(m.length))
+    : text.replaceAll(regex, customText || "[REDACTED]");
 };
 
 const applyFilterToElement = (element: Element, filter: Filter): void => {
@@ -54,7 +48,8 @@ const applyFilterToElement = (element: Element, filter: Filter): void => {
       while ((textNode = walker.nextNode())) {
         const text = textNode.textContent ?? "";
         if (regex.test(text)) {
-          textNode.textContent = applyTextReplacement(text, regex, filter.action, filter.customText);
+          regex.lastIndex = 0; // Reset lastIndex
+          textNode.textContent = applyTextReplacement(text, filter.pattern, filter.action, filter.customText);
         }
       }
       break;
@@ -70,23 +65,24 @@ export const applyFiltersToDOM = (filters: Filter[]): void => {
 
   if (!applicableFilters.length) return;
 
-  // Apply selector-based filters first
-  applicableFilters.forEach(filter => {
+  // Apply selector-based filters
+  for (const filter of applicableFilters) {
     if (filter.selector) {
       document.querySelectorAll(filter.selector).forEach(el => 
         applyFilterToElement(el, filter)
       );
     }
-  });
+  }
 
-  // Apply text-based filters using TreeWalker
+  // Apply text-based filters using TreeWalker for better performance
   const walker = document.createTreeWalker(
     document.body,
     NodeFilter.SHOW_TEXT,
     {
       acceptNode: node => {
-        if (!node.nodeValue?.trim()) return NodeFilter.FILTER_SKIP;
-        if (node.parentElement?.tagName === "SCRIPT") return NodeFilter.FILTER_SKIP;
+        if (!node.nodeValue?.trim() || node.parentElement?.tagName === "SCRIPT") {
+          return NodeFilter.FILTER_SKIP;
+        }
         return NodeFilter.FILTER_ACCEPT;
       }
     }
@@ -101,17 +97,17 @@ export const applyFiltersToDOM = (filters: Filter[]): void => {
       const parent = node.parentElement;
       if (!parent) continue;
 
-      const originalText = node.textContent ?? "";
-      
-      if (!originalText.trim()) continue;
+      const text = node.textContent ?? "";
+      if (!text.trim()) continue;
 
+      // Check text-only filters (without selectors)
       for (const filter of applicableFilters) {
         if (filter.selector) continue;
 
         const regex = getRegex(filter.pattern);
         regex.lastIndex = 0;
 
-        if (regex.exec(originalText)) {
+        if (regex.test(text)) {
           switch (filter.action) {
             case "blur":
               (parent as HTMLElement).style.filter = "blur(5px)";
@@ -121,13 +117,14 @@ export const applyFiltersToDOM = (filters: Filter[]): void => {
               break;
             case "stars":
             case "redacted":
-              node.textContent = applyTextReplacement(originalText, regex, filter.action, filter.customText);
+              node.textContent = applyTextReplacement(text, filter.pattern, filter.action, filter.customText);
               break;
           }
           break;
         }
       }
 
+      // Process in batches to avoid blocking the main thread
       if (performance.now() - startTime > MAX_PROCESSING_TIME) {
         setTimeout(processNextBatch, 0);
         return;

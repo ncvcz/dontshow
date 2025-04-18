@@ -16,87 +16,29 @@ export const getFilters = async (): Promise<Filter[]> => {
 // Cache compiled regex patterns for better performance
 const regexCache = new Map<string, RegExp>();
 
-export const applyFiltersToDOM = (filters: Filter[]) => {
-  // Early return if no filters or empty body
-  if (!filters.length || !document.body) return;
+const getRegex = (pattern: string): RegExp => {
+  let regex = regexCache.get(pattern);
 
-  // Pre-filter to only include filters that match the current domain
-  const applicableFilters = filters.filter(filter =>
-    matchWildcard(filter.domain, location.hostname)
-  );
-
-  // Early return if no applicable filters
-  if (!applicableFilters.length) return;
-
-  // Use a more efficient selector-based approach when selectors are provided
-  applicableFilters.forEach(filter => {
-    if (filter.selector) {
-      const elements = document.querySelectorAll(filter.selector);
-      elements.forEach(el => applyFilterToElement(el, filter));
-      return;
-    }
-  });
-
-  // For non-selector filters, use TreeWalker for text nodes
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode: node => {
-      if (!node.nodeValue?.trim()) return NodeFilter.FILTER_SKIP;
-      if (node.parentElement?.tagName === "SCRIPT") return NodeFilter.FILTER_SKIP;
-      return NodeFilter.FILTER_ACCEPT;
-    },
-  });
-
-  let node: Node | null;
-
-  // Process nodes in batches to avoid blocking the main thread
-  const processNextBatch = () => {
-    const startTime = performance.now();
-    const MAX_PROCESSING_TIME = 10; // ms
-
-    while ((node = walker.nextNode())) {
-      const parent = node.parentElement;
-      if (!parent) continue;
-
-      const originalText = node.textContent ?? "";
-      if (!originalText.trim()) continue; // Skip empty text nodes
-
-      for (const filter of applicableFilters) {
-        if (filter.selector) continue; // Skip selector-based filters
-
-        // Get or create the regex pattern
-        let regex = regexCache.get(filter.pattern);
-        if (!regex) {
-          regex = new RegExp(filter.pattern, "gi");
-          regexCache.set(filter.pattern, regex);
-        }
-
-        // Reset regex state
-        regex.lastIndex = 0;
-
-        if (regex.test(originalText)) {
-          applyFilterAction(node, parent, originalText, regex, filter);
-          break; // Once a filter is applied, skip other filters for this node
-        }
-      }
-
-      // Check if we've been processing for too long and should yield
-      if (performance.now() - startTime > MAX_PROCESSING_TIME) {
-        setTimeout(processNextBatch, 0);
-        return;
-      }
-    }
-  };
-
-  processNextBatch();
-};
-
-function applyFilterToElement(element: Element, filter: Filter) {
-  let regex = regexCache.get(filter.pattern);
   if (!regex) {
-    regex = new RegExp(filter.pattern, "gi");
-    regexCache.set(filter.pattern, regex);
+    regex = new RegExp(pattern, "gi");
+    regexCache.set(pattern, regex);
   }
 
+  return regex;
+};
+
+const applyTextReplacement = (text: string, regex: RegExp, action: "stars" | "redacted", customText?: string): string => {
+  const re = getRegex(regex.source);
+  re.lastIndex = 0;
+
+  return action === "stars" 
+    ? text.replaceAll(re, m => "*".repeat(m.length))
+    : text.replaceAll(re, customText || "[REDACTED]");
+};
+
+const applyFilterToElement = (element: Element, filter: Filter): void => {
+  const regex = getRegex(filter.pattern);
+  
   switch (filter.action) {
     case "blur":
       (element as HTMLElement).style.filter = "blur(5px)";
@@ -106,63 +48,92 @@ function applyFilterToElement(element: Element, filter: Filter) {
       break;
     case "stars":
     case "redacted":
-      applyTextNodeFilters(element, regex, filter.action, filter.customText);
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+      let textNode: Node | null;
+      
+      while ((textNode = walker.nextNode())) {
+        const text = textNode.textContent ?? "";
+        if (regex.test(text)) {
+          textNode.textContent = applyTextReplacement(text, regex, filter.action, filter.customText);
+        }
+      }
       break;
   }
-}
+};
 
-function applyFilterAction(
-  node: Node,
-  parent: Element,
-  originalText: string,
-  regex: RegExp,
-  filter: Filter
-) {
-  switch (filter.action) {
-    case "blur":
-      (parent as HTMLElement).style.filter = "blur(5px)";
-      break;
-    case "remove":
-      parent.remove();
-      break;
-    case "stars":
-      // Reset regex state
-      regex.lastIndex = 0;
-      node.textContent = originalText.replace(regex, m => "*".repeat(m.length));
-      break;
-    case "redacted":
-      // Reset regex state
-      regex.lastIndex = 0;
-      node.textContent = originalText.replace(regex, filter.customText || "[REDACTED]");
-      break;
-  }
-}
+export const applyFiltersToDOM = (filters: Filter[]): void => {
+  if (!filters.length || !document.body) return;
 
-function applyTextNodeFilters(
-  element: Element,
-  regex: RegExp,
-  action: "stars" | "redacted",
-  customText?: string
-) {
-  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-  let textNode: Node | null;
+  const applicableFilters = filters.filter(filter => 
+    matchWildcard(filter.domain, location.hostname)
+  );
 
-  while ((textNode = walker.nextNode())) {
-    const text = textNode.textContent ?? "";
+  if (!applicableFilters.length) return;
 
-    // Reset regex state
-    regex.lastIndex = 0;
+  // Apply selector-based filters first
+  applicableFilters.forEach(filter => {
+    if (filter.selector) {
+      document.querySelectorAll(filter.selector).forEach(el => 
+        applyFilterToElement(el, filter)
+      );
+    }
+  });
 
-    if (regex.test(text)) {
-      // Reset regex again for the replacement
-      regex.lastIndex = 0;
-
-      if (action === "stars") {
-        textNode.textContent = text.replace(regex, m => "*".repeat(m.length));
-      } else {
-        // redacted
-        textNode.textContent = text.replace(regex, customText || "[REDACTED]");
+  // Apply text-based filters using TreeWalker
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: node => {
+        if (!node.nodeValue?.trim()) return NodeFilter.FILTER_SKIP;
+        if (node.parentElement?.tagName === "SCRIPT") return NodeFilter.FILTER_SKIP;
+        return NodeFilter.FILTER_ACCEPT;
       }
     }
-  }
-}
+  );
+
+  const processNextBatch = (): void => {
+    const startTime = performance.now();
+    const MAX_PROCESSING_TIME = 10; // ms
+    let node: Node | null;
+
+    while ((node = walker.nextNode())) {
+      const parent = node.parentElement;
+      if (!parent) continue;
+
+      const originalText = node.textContent ?? "";
+      
+      if (!originalText.trim()) continue;
+
+      for (const filter of applicableFilters) {
+        if (filter.selector) continue;
+
+        const regex = getRegex(filter.pattern);
+        regex.lastIndex = 0;
+
+        if (regex.exec(originalText)) {
+          switch (filter.action) {
+            case "blur":
+              (parent as HTMLElement).style.filter = "blur(5px)";
+              break;
+            case "remove":
+              parent.remove();
+              break;
+            case "stars":
+            case "redacted":
+              node.textContent = applyTextReplacement(originalText, regex, filter.action, filter.customText);
+              break;
+          }
+          break;
+        }
+      }
+
+      if (performance.now() - startTime > MAX_PROCESSING_TIME) {
+        setTimeout(processNextBatch, 0);
+        return;
+      }
+    }
+  };
+
+  processNextBatch();
+};

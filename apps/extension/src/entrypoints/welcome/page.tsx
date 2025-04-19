@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function WelcomePage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-100 p-4">

@@ -2,7 +2,14 @@ import { Filter } from "@/lib/filters";
 import { storageType } from "@/lib/storage";
 
 export default defineBackground(() => {
-  browser.runtime.onInstalled.addListener(() => {
+  browser.runtime.onInstalled.addListener((e) => {
+    if (e.reason === "install") {
+      browser.tabs.create({
+        // @ts-ignore
+        url: browser.runtime.getURL("welcome.html"),
+      });
+    }
+
     browser.contextMenus.create({
       id: "filter-menu",
       title: "Add to word filters",

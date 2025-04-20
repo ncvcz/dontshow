@@ -1,89 +1,53 @@
-# Turborepo starter
+# Don't Show
 
-This Turborepo starter is maintained by the Turborepo core team.
+**Don't Show** is a privacy-first Chrome and Firefox extension that lets you **hide sensitive content from any website**, using custom rules.
 
-## Using this example
+> Ideal for screen recordings, livestreams, or just decluttering your workspace.
 
-Run the following command:
+## ✨ What it does
 
-```sh
-npx create-turbo@latest
-```
+- **Hide elements by text** – Instantly hide any element containing specific keywords (e.g. “Balance”, “Email”, “€”).
+- **Regex power** – Use advanced patterns to match dynamic or partial content.
+- **Toggle in one click** – Instantly enable/disable the extension when needed.
+- **Fast & local** – Everything runs in your browser. No server involved.
 
-## What's inside?
+## 🔒 Built with privacy in mind
 
-This Turborepo includes the following packages/apps:
+- No tracking  
+- No data collection  
+- No analytics  
+- No remote storage
 
-### Apps and Packages
+Your rules are stored locally and processed entirely in the browser.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## 💡 Use cases
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- Blur personal info during live calls
+- Hide client data when screen sharing
+- Clean up pages for clean screenshots
+- Mask distracting or irrelevant content
 
-### Utilities
+## 📦 Installation
 
-This Turborepo has some additional tools already setup for you:
+For development or testing:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
+```bash
+git clone https://github.com/your-username/dontshow.git
+cd dontshow
+pnpm install
 pnpm build
 ```
 
-### Develop
+Then load the `apps/extension/dist/chrome-mv3` folder as an **unpacked extension** in Chrome.
 
-To develop all apps and packages, run the following command:
+## 🔐 License
 
-```
-cd my-turborepo
-pnpm dev
-```
+This software is **proprietary and closed-source**.
+All rights reserved © [Produsse](https://produsse.com)  
+Reproduction, redistribution, or commercial use is strictly prohibited without explicit permission.
 
-### Remote Caching
+## 📬 Contact
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
-
-## Get the Extension
-
-- [Chrome Web Store](https://chromewebstore.google.com/detail/dont-show/gdebfgieajfdgdcdmpnbakflnkoaankk)
-- [Firefox Add-ons](https://addons.mozilla.org/it/firefox/addon/dontshow/)
+For inquiries, feedback, or partnership opportunities:  
+📩 hello@produsse.com  
+🌐 [produsse.com](https://produsse.com)

@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import { useStorage } from "@/hooks/storage";
 import { defaultSettings, Settings } from "@/lib/settings";
 import { storageType } from "@/lib/storage";
-import { AlertTriangleIcon, ClipboardIcon, EyeIcon, EyeOffIcon } from "lucide-react";
+import { AlertTriangleIcon, EyeIcon, EyeOffIcon, TextCursorInputIcon } from "lucide-react";
 
 export default function Page() {
   const [enabled, setEnabled] = useStorage<boolean>(`${storageType}:enabled`, false);
@@ -69,6 +69,27 @@ export default function Page() {
                   checked={settings.sensitiveAlert ?? true}
                   onChange={() =>
                     updateSetting("sensitiveAlert", !(settings.sensitiveAlert ?? true))
+                  }
+                />
+              </div>
+
+              {/* Input Censoring Setting */}
+              <div className="flex items-center justify-between py-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <TextCursorInputIcon className="text-info h-5 w-5" />
+                    <h3 className="font-semibold">Input Censoring</h3>
+                  </div>
+                  <p className="text-base-content/70 max-w-2xl">
+                    Automatically censors text inputs in designated fields to prevent accidental exposure of sensitive data.
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-primary"
+                  checked={settings.inputCensoring ?? true}
+                  onChange={() =>
+                    updateSetting("inputCensoring", !(settings.inputCensoring ?? true))
                   }
                 />
               </div>

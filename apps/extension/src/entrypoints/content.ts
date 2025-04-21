@@ -7,12 +7,14 @@ const showContent = () => {
 
 export default defineContentScript({
   matches: ["<all_urls>"],
-  async main(_ctx) {
+  async main(ctx) {
     const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
 
     if (!enabled) return;
 
     const filters = await getFilters();
+
+
     applyFiltersToDOM(filters);
     showContent();
 

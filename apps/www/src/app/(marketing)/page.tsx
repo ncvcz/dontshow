@@ -202,40 +202,42 @@ export default async function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="footer footer-center bg-neutral text-neutral-content p-10">
-        <aside>
+      <footer className="footer bg-neutral text-neutral-content p-6 md:p-10 flex flex-col md:flex-row md:items-start md:justify-between">
+        <aside className="items-center text-center md:items-start md:text-left">
           <p className="font-bold text-lg">Don't Show</p>
           <p>Copyright © {new Date().getFullYear()} - All rights reserved</p>
-          <p>Built by Produsse</p> {/* Optional: Add credit */}
+          <p>Built by Produsse</p>
         </aside>
-        <div className="flex items-center gap-2">
-          <Link
-            href="https://chromewebstore.google.com/detail/dont-show/gdebfgieajfdgdcdmpnbakflnkoaankk"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-ghost btn-sm"
-          >
-            <SiChromewebstore className="h-5 w-5" />
-            Chrome Web Store
-          </Link>
-          <Link
-            href="https://addons.mozilla.org/it/firefox/addon/dontshow/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-ghost btn-sm"
-          >
-            <SiFirefoxbrowser className="h-5 w-5" />
-            Firefox Add-ons
-          </Link>
+        <div className="flex flex-col items-center gap-4 md:items-end">
+          <div className="flex flex-col sm:flex-row items-center gap-2">
+            <Link
+              href="https://chromewebstore.google.com/detail/dont-show/gdebfgieajfdgdcdmpnbakflnkoaankk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost btn-sm w-full sm:w-auto"
+            >
+              <SiChromewebstore className="h-5 w-5" />
+              Chrome Web Store
+            </Link>
+            <Link
+              href="https://addons.mozilla.org/it/firefox/addon/dontshow/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost btn-sm w-full sm:w-auto"
+            >
+              <SiFirefoxbrowser className="h-5 w-5" />
+              Firefox Add-ons
+            </Link>
+          </div>
+          <nav className="flex flex-col gap-2 sm:flex-row sm:gap-4">
+            <Link href="/privacy" className="link link-hover">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="link link-hover">
+              Terms of Service
+            </Link>
+          </nav>
         </div>
-        <nav className="grid grid-flow-col gap-4">
-          <Link href="/privacy" className="link link-hover">
-            Privacy Policy
-          </Link>
-          <Link href="/terms" className="link link-hover">
-            Terms of Service
-          </Link>
-        </nav>
       </footer>
     </main>
   );

@@ -1,3 +1,5 @@
+import { AlertTriangle } from 'lucide-react';
+
 export default function WelcomePage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-100 p-4">
@@ -7,6 +9,12 @@ export default function WelcomePage() {
           <h1 className="text-5xl font-bold">
             Thanks for installing Don't Show!
           </h1>
+        </div>
+
+        {/* Alpha Warning Alert */}
+        <div role="alert" className="alert alert-warning shadow-lg">
+          <AlertTriangle className="stroke-current shrink-0 h-6 w-6" />
+          <span>Warning: This is an alpha version. You might encounter bugs or incomplete features.</span>
         </div>
 
         {/* Step 2: Explanation */}

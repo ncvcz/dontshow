@@ -18,5 +18,7 @@ export const Providers = ({ children }: PropsWithChildren) => {
       })
   );
 
-  return <QueryClientProvider client={queryClient}>{children as React.ReactNode}</QueryClientProvider>;
+  return (
+    <QueryClientProvider client={queryClient}>{children as React.ReactNode}</QueryClientProvider>
+  );
 };

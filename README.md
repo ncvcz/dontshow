@@ -13,9 +13,9 @@
 
 ## 🔒 Built with privacy in mind
 
-- No tracking  
-- No data collection  
-- No analytics  
+- No tracking
+- No data collection
+- No analytics
 - No remote storage
 
 Your rules are stored locally and processed entirely in the browser.

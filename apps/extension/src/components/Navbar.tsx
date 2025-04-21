@@ -23,13 +23,13 @@ export default function Navbar() {
     <nav className="bg-primary shadow-sm" aria-label="Main navigation">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <h1 className="text-xl font-bold text-primary-content">Don't Show</h1>
+          <h1 className="text-primary-content text-xl font-bold">Don't Show</h1>
 
           <div className="menu menu-horizontal flex space-x-1">
             <li>
               <a
                 href={getRedirectUrl("word-filters")}
-                className={`cursor-pointer text-primary-content ${activePage === "word-filters" ? "active font-medium" : ""}`}
+                className={`text-primary-content cursor-pointer ${activePage === "word-filters" ? "active font-medium" : ""}`}
               >
                 Word Filters
               </a>
@@ -37,7 +37,7 @@ export default function Navbar() {
             <li>
               <a
                 href={getRedirectUrl("settings")}
-                className={`cursor-pointer text-primary-content ${activePage === "settings" ? "active font-medium" : ""}`}
+                className={`text-primary-content cursor-pointer ${activePage === "settings" ? "active font-medium" : ""}`}
               >
                 Settings
               </a>

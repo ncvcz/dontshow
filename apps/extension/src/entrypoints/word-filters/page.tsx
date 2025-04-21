@@ -73,7 +73,10 @@ export default function Page() {
                   <div>
                     <div className="mb-1 text-xs font-semibold uppercase">Text to hide</div>
                     <div className="flex items-center gap-1">
-                      <div className="tooltip tooltip-right" data-tip="Use /regex/ for regular expressions">
+                      <div
+                        className="tooltip tooltip-right"
+                        data-tip="Use /regex/ for regular expressions"
+                      >
                         <InfoIcon className="text-info h-3 w-3 cursor-help" />
                       </div>
                     </div>
@@ -194,7 +197,10 @@ export default function Page() {
               <label className="grid grid-cols-1 gap-2">
                 <div className="flex items-center gap-1">
                   <span>Text to hide</span>
-                  <div className="tooltip tooltip-right" data-tip="Use /regex/ for regular expressions">
+                  <div
+                    className="tooltip tooltip-right"
+                    data-tip="Use /regex/ for regular expressions"
+                  >
                     <InfoIcon className="text-info h-4 w-4 cursor-help" />
                   </div>
                 </div>

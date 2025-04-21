@@ -1,7 +1,7 @@
+import { Settings } from "./settings";
 import { storageType } from "./storage";
 import { escapeRegex } from "./utils";
 import { matchWildcard } from "./wildcard";
-import { Settings } from "./settings";
 
 export type FilterAction = "blur" | "remove" | "stars" | "redacted";
 
@@ -25,10 +25,7 @@ const getRegex = (pattern: string): RegExp => {
   const isRegex = pattern.startsWith("/") && pattern.endsWith("/");
 
   if (!regex) {
-    regex = new RegExp(
-      isRegex ? pattern.slice(1, -1) : escapeRegex(pattern),
-      "gi"
-    );
+    regex = new RegExp(isRegex ? pattern.slice(1, -1) : escapeRegex(pattern), "gi");
     // Store the compiled regex in the cache
     regexCache.set(pattern, regex); // Ensure regex is stored in cache
   }
@@ -59,17 +56,16 @@ const applyTextReplacement = (
 
 // NEW FUNCTION for text nodes
 const applyFiltersToTextNodes = (applicableFilters: Filter[]): void => {
-  const walker = document.createTreeWalker(
-    document.body,
-    NodeFilter.SHOW_TEXT,
-    { acceptNode: node => shouldProcessNode(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP }
-  );
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: node =>
+      shouldProcessNode(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP,
+  });
 
   const processNextBatch = (): void => {
     const startTime = performance.now();
     let node: Node | null;
 
-    while ((node = walker.nextNode()) && (performance.now() - startTime) < MAX_PROCESSING_TIME_MS) {
+    while ((node = walker.nextNode()) && performance.now() - startTime < MAX_PROCESSING_TIME_MS) {
       const parent = node.parentElement;
       if (!parent) continue;
 
@@ -80,7 +76,7 @@ const applyFiltersToTextNodes = (applicableFilters: Filter[]): void => {
         // Selector-based blur/remove are handled directly in applyFiltersToDOM first.
         // This function handles text replacements (stars/redacted) for both selector and non-selector filters,
         // and non-selector blur/remove applied to the parent of the matching text node.
-        if (filter.selector && (filter.action === 'blur' || filter.action === 'remove')) continue;
+        if (filter.selector && (filter.action === "blur" || filter.action === "remove")) continue;
 
         const regex = getRegex(filter.pattern);
         regex.lastIndex = 0;
@@ -90,7 +86,11 @@ const applyFiltersToTextNodes = (applicableFilters: Filter[]): void => {
           switch (filter.action) {
             case "blur":
               // Apply non-selector blur to parent
-              if (!filter.selector && parent instanceof HTMLElement && !parent.style.filter.includes("blur")) {
+              if (
+                !filter.selector &&
+                parent instanceof HTMLElement &&
+                !parent.style.filter.includes("blur")
+              ) {
                 parent.style.filter = "blur(5px)";
               }
               break;
@@ -120,7 +120,11 @@ const applyFiltersToTextNodes = (applicableFilters: Filter[]): void => {
           // If a non-text filter action (blur/remove) was applied (necessarily non-selector here),
           // or a text replacement occurred, break the inner loop for this text node.
           // Assumption: First matching filter is sufficient.
-          if (filter.action === 'blur' || filter.action === 'remove' || node.textContent !== originalText) {
+          if (
+            filter.action === "blur" ||
+            filter.action === "remove" ||
+            node.textContent !== originalText
+          ) {
             break;
           }
         }
@@ -138,58 +142,57 @@ const applyFiltersToTextNodes = (applicableFilters: Filter[]): void => {
   processNextBatch();
 };
 
-
 // NEW FUNCTION for input elements
 const applyFiltersToInputs = (applicableFilters: Filter[]): void => {
   const inputs = Array.from(document.querySelectorAll("input"));
   let index = 0;
 
   const processNextBatch = (): void => {
-      const startTime = performance.now();
+    const startTime = performance.now();
 
-      while (index < inputs.length && (performance.now() - startTime) < MAX_PROCESSING_TIME_MS) {
-          const input = inputs[index++];
+    while (index < inputs.length && performance.now() - startTime < MAX_PROCESSING_TIME_MS) {
+      const input = inputs[index++];
 
-          // If an input is already type="password", changing it again has no effect.
-          // We don't need to explicitly skip password fields unless there's a specific reason
-          // (e.g., performance on pages with many password fields not matching filters).
-          // if (input.type === 'password') continue;
+      // If an input is already type="password", changing it again has no effect.
+      // We don't need to explicitly skip password fields unless there's a specific reason
+      // (e.g., performance on pages with many password fields not matching filters).
+      // if (input.type === 'password') continue;
 
-          const originalValue = input.value;
-          if (!originalValue) continue;
+      const originalValue = input.value;
+      if (!originalValue) continue;
 
-          for (const filter of applicableFilters) {
-              const regex = getRegex(filter.pattern);
-              regex.lastIndex = 0; // Reset regex state
+      for (const filter of applicableFilters) {
+        const regex = getRegex(filter.pattern);
+        regex.lastIndex = 0; // Reset regex state
 
-              if (regex.test(originalValue)) {
-                  // Apply filter only if the input doesn't match a more specific selector filter
-                  // or if the filter has no selector.
-                  if (!filter.selector || input.matches(filter.selector)) {
-                      switch (filter.action) {
-                          case "blur":
-                              // Censor input like stars/redacted
-                              input.type = "password";
-                              break;
-                          case "remove":
-                              // Removing the input element itself
-                              input.remove();
-                              break;
-                          case "stars":
-                          case "redacted":
-                              // Censor input by changing type to password
-                              input.type = "password";
-                              break;
-                      }
-                      break; // Stop checking filters for this input once matched
-                  }
-              }
+        if (regex.test(originalValue)) {
+          // Apply filter only if the input doesn't match a more specific selector filter
+          // or if the filter has no selector.
+          if (!filter.selector || input.matches(filter.selector)) {
+            switch (filter.action) {
+              case "blur":
+                // Censor input like stars/redacted
+                input.type = "password";
+                break;
+              case "remove":
+                // Removing the input element itself
+                input.remove();
+                break;
+              case "stars":
+              case "redacted":
+                // Censor input by changing type to password
+                input.type = "password";
+                break;
+            }
+            break; // Stop checking filters for this input once matched
           }
+        }
       }
+    }
 
-      if (index < inputs.length) {
-          setTimeout(processNextBatch, 0); // Schedule next batch
-      }
+    if (index < inputs.length) {
+      setTimeout(processNextBatch, 0); // Schedule next batch
+    }
   };
 
   processNextBatch(); // Start processing the first batch
@@ -209,23 +212,27 @@ export const applyFiltersToDOM = async (filters: Filter[]): Promise<void> => {
 
   // 1. Process selector-based filters for direct element actions (blur/remove)
   applicableFilters.forEach(filter => {
-    if (filter.selector && (filter.action === 'blur' || filter.action === 'remove')) {
+    if (filter.selector && (filter.action === "blur" || filter.action === "remove")) {
       try {
-         document.querySelectorAll(filter.selector).forEach(el => {
-           // Inlined logic from applyFilterToElement
-           switch (filter.action) {
-             case "blur":
-               if (el instanceof HTMLElement) { // Type guard for style property
-                   el.style.filter = "blur(5px)";
-               }
-               break;
-             case "remove":
-               el.remove();
-               break;
-           }
-         });
+        document.querySelectorAll(filter.selector).forEach(el => {
+          // Inlined logic from applyFilterToElement
+          switch (filter.action) {
+            case "blur":
+              if (el instanceof HTMLElement) {
+                // Type guard for style property
+                el.style.filter = "blur(5px)";
+              }
+              break;
+            case "remove":
+              el.remove();
+              break;
+          }
+        });
       } catch (e) {
-         console.error(`Blurri: Invalid selector "${filter.selector}" for filter "${filter.pattern}".`, e);
+        console.error(
+          `Blurri: Invalid selector "${filter.selector}" for filter "${filter.pattern}".`,
+          e
+        );
       }
     }
   });
@@ -233,7 +240,6 @@ export const applyFiltersToDOM = async (filters: Filter[]): Promise<void> => {
   // 2. Process text nodes for replacements (stars/redacted) and non-selector blur/remove
   // Pass all applicable filters; the function will handle selector/action logic internally.
   applyFiltersToTextNodes(applicableFilters);
-
 
   // 3. Process input elements for censoring only if setting is explicitly enabled in storage
   // Default to false if not set or settings object is missing.

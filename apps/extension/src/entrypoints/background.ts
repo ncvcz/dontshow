@@ -2,7 +2,7 @@ import { Filter } from "@/lib/filters";
 import { storageType } from "@/lib/storage";
 
 export default defineBackground(() => {
-  browser.runtime.onInstalled.addListener((e) => {
+  browser.runtime.onInstalled.addListener(e => {
     if (e.reason === "install") {
       browser.tabs.create({
         // @ts-ignore

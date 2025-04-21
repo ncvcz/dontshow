@@ -14,11 +14,10 @@ export default defineContentScript({
 
     const filters = await getFilters();
 
-
     applyFiltersToDOM(filters);
     showContent();
 
-    const observer = new MutationObserver(async (el) => {
+    const observer = new MutationObserver(async el => {
       const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
 
       if (!enabled) return;

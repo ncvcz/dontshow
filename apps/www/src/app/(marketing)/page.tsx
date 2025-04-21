@@ -1,183 +1,219 @@
 import { SiChromewebstore, SiFirefoxbrowser } from "@icons-pack/react-simple-icons";
-import { Filter, Globe, Hash, Zap } from "lucide-react";
+import { Cog, Filter, Globe, Hash, ShieldCheck, UploadCloud, Zap } from "lucide-react";
 import Link from "next/link";
 
 export default async function Home() {
   return (
-    <main className="bg-primary h-full">
-      <div className="container mx-auto flex h-auto flex-col items-center justify-center px-4 py-12 lg:h-screen lg:flex-row lg:space-x-28 lg:py-0">
-        <div className="w-full space-y-4 text-center lg:w-1/2 lg:text-left">
-          <h1 className="text-4xl font-extrabold sm:text-5xl lg:text-7xl">
-            Hide what you don't want to show
-          </h1>
-          <p className="text-lg font-semibold sm:text-xl">
-            Add custom filters — names, emails, anything — and it'll never appear on screen again.
-            Perfect for screen sharing, recording, or just browsing in peace.
+    <main className="bg-base-100 text-base-content min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-b from-primary to-primary-focus text-primary-content py-16 md:py-20 lg:py-32">
+        <div className="container mx-auto flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 text-center lg:flex-row lg:space-x-12 lg:text-left">
+          <div className="w-full space-y-6 lg:w-1/2 lg:max-w-2xl">
+            <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+              Don't Want to Show It? Hide It. Instantly.
+            </h1>
+            <p className="text-lg font-medium sm:text-xl lg:text-2xl opacity-90">
+              Define custom filters – text, names, emails, even complex patterns with Regex – and
+              Don't Show automatically hides matching content on any website. Perfect for privacy
+              during screen shares, recordings, or focused work.
+            </p>
+
+            <div className="mx-auto flex w-full flex-col gap-3 pt-6 sm:w-auto sm:flex-row lg:mx-0">
+              <Link
+                href="https://chromewebstore.google.com/detail/dont-show/gdebfgieajfdgdcdmpnbakflnkoaankk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary btn-lg w-full sm:w-auto"
+              >
+                <SiChromewebstore className="h-5 w-5" />
+                Install for Chrome
+              </Link>
+              <Link
+                href="https://addons.mozilla.org/it/firefox/addon/dontshow/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-accent btn-lg w-full sm:w-auto"
+              >
+                <SiFirefoxbrowser className="h-5 w-5" />
+                Install for Firefox
+              </Link>
+            </div>
+            <p className="text-sm opacity-80 pt-2">Free and Easy Installation</p>
+          </div>
+
+          {/* Before/After Demo - Reverted to personal data example */}
+          <div className="mt-12 w-full max-w-sm lg:mt-0 lg:w-1/3 lg:max-w-md">
+            <div className="flex flex-col gap-4">
+              <div className="card bg-base-100 border-base-300 text-base-content border shadow-xl transform transition duration-300 hover:scale-105">
+                <div className="card-body p-5">
+                  <h3 className="card-title text-lg font-semibold mb-2">
+                    Sensitive Info Exposed (Before)
+                  </h3>
+                  {/* Reverted Example Content to Personal Data */}
+                  <div className="bg-base-200 rounded p-3 space-y-1 text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="bg-error flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-error-content">
+                        JD
+                      </div>
+                      <span className="font-medium">Jane Doe</span>
+                    </div>
+                    <p className="pl-8">jane.doe@email-provider.com</p>
+                    <p className="pl-8">123 Secret Street, Anytown</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card bg-base-100 border-base-300 text-base-content border shadow-xl transform transition duration-300 hover:scale-105">
+                <div className="card-body p-5">
+                  <h3 className="card-title text-lg font-semibold text-secondary mb-2">
+                    Sensitive Info Hidden (With Don't Show)
+                  </h3>
+                  {/* Updated Masked Content for Personal Data */}
+                  <div className="bg-base-200 rounded p-3 space-y-1 text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="bg-secondary flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-secondary-content">
+                        JD
+                      </div>
+                      <span className="font-bold text-secondary">********</span>
+                    </div>
+                    <p className="pl-8 font-bold text-secondary">***************************</p>
+                    <p className="pl-8 font-bold text-secondary">*****************************</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How it Works Section - Adjusted padding */}
+      <section className="bg-base-200 py-16 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold sm:text-4xl lg:text-5xl mb-4">Simple Steps to Privacy</h2>
+          <p className="mb-12 text-lg sm:text-xl text-base-content/80 max-w-3xl mx-auto">
+            Getting started is quick and intuitive. Install the extension, define what you want to
+            hide, and browse securely.
           </p>
 
-          <div className="mx-auto flex w-full flex-col gap-2 pt-4 sm:w-1/2 sm:flex-row lg:mx-0">
-            <Link
-              href="https://chromewebstore.google.com/detail/dont-show/gdebfgieajfdgdcdmpnbakflnkoaankk"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn w-full"
-            >
-              <SiChromewebstore />
-              Install for Chrome
-            </Link>
-            <Link
-              href="https://addons.mozilla.org/it/firefox/addon/dontshow/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn w-full"
-            >
-              <SiFirefoxbrowser />
-              Install for Firefox
-            </Link>
-          </div>
-        </div>
-
-        <div className="mt-12 w-full lg:mt-0 lg:w-1/3">
-          <div className="flex flex-col gap-4">
-            <div className="card bg-base-100 border-base-200 border shadow-md">
-              <div className="card-body p-3">
-                <h3 className="card-title text-primary mb-2">Without Don't Show</h3>
-                <div className="bg-base-200 rounded p-3">
-                  <div className="mb-1 flex items-center gap-2">
-                    <div className="bg-primary flex h-6 w-6 items-center justify-center rounded-full text-xs">
-                      JD
-                    </div>
-                    <span className="text-lg">John Doe</span>
-                  </div>
-                  <p className="pl-8">john.doe@example.com</p>
-                  <p className="pl-8">123 Main St, Apt 4B</p>
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+            <div className="card bg-base-100 border-base-300 border shadow-lg hover:shadow-xl transition-shadow">
+              <div className="card-body items-center text-center p-6 md:p-8">
+                <div className="bg-primary mb-4 flex h-16 w-16 items-center justify-center rounded-full ring-4 ring-primary/30">
+                  <UploadCloud className="h-8 w-8 text-primary-content" />
                 </div>
+                <h3 className="card-title text-xl font-semibold">1. Install the Extension</h3>
+                <p className="text-base-content/80">
+                  Get Don't Show from the Chrome Web Store or Firefox Add-ons in seconds.
+                </p>
               </div>
             </div>
 
-            <div className="card bg-base-100 border-base-200 border shadow-md">
-              <div className="card-body p-3">
-                <h3 className="card-title text-secondary mb-2">With Don't Show</h3>
-                <div className="bg-base-200 rounded p-3">
-                  <div className="mb-1 flex items-center gap-2">
-                    <div className="bg-secondary flex h-6 w-6 items-center justify-center rounded-full text-xs">
-                      JD
-                    </div>
-                    <span className="font-medium">**** ***</span>
-                  </div>
-                  <p className="pl-8">*******************</p>
-                  <p className="pl-8">********* **********</p>
+            <div className="card bg-base-100 border-base-300 border shadow-lg hover:shadow-xl transition-shadow">
+              <div className="card-body items-center text-center p-6 md:p-8">
+                <div className="bg-primary mb-4 flex h-16 w-16 items-center justify-center rounded-full ring-4 ring-primary/30">
+                  <Cog className="h-8 w-8 text-primary-content" />
                 </div>
+                <h3 className="card-title text-xl font-semibold">2. Create Your Filters</h3>
+                <p className="text-base-content/80">
+                  Easily add keywords, names, emails, or use regular expressions for complex
+                  patterns.
+                </p>
+              </div>
+            </div>
+
+            <div className="card bg-base-100 border-base-300 border shadow-lg hover:shadow-xl transition-shadow md:col-span-1">
+              <div className="card-body items-center text-center p-6 md:p-8">
+                <div className="bg-primary mb-4 flex h-16 w-16 items-center justify-center rounded-full ring-4 ring-primary/30">
+                  <ShieldCheck className="h-8 w-8 text-primary-content" />
+                </div>
+                <h3 className="card-title text-xl font-semibold">3. Browse Confidently</h3>
+                <p className="text-base-content/80">
+                  Sensitive information is automatically masked, keeping your screen private during
+                  calls or recordings.
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="container mx-auto px-4 py-12 text-center">
-        <h2 className="text-4xl font-bold sm:text-5xl lg:text-6xl">How it works</h2>
-        <p className="mb-12 text-lg sm:text-xl">
-          It's easy to use. Just install the extension and add the filters you want to hide.
-        </p>
+      {/* Features Section - Adjusted padding */}
+      <section className="bg-base-100 py-16 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold sm:text-4xl lg:text-5xl mb-4">Powerful Features</h2>
+          <p className="mb-12 text-lg sm:text-xl text-base-content/80 max-w-3xl mx-auto">
+            Fine-grained control and robust tools designed for maximum privacy and ease of use.
+          </p>
 
-        <div className="mx-auto mb-20 grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <div className="card bg-base-100 border-base-200 border shadow-lg">
-            <div className="card-body items-center text-center">
-              <div className="bg-primary mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                <span className="text-3xl font-bold text-white">1</span>
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+            <div className="card bg-base-200 border-base-300 border shadow-md hover:shadow-lg transition-shadow">
+              <div className="card-body p-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <Filter className="text-primary h-6 w-6 flex-shrink-0" />
+                  <h3 className="card-title text-xl font-semibold">Custom Text Filters</h3>
+                </div>
+                <p className="text-left text-base-content/80">
+                  Hide any content matching your specific keywords or phrases. You decide exactly
+                  what disappears.
+                </p>
               </div>
-              <h3 className="card-title text-xl">Install the extension</h3>
-              <p>
-                Download and install the browser extension from the Chrome Web Store or Firefox
-                Add-ons.
-              </p>
             </div>
-          </div>
 
-          <div className="card bg-base-100 border-base-200 border shadow-lg">
-            <div className="card-body items-center text-center">
-              <div className="bg-primary mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                <span className="text-3xl font-bold text-white">2</span>
+            <div className="card bg-base-200 border-base-300 border shadow-md hover:shadow-lg transition-shadow">
+              <div className="card-body p-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <Hash className="text-primary h-6 w-6 flex-shrink-0" />
+                  <h3 className="card-title text-xl font-semibold">Regex Support</h3>
+                </div>
+                <p className="text-left text-base-content/80">
+                  Utilize the power of regular expressions for advanced pattern matching—perfect
+                  for dynamic data or complex rules.
+                </p>
               </div>
-              <h3 className="card-title text-xl">Create your filters</h3>
-              <p>Add names, emails, or any text that you want to hide from your screen.</p>
             </div>
-          </div>
 
-          <div className="card bg-base-100 border-base-200 border shadow-lg md:col-span-2 lg:col-span-1">
-            <div className="card-body items-center text-center">
-              <div className="bg-primary mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                <span className="text-3xl font-bold text-white">3</span>
+            <div className="card bg-base-200 border-base-300 border shadow-md hover:shadow-lg transition-shadow">
+              <div className="card-body p-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <Globe className="text-primary h-6 w-6 flex-shrink-0" />
+                  <h3 className="card-title text-xl font-semibold">Per-Website Control</h3>
+                </div>
+                <p className="text-left text-base-content/80">
+                  Apply different sets of filters to different websites. Tailor your privacy rules
+                  for each domain.
+                </p>
               </div>
-              <h3 className="card-title text-xl">Browse with privacy</h3>
-              <p>
-                Your sensitive information will be automatically hidden while browsing or sharing
-                your screen.
-              </p>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div className="container mx-auto px-4 py-12 text-center lg:py-16">
-        <h2 className="text-4xl font-bold sm:text-5xl lg:text-6xl">Features</h2>
-        <p className="mb-12 text-lg sm:text-xl">
-          Powerful tools that give you complete control over what appears on your screen.
-        </p>
-
-        <div className="mx-auto mb-20 grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2">
-          <div className="card bg-base-100 border-base-200 border shadow-lg">
-            <div className="card-body">
-              <div className="flex items-center gap-3">
-                <Filter className="text-primary h-6 w-6" />
-                <h3 className="card-title text-xl">Custom text filters</h3>
+            <div className="card bg-base-200 border-base-300 border shadow-md hover:shadow-lg transition-shadow">
+              <div className="card-body p-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <Zap className="text-primary h-6 w-6 flex-shrink-0" />
+                  <h3 className="card-title text-xl font-semibold">Fast & Offline</h3>
+                </div>
+                <p className="text-left text-base-content/80">
+                  All processing happens locally in your browser. Lightning-fast performance with
+                  zero data sent externally.
+                </p>
               </div>
-              <p className="text-left">You define what should be hidden</p>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 border-base-200 border shadow-lg">
-            <div className="card-body">
-              <div className="flex items-center gap-3">
-                <Hash className="text-primary h-6 w-6" />
-                <h3 className="card-title text-xl">Regex support</h3>
-              </div>
-              <p className="text-left">Advanced pattern matching for power users</p>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 border-base-200 border shadow-lg">
-            <div className="card-body">
-              <div className="flex items-center gap-3">
-                <Globe className="text-primary h-6 w-6" />
-                <h3 className="card-title text-xl">Per-website control</h3>
-              </div>
-              <p className="text-left">Different filters for different domains</p>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 border-base-200 border shadow-lg">
-            <div className="card-body">
-              <div className="flex items-center gap-3">
-                <Zap className="text-primary h-6 w-6" />
-                <h3 className="card-title text-xl">Fast and offline</h3>
-              </div>
-              <p className="text-left">No data ever leaves your browser</p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <footer className="footer footer-center bg-base-200 text-base-content rounded p-10">
-        <div>
-          <p>Copyright © {new Date().getFullYear()} - All rights reserved by Don't Show</p>
-        </div>
-        <div className="grid grid-flow-col gap-4">
+      {/* Footer */}
+      <footer className="footer footer-center bg-neutral text-neutral-content p-10">
+        <aside>
+          <p className="font-bold text-lg">Don't Show</p>
+          <p>Copyright © {new Date().getFullYear()} - All rights reserved</p>
+          <p>Built by Produsse</p> {/* Optional: Add credit */}
+        </aside>
+        <div className="flex items-center gap-2">
           <Link
             href="https://chromewebstore.google.com/detail/dont-show/gdebfgieajfdgdcdmpnbakflnkoaankk"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-ghost"
+            className="btn btn-ghost btn-sm"
           >
             <SiChromewebstore className="h-5 w-5" />
             Chrome Web Store
@@ -186,20 +222,20 @@ export default async function Home() {
             href="https://addons.mozilla.org/it/firefox/addon/dontshow/"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-ghost"
+            className="btn btn-ghost btn-sm"
           >
             <SiFirefoxbrowser className="h-5 w-5" />
             Firefox Add-ons
           </Link>
         </div>
-        <div className="grid grid-flow-col gap-4">
+        <nav className="grid grid-flow-col gap-4">
           <Link href="/privacy" className="link link-hover">
             Privacy Policy
           </Link>
           <Link href="/terms" className="link link-hover">
             Terms of Service
           </Link>
-        </div>
+        </nav>
       </footer>
     </main>
   );

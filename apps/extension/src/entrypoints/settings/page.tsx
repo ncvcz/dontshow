@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import { useStorage } from "@/hooks/storage";
 import { defaultSettings, Settings } from "@/lib/settings";
 import { storageType } from "@/lib/storage";
-import { AlertTriangleIcon, EyeIcon, EyeOffIcon, TextCursorInputIcon } from "lucide-react";
+import { AlertTriangleIcon, EyeIcon, EyeOffIcon, TextCursorInputIcon, ServerIcon } from "lucide-react";
 
 export default function Page() {
   const [enabled, setEnabled] = useStorage<boolean>(`${storageType}:enabled`, false);
@@ -90,6 +90,27 @@ export default function Page() {
                   checked={settings.inputCensoring ?? true}
                   onChange={() =>
                     updateSetting("inputCensoring", !(settings.inputCensoring ?? true))
+                  }
+                />
+              </div>
+
+              {/* Enable on Localhost Setting */}
+              <div className="flex items-center justify-between py-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <ServerIcon className="text-accent h-5 w-5" />
+                    <h3 className="font-semibold">Enable on Localhost</h3>
+                  </div>
+                  <p className="text-base-content/70 max-w-2xl">
+                    Allow the extension to run on localhost domains (e.g., `localhost:3000`). Useful for development.
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-primary"
+                  checked={settings.enableOnLocalhost ?? false}
+                  onChange={() =>
+                    updateSetting("enableOnLocalhost", !(settings.enableOnLocalhost ?? false))
                   }
                 />
               </div>

@@ -1,3 +1,4 @@
+import { Settings } from "@/lib/settings";
 import { storageType } from "@/lib/storage";
 import "../assets/hide.css";
 
@@ -8,6 +9,10 @@ export default defineContentScript({
     const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
 
     if (enabled) return;
+
+    const settings = await storage.getItem<Settings>(`${storageType}:settings`);
+
+    if (!settings?.enableOnLocalhost && window.location.hostname === "localhost") return;
 
     document.documentElement.setAttribute("data-ds-ready", "true");
 

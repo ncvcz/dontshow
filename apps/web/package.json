@@ -11,6 +11,7 @@
   "dependencies": {
     "@astrojs/cloudflare": "^12.5.1",
     "@astrojs/mdx": "^4.2.5",
+    "@astrojs/sitemap": "^3.3.1",
     "@iconify-json/bxl": "^1.2.2",
     "@iconify-json/lucide": "^1.2.39",
     "@tailwindcss/vite": "^4.0.17",

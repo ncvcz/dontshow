@@ -2,13 +2,49 @@
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import "../styles/global.css";
+
+interface Frontmatter {
+  title: string;
+  description: string;
+  lastUpdated?: Date;
+}
+
+const { frontmatter } = Astro.props;
+const canonicalURL = new URL(Astro.url, Astro.site);
+
+// Ensure we have default values if frontmatter is missing
+const title = frontmatter?.title ?? "Legal - Don't Show";
+const description = frontmatter?.description ?? "Legal information and policies for Don't Show browser extension. Read our terms of service, privacy policy, and other legal documents.";
+const lastUpdated = frontmatter?.lastUpdated;
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Don't Show</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    
+    <!-- Additional Meta Tags -->
+    <meta name="generator" content={Astro.generator} />
+    <meta name="author" content="Don't Show" />
+    {lastUpdated && <meta property="article:modified_time" content={lastUpdated.toISOString()} />}
   </head>
   <body>
     <nav class="bg-primary text-primary-content py-2">
@@ -49,6 +85,11 @@ import "../styles/global.css";
     <div class="container mx-auto max-w-prose">
       <div class="flex flex-col gap-4 py-10">
         <div class="prose dark:prose-invert">
+          {lastUpdated && (
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Last updated: {lastUpdated.toLocaleDateString()}
+            </p>
+          )}
           <slot />
         </div>
       </div>

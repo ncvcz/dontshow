@@ -10,7 +10,11 @@
     "db:studio": "drizzle-kit studio",
     "dev": "next dev -p 8080",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^12.4.0",
@@ -36,6 +40,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250214.0",
+    "@opennextjs/cloudflare": "1.0.0-beta.3",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.10.6",
     "@types/react": "^19.1.2",
@@ -48,6 +53,6 @@
     "postcss": "^8",
     "tailwindcss": "^4.0.17",
     "typescript": "^5",
-    "wrangler": "^4.0.0"
+    "wrangler": "^4.7.1"
   }
 }

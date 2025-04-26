@@ -54,6 +54,47 @@ const applyTextReplacement = (
     : text.replace(regex, customText || "[REDACTED]");
 };
 
+// Helper to skip selector-based blur/remove filters
+const isSelectorBlurRemove = (filter: Filter): boolean =>
+  !!filter.selector && (filter.action === "blur" || filter.action === "remove");
+
+// Handlers for text node filters
+const textFilterHandlers: Record<
+  FilterAction,
+  (filter: Filter, node: Node, parent: HTMLElement, original: string) => void
+> = {
+  blur: (filter, node, parent) => {
+    if (!filter.selector && !parent.style.filter.includes("blur")) {
+      parent.style.filter = "blur(5px)";
+    }
+  },
+  remove: (filter, node, parent) => {
+    if (!filter.selector) {
+      parent.remove();
+    }
+  },
+  stars: (filter, node, parent, original) => {
+    if (!filter.selector || parent.matches(filter.selector)) {
+      node.textContent = applyTextReplacement(
+        original,
+        getRegex(filter.pattern),
+        "stars",
+        filter.customText
+      );
+    }
+  },
+  redacted: (filter, node, parent, original) => {
+    if (!filter.selector || parent.matches(filter.selector)) {
+      node.textContent = applyTextReplacement(
+        original,
+        getRegex(filter.pattern),
+        "redacted",
+        filter.customText
+      );
+    }
+  },
+};
+
 // NEW FUNCTION for text nodes
 const applyFiltersToTextNodes = (applicableFilters: Filter[]): void => {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
@@ -73,61 +114,12 @@ const applyFiltersToTextNodes = (applicableFilters: Filter[]): void => {
       if (!originalText.trim()) continue;
 
       for (const filter of applicableFilters) {
-        // Selector-based blur/remove are handled directly in applyFiltersToDOM first.
-        // This function handles text replacements (stars/redacted) for both selector and non-selector filters,
-        // and non-selector blur/remove applied to the parent of the matching text node.
-        if (filter.selector && (filter.action === "blur" || filter.action === "remove")) continue;
-
+        if (isSelectorBlurRemove(filter)) continue;
         const regex = getRegex(filter.pattern);
         regex.lastIndex = 0;
-
-        if (regex.test(originalText)) {
-          // Apply filter action
-          switch (filter.action) {
-            case "blur":
-              // Apply non-selector blur to parent
-              if (
-                !filter.selector &&
-                parent instanceof HTMLElement &&
-                !parent.style.filter.includes("blur")
-              ) {
-                parent.style.filter = "blur(5px)";
-              }
-              break;
-            case "remove":
-              // Apply non-selector remove to parent
-              if (!filter.selector) {
-                parent.remove();
-                // WARNING: Removing elements during TreeWalker iteration can be problematic.
-                // The walker might skip siblings or descendants.
-                // Breaking the inner loop is a partial mitigation.
-                // Consider processing removals separately if issues arise.
-              }
-              break;
-            case "stars":
-            case "redacted":
-              // Apply text replacement if no selector OR if parent matches selector
-              if (!filter.selector || parent.matches(filter.selector)) {
-                node.textContent = applyTextReplacement(
-                  originalText,
-                  regex,
-                  filter.action,
-                  filter.customText
-                );
-              }
-              break;
-          }
-          // If a non-text filter action (blur/remove) was applied (necessarily non-selector here),
-          // or a text replacement occurred, break the inner loop for this text node.
-          // Assumption: First matching filter is sufficient.
-          if (
-            filter.action === "blur" ||
-            filter.action === "remove" ||
-            node.textContent !== originalText
-          ) {
-            break;
-          }
-        }
+        if (!regex.test(originalText)) continue;
+        textFilterHandlers[filter.action](filter, node, parent, originalText);
+        break;
       }
     }
 
@@ -141,6 +133,23 @@ const applyFiltersToTextNodes = (applicableFilters: Filter[]): void => {
 
   processNextBatch();
 };
+
+// Handlers for input element filters
+const inputFilterHandlers: Record<FilterAction, (filter: Filter, input: HTMLInputElement) => void> =
+  {
+    blur: (_, input) => {
+      input.type = "password";
+    },
+    remove: (_, input) => {
+      input.remove();
+    },
+    stars: (_, input) => {
+      input.type = "password";
+    },
+    redacted: (_, input) => {
+      input.type = "password";
+    },
+  };
 
 // NEW FUNCTION for input elements
 const applyFiltersToInputs = (applicableFilters: Filter[]): void => {
@@ -163,30 +172,11 @@ const applyFiltersToInputs = (applicableFilters: Filter[]): void => {
 
       for (const filter of applicableFilters) {
         const regex = getRegex(filter.pattern);
-        regex.lastIndex = 0; // Reset regex state
-
-        if (regex.test(originalValue)) {
-          // Apply filter only if the input doesn't match a more specific selector filter
-          // or if the filter has no selector.
-          if (!filter.selector || input.matches(filter.selector)) {
-            switch (filter.action) {
-              case "blur":
-                // Censor input like stars/redacted
-                input.type = "password";
-                break;
-              case "remove":
-                // Removing the input element itself
-                input.remove();
-                break;
-              case "stars":
-              case "redacted":
-                // Censor input by changing type to password
-                input.type = "password";
-                break;
-            }
-            break; // Stop checking filters for this input once matched
-          }
-        }
+        regex.lastIndex = 0;
+        if (!regex.test(originalValue) || (filter.selector && !input.matches(filter.selector)))
+          continue;
+        inputFilterHandlers[filter.action](filter, input);
+        break;
       }
     }
 

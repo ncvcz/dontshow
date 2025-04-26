@@ -5,6 +5,15 @@ import Link from "next/link";
 export default async function Home() {
   return (
     <main className="bg-base-100 text-base-content min-h-screen">
+      <div>
+        <p className="bg-yellow-300 p-2 text-center font-semibold text-black">
+          Don't Show is currently in Beta. Join our{" "}
+          <Link href={"https://discord.gg/FYSXzthyd4"} className="underline">
+            Discord
+          </Link>{" "}
+          to help us test and improve.
+        </p>
+      </div>
       {/* Hero Section */}
       <section className="from-primary to-primary-focus text-primary-content bg-gradient-to-b py-16 md:py-20 lg:py-32">
         <div className="container mx-auto flex flex-col items-center justify-center px-4 text-center sm:px-6 lg:flex-row lg:space-x-12 lg:px-8 lg:text-left">
@@ -207,7 +216,7 @@ export default async function Home() {
       <footer className="footer bg-neutral text-neutral-content flex flex-col p-6 md:flex-row md:items-start md:justify-between md:p-10">
         <aside className="items-center text-center md:items-start md:text-left">
           <p className="text-lg font-bold">Don't Show</p>
-          <p>Copyright © {new Date().getFullYear()} - All rights reserved</p>
+          <p>Copyright {new Date().getFullYear()} - All rights reserved</p>
           <p>Built by Produsse</p>
         </aside>
         <div className="flex flex-col items-center gap-4 md:items-end">

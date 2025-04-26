@@ -1,22 +1,24 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { Icon } from "astro-icon/components"
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
 ---
 
 <Layout title="Don't Show - Hide what you don't want to show">
   <main class="bg-base-100 text-base-content min-h-screen">
     <div>
       <p class="bg-yellow-300 p-2 text-center font-semibold text-black">
-        Don't Show is currently in Beta. Join our{" "}
-        <a href="https://discord.gg/FYSXzthyd4" class="underline">
-          Discord
-        </a>{" "}
+        Don't Show is currently in Beta. Join our
+        <a href="https://discord.gg/FYSXzthyd4" class="underline">Discord</a>
         to help us test and improve.
       </p>
     </div>
     {/* Hero Section */}
-    <section class="from-primary to-primary-focus text-primary-content bg-gradient-to-b py-16 md:py-20 lg:py-32">
-      <div class="container mx-auto flex flex-col items-center justify-center px-4 text-center sm:px-6 lg:flex-row lg:space-x-12 lg:px-8 lg:text-left">
+    <section
+      class="from-primary to-primary-focus text-primary-content bg-gradient-to-b py-16 md:py-20 lg:py-32"
+    >
+      <div
+        class="container mx-auto flex flex-col items-center justify-center px-4 text-center sm:px-6 lg:flex-row lg:space-x-12 lg:px-8 lg:text-left"
+      >
         <div class="w-full space-y-6 lg:w-1/2 lg:max-w-2xl">
           <h1 class="text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl xl:text-7xl">
             Don't Want to Show It? Hide It. Instantly.
@@ -53,14 +55,18 @@ import { Icon } from "astro-icon/components"
         {/* Before/After Demo */}
         <div class="mt-12 w-full max-w-sm lg:mt-0 lg:w-1/3 lg:max-w-md">
           <div class="flex flex-col gap-4">
-            <div class="card bg-base-100 border-base-300 text-base-content transform border shadow-xl transition duration-300 hover:scale-105">
+            <div
+              class="card bg-base-100 border-base-300 text-base-content transform border shadow-xl transition duration-300 hover:scale-105"
+            >
               <div class="card-body p-5">
                 <h3 class="card-title mb-2 text-lg font-semibold">
                   Sensitive Info Exposed (Before)
                 </h3>
                 <div class="bg-base-200 space-y-1 rounded p-3 text-sm">
                   <div class="flex items-center gap-2">
-                    <div class="bg-error text-error-content flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold">
+                    <div
+                      class="bg-error text-error-content flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold"
+                    >
                       JD
                     </div>
                     <span class="font-medium">Jane Doe</span>
@@ -71,14 +77,18 @@ import { Icon } from "astro-icon/components"
               </div>
             </div>
 
-            <div class="card bg-base-100 border-base-300 text-base-content transform border shadow-xl transition duration-300 hover:scale-105">
+            <div
+              class="card bg-base-100 border-base-300 text-base-content transform border shadow-xl transition duration-300 hover:scale-105"
+            >
               <div class="card-body p-5">
                 <h3 class="card-title text-secondary mb-2 text-lg font-semibold">
                   Sensitive Info Hidden (With Don't Show)
                 </h3>
                 <div class="bg-base-200 space-y-1 rounded p-3 text-sm">
                   <div class="flex items-center gap-2">
-                    <div class="bg-secondary text-secondary-content flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold">
+                    <div
+                      class="bg-secondary text-secondary-content flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold"
+                    >
                       JD
                     </div>
                     <span class="text-secondary font-bold">********</span>
@@ -96,18 +106,20 @@ import { Icon } from "astro-icon/components"
     {/* How it Works Section */}
     <section class="bg-base-200 py-16 lg:py-24">
       <div class="container mx-auto px-4 text-center sm:px-6 lg:px-8">
-        <h2 class="mb-4 text-3xl font-bold sm:text-4xl lg:text-5xl">
-          Simple Steps to Privacy
-        </h2>
+        <h2 class="mb-4 text-3xl font-bold sm:text-4xl lg:text-5xl">Simple Steps to Privacy</h2>
         <p class="text-base-content/80 mx-auto mb-12 max-w-3xl text-lg sm:text-xl">
           Getting started is quick and intuitive. Install the extension, define what you want to
           hide, and browse securely.
         </p>
 
         <div class="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
-          <div class="card bg-base-100 border-base-300 border shadow-lg transition-shadow hover:shadow-xl">
+          <div
+            class="card bg-base-100 border-base-300 border shadow-lg transition-shadow hover:shadow-xl"
+          >
             <div class="card-body items-center p-6 text-center md:p-8">
-              <div class="bg-primary ring-primary/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full ring-4">
+              <div
+                class="bg-primary ring-primary/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full ring-4"
+              >
                 <Icon name="lucide:upload" class="text-primary-content h-8 w-8" />
               </div>
               <h3 class="card-title text-xl font-semibold">1. Install the Extension</h3>
@@ -117,22 +129,29 @@ import { Icon } from "astro-icon/components"
             </div>
           </div>
 
-          <div class="card bg-base-100 border-base-300 border shadow-lg transition-shadow hover:shadow-xl">
+          <div
+            class="card bg-base-100 border-base-300 border shadow-lg transition-shadow hover:shadow-xl"
+          >
             <div class="card-body items-center p-6 text-center md:p-8">
-              <div class="bg-primary ring-primary/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full ring-4">
+              <div
+                class="bg-primary ring-primary/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full ring-4"
+              >
                 <Icon name="lucide:cog" class="text-primary-content h-8 w-8" />
               </div>
               <h3 class="card-title text-xl font-semibold">2. Create Your Filters</h3>
               <p class="text-base-content/80">
-                Easily add keywords, names, emails, or use regular expressions for complex
-                patterns.
+                Easily add keywords, names, emails, or use regular expressions for complex patterns.
               </p>
             </div>
           </div>
 
-          <div class="card bg-base-100 border-base-300 border shadow-lg transition-shadow hover:shadow-xl md:col-span-1">
+          <div
+            class="card bg-base-100 border-base-300 border shadow-lg transition-shadow hover:shadow-xl md:col-span-1"
+          >
             <div class="card-body items-center p-6 text-center md:p-8">
-              <div class="bg-primary ring-primary/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full ring-4">
+              <div
+                class="bg-primary ring-primary/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full ring-4"
+              >
                 <Icon name="lucide:shield-check" class="text-primary-content h-8 w-8" />
               </div>
               <h3 class="card-title text-xl font-semibold">3. Browse Confidently</h3>
@@ -155,20 +174,24 @@ import { Icon } from "astro-icon/components"
         </p>
 
         <div class="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
-          <div class="card bg-base-200 border-base-300 border shadow-md transition-shadow hover:shadow-lg">
+          <div
+            class="card bg-base-200 border-base-300 border shadow-md transition-shadow hover:shadow-lg"
+          >
             <div class="card-body p-6">
               <div class="mb-2 flex items-center gap-3">
                 <Icon name="lucide:filter" class="text-primary h-6 w-6 flex-shrink-0" />
                 <h3 class="card-title text-xl font-semibold">Custom Text Filters</h3>
               </div>
               <p class="text-base-content/80 text-left">
-                Hide any content matching your specific keywords or phrases. You decide exactly
-                what disappears.
+                Hide any content matching your specific keywords or phrases. You decide exactly what
+                disappears.
               </p>
             </div>
           </div>
 
-          <div class="card bg-base-200 border-base-300 border shadow-md transition-shadow hover:shadow-lg">
+          <div
+            class="card bg-base-200 border-base-300 border shadow-md transition-shadow hover:shadow-lg"
+          >
             <div class="card-body p-6">
               <div class="mb-2 flex items-center gap-3">
                 <Icon name="lucide:hash" class="text-primary h-6 w-6 flex-shrink-0" />
@@ -181,23 +204,27 @@ import { Icon } from "astro-icon/components"
             </div>
           </div>
 
-          <div class="card bg-base-200 border-base-300 border shadow-md transition-shadow hover:shadow-lg">
+          <div
+            class="card bg-base-200 border-base-300 border shadow-md transition-shadow hover:shadow-lg"
+          >
             <div class="card-body p-6">
               <div class="mb-2 flex items-center gap-3">
                 <Icon name="lucide:globe" class="text-primary h-6 w-6 flex-shrink-0" />
                 <h3 class="card-title text-xl font-semibold">Per-Website Control</h3>
               </div>
               <p class="text-base-content/80 text-left">
-                Apply different sets of filters to different websites. Tailor your privacy rules
-                for each domain.
+                Apply different sets of filters to different websites. Tailor your privacy rules for
+                each domain.
               </p>
             </div>
           </div>
 
-          <div class="card bg-base-200 border-base-300 border shadow-md transition-shadow hover:shadow-lg">
+          <div
+            class="card bg-base-200 border-base-300 border shadow-md transition-shadow hover:shadow-lg"
+          >
             <div class="card-body p-6">
               <div class="mb-2 flex items-center gap-3">
-                  <Icon name="lucide:zap" class="text-primary h-6 w-6 flex-shrink-0" />
+                <Icon name="lucide:zap" class="text-primary h-6 w-6 flex-shrink-0" />
                 <h3 class="card-title text-xl font-semibold">Lightning Fast</h3>
               </div>
               <p class="text-base-content/80 text-left">

@@ -7,12 +7,14 @@ import mdx from "@astrojs/mdx";
 
 import cloudflare from "@astrojs/cloudflare";
 
+import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
 
-  integrations: [icon(), mdx()],
+  integrations: [icon(), mdx(), sitemap()],
   adapter: cloudflare(),
 });

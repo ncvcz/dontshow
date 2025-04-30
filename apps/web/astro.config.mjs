@@ -11,7 +11,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://dontshow.app",
+  site: "https://www.dontshow.app",
   output: "server",
 
   vite: {

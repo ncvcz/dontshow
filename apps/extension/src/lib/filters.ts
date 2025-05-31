@@ -39,6 +39,7 @@ export const getFilters = async (): Promise<Filter[]> => {
 const shouldProcessNode = (node: Node): boolean => {
   if (!node.nodeValue?.trim()) return false;
   if (node.parentElement?.tagName === "SCRIPT") return false;
+  if (node.parentElement?.tagName === "STYLE") return false;
   return true;
 };
 

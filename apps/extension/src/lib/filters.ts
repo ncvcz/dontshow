@@ -189,6 +189,34 @@ const applyFiltersToInputs = (applicableFilters: Filter[]): void => {
   processNextBatch(); // Start processing the first batch
 };
 
+// Helper function to filter document title
+const applyFiltersToTitle = (applicableFilters: Filter[]): void => {
+  const originalTitle = document.title;
+  if (!originalTitle.trim()) return;
+
+  for (const filter of applicableFilters) {
+    if (filter.selector) continue; // Skip selector-based filters for title
+    const regex = getRegex(filter.pattern);
+    regex.lastIndex = 0;
+    if (!regex.test(originalTitle)) continue;
+    
+    switch (filter.action) {
+      case "stars":
+        document.title = applyTextReplacement(originalTitle, regex, "stars");
+        break;
+      case "redacted":
+        document.title = applyTextReplacement(originalTitle, regex, "redacted", filter.customText);
+        break;
+      case "blur":
+      case "remove":
+        // For title, both blur and remove will be treated as "redacted"
+        document.title = applyTextReplacement(originalTitle, regex, "redacted", "[HIDDEN]");
+        break;
+    }
+    break; // Stop after first matching filter
+  }
+};
+
 export const applyFiltersToDOM = async (filters: Filter[]): Promise<void> => {
   if (!filters.length || !document.body) return;
 
@@ -201,7 +229,10 @@ export const applyFiltersToDOM = async (filters: Filter[]): Promise<void> => {
   // Fetch settings directly from storage
   const settings = await storage.getItem<Settings>(`${storageType}:settings`);
 
-  // 1. Process selector-based filters for direct element actions (blur/remove)
+  // 1. Process document title
+  applyFiltersToTitle(applicableFilters);
+
+  // 2. Process selector-based filters for direct element actions (blur/remove)
   applicableFilters.forEach(filter => {
     if (filter.selector && (filter.action === "blur" || filter.action === "remove")) {
       try {
@@ -228,11 +259,11 @@ export const applyFiltersToDOM = async (filters: Filter[]): Promise<void> => {
     }
   });
 
-  // 2. Process text nodes for replacements (stars/redacted) and non-selector blur/remove
+  // 3. Process text nodes for replacements (stars/redacted) and non-selector blur/remove
   // Pass all applicable filters; the function will handle selector/action logic internally.
   applyFiltersToTextNodes(applicableFilters);
 
-  // 3. Process input elements for censoring only if setting is explicitly enabled in storage
+  // 4. Process input elements for censoring only if setting is explicitly enabled in storage
   // Default to false if not set or settings object is missing.
   if (settings?.inputCensoring) {
     applyFiltersToInputs(applicableFilters);

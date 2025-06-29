@@ -1,4 +1,4 @@
-# dontshow Extension
+# dontshow extension
 
 **dontshow** is a browser extension that helps users filter or hide unwanted content on websites. Built with React, Tailwind CSS, and WXT, it offers a customizable and user-friendly experience.
 

@@ -30,7 +30,7 @@ export default function Popup() {
 
   const handleReportIssue = () => {
     window.open(
-      `https://docs.google.com/forms/d/e/1FAIpQLSfRmBOtM7oS_TXdUxawm1DRSn5Pb_1qhMWDqRBsrXBsmUVuSg/viewform?usp=pp_url&entry.855414027=${encodeURIComponent(currentTabUrl)}`,
+      `https://github.com/ncvcz/dontshow/issues/new?title=Broken%20website%20${encodeURIComponent(currentTabUrl)}&body=Please%20describe%20the%20issue%20you're%20experiencing%20with%20the%20website%20${encodeURIComponent(currentTabUrl)}`,
       "_blank"
     );
   };

@@ -19,7 +19,7 @@ export default function Page() {
   };
 
   return (
-    <Layout isSensitive>
+    <Layout>
       <div className="flex flex-col gap-8">
         {/* Main toggle */}
         <div className="card bg-base-200 shadow-lg">

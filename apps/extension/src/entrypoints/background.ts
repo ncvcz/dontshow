@@ -4,6 +4,7 @@ import { storageType } from "@/lib/storage";
 export default defineBackground(() => {
   browser.runtime.onInstalled.addListener(e => {
     if (e.reason === "install") {
+      storage.setItem(`${storageType}:enabled`, true);
       browser.tabs.create({
         // @ts-ignore
         url: browser.runtime.getURL("welcome.html"),

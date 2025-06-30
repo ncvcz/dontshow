@@ -1,8 +1,8 @@
 {
   "name": "@dontshow/extension",
   "private": true,
-  "version": "0.0.6",
-  "version_name": "0.0.6 alpha",
+  "version": "0.0.7",
+  "version_name": "0.0.7 alpha",
   "type": "module",
   "scripts": {
     "dev": "wxt",

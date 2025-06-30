@@ -3,7 +3,7 @@ import { storageType } from "@/lib/storage";
 
 const showContent = () => {
   document.documentElement.setAttribute("data-ds-ready", "true");
-};
+}
 
 export default defineContentScript({
   matches: ["<all_urls>"],
@@ -20,7 +20,9 @@ export default defineContentScript({
     const observer = new MutationObserver(async el => {
       const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
 
-      if (!enabled) return;
+      if (!enabled) {
+        return;
+      };
 
       const filters = await getFilters();
       applyFiltersToDOM(filters);

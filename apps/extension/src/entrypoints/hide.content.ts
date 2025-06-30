@@ -9,12 +9,12 @@ export default defineContentScript({
     const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
 
     if (enabled) return;
+   
+    document.documentElement.setAttribute("data-ds-ready", "true");
 
     const settings = await storage.getItem<Settings>(`${storageType}:settings`);
 
     if (!settings?.enableOnLocalhost && window.location.hostname === "localhost") return;
-
-    document.documentElement.setAttribute("data-ds-ready", "true");
 
     const observer = new MutationObserver(() => {
       document.documentElement.setAttribute("data-ds-ready", "true");

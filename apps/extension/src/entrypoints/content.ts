@@ -1,13 +1,9 @@
 import { applyFiltersToDOM, getFilters } from "@/lib/filters";
 import { storageType } from "@/lib/storage";
 
-const showContent = () => {
-  document.documentElement.setAttribute("data-ds-ready", "true");
-}
-
 export default defineContentScript({
   matches: ["<all_urls>"],
-  async main(ctx) {
+  async main() {
     const enabled = await storage.getItem<boolean>(`${storageType}:enabled`);
 
     if (!enabled) return;
@@ -22,7 +18,7 @@ export default defineContentScript({
 
       if (!enabled) {
         return;
-      };
+      }
 
       const filters = await getFilters();
       applyFiltersToDOM(filters);

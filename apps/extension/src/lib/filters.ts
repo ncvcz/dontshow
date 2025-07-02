@@ -199,7 +199,7 @@ const applyFiltersToTitle = (applicableFilters: Filter[]): void => {
     const regex = getRegex(filter.pattern);
     regex.lastIndex = 0;
     if (!regex.test(originalTitle)) continue;
-    
+
     switch (filter.action) {
       case "stars":
         document.title = applyTextReplacement(originalTitle, regex, "stars");

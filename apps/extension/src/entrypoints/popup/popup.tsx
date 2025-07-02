@@ -1,9 +1,5 @@
 import { storageType } from "@/lib/storage";
-import {
-  AlertCircleIcon,
-  MoreVerticalIcon,
-  SettingsIcon,
-} from "lucide-react";
+import { AlertCircleIcon, MoreVerticalIcon, SettingsIcon } from "lucide-react";
 
 export default function Popup() {
   const [enabled, setEnabled] = useStorage(`${storageType}:enabled`, true);
@@ -47,14 +43,14 @@ export default function Popup() {
               type="button"
               aria-pressed={enabled}
               onClick={handleToggle}
-              className="relative w-[180px] h-[90px] focus:outline-none select-none"
+              className="relative h-[90px] w-[180px] select-none focus:outline-none"
               tabIndex={0}
             >
               <span
                 className={`absolute left-0 top-0 h-full w-full rounded-full transition-colors duration-200 ${enabled ? "bg-success" : "bg-base-300"}`}
               />
               <span
-                className={`absolute top-1/2 left-2 transition-transform duration-200 transform -translate-y-1/2 shadow-xl bg-white border-4 ${enabled ? "border-success" : "border-base-100"} rounded-full ${enabled ? "translate-x-[86px]" : "translate-x-0"}`}
+                className={`absolute left-2 top-1/2 -translate-y-1/2 transform border-4 bg-white shadow-xl transition-transform duration-200 ${enabled ? "border-success" : "border-base-100"} rounded-full ${enabled ? "translate-x-[86px]" : "translate-x-0"}`}
                 style={{ width: 82, height: 82 }}
               />
               <input
@@ -66,7 +62,9 @@ export default function Popup() {
                 aria-hidden="true"
               />
             </button>
-            <p className={`text-center text-sm font-semibold transition-colors duration-200 ${enabled ? "text-success" : "text-base-content/70"}`}>
+            <p
+              className={`text-center text-sm font-semibold transition-colors duration-200 ${enabled ? "text-success" : "text-base-content/70"}`}
+            >
               {enabled ? "Words will be censored" : "Words will not be censored"}
             </p>
           </div>

@@ -1,4 +1,5 @@
 import { Filter } from "@/lib/filters";
+import { defaultSettings } from "@/lib/settings";
 import { storageType } from "@/lib/storage";
 
 export default defineBackground(() => {
@@ -9,6 +10,20 @@ export default defineBackground(() => {
         // @ts-ignore
         url: browser.runtime.getURL("welcome.html"),
       });
+    }
+
+    if (e.reason === "update") {
+      // This super cool piece of code ensures that if a new setting is added, it will be included in the stored settings
+      const settings = storage.getItem(`${storageType}:settings`);
+
+      const updatedSettings = Object.fromEntries(
+        Object.entries(defaultSettings).map(([key, value]) => [
+          key,
+          (settings && key in settings ? settings[key as keyof typeof settings] : value)
+        ])
+      );
+
+      storage.setItem(`${storageType}:settings`, updatedSettings);
     }
 
     browser.contextMenus.create({

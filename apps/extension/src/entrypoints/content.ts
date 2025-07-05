@@ -40,7 +40,7 @@ export default defineContentScript({
 
       const target = e.target as HTMLInputElement | HTMLTextAreaElement;
       if (target.matches("input[type='password'][data-ds-cinput='true']")) {
-        target.type = "text";
+        target.setAttribute("type", "text");
       }
     }, true);
 
@@ -48,7 +48,7 @@ export default defineContentScript({
       if (!enabled) return;
       const target = e.target as HTMLInputElement | HTMLTextAreaElement;
       if (target.matches("input[type='text'][data-ds-cinput='true']")) {
-        target.type = "password";
+        target.setAttribute("type", "password");
       }
     }, true);
   }

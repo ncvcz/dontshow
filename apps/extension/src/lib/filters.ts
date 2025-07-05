@@ -140,15 +140,19 @@ const inputFilterHandlers: Record<FilterAction, (filter: Filter, input: HTMLInpu
   {
     blur: (_, input) => {
       input.type = "password";
+      input.setAttribute("data-ds-cinput", "true")
     },
     remove: (_, input) => {
-      input.remove();
+      input.type = "password";
+      input.setAttribute("data-ds-cinput", "true")
     },
     stars: (_, input) => {
       input.type = "password";
+      input.setAttribute("data-ds-cinput", "true")
     },
     redacted: (_, input) => {
       input.type = "password";
+      input.setAttribute("data-ds-cinput", "true")
     },
   };
 
@@ -163,10 +167,7 @@ const applyFiltersToInputs = (applicableFilters: Filter[]): void => {
     while (index < inputs.length && performance.now() - startTime < MAX_PROCESSING_TIME_MS) {
       const input = inputs[index++];
 
-      // If an input is already type="password", changing it again has no effect.
-      // We don't need to explicitly skip password fields unless there's a specific reason
-      // (e.g., performance on pages with many password fields not matching filters).
-      // if (input.type === 'password') continue;
+      if (input.type === 'password') continue;
 
       const originalValue = input.value;
       if (!originalValue) continue;

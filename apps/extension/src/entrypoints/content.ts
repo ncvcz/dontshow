@@ -34,5 +34,22 @@ export default defineContentScript({
       subtree: true,
       characterData: true,
     });
-  },
+
+    document.addEventListener("focusin", async e => {
+      if (!enabled) return;
+
+      const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+      if (target.matches("input[type='password'][data-ds-cinput='true']")) {
+        target.type = "text";
+      }
+    }, true);
+
+    document.addEventListener("focusout", async e => {
+      if (!enabled) return;
+      const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+      if (target.matches("input[type='text'][data-ds-cinput='true']")) {
+        target.type = "password";
+      }
+    }, true);
+  }
 });

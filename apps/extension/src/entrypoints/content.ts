@@ -1,9 +1,10 @@
 import { applyFiltersToDOM, getFilters } from "@/lib/filters";
+import { Settings } from "@/lib/settings";
 import { storageType } from "@/lib/storage";
 
 const showContent = () => {
   document.documentElement.setAttribute("data-ds-ready", "true");
-}
+};
 
 export default defineContentScript({
   matches: ["<all_urls>"],
@@ -22,7 +23,7 @@ export default defineContentScript({
 
       if (!enabled) {
         return;
-      };
+      }
 
       const filters = await getFilters();
       applyFiltersToDOM(filters);
@@ -35,21 +36,32 @@ export default defineContentScript({
       characterData: true,
     });
 
-    document.addEventListener("focusin", async e => {
-      if (!enabled) return;
+    const settings = await storage.getItem<Settings>(`${storageType}:settings`);
 
-      const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-      if (target.matches("input[type='password'][data-ds-cinput='true']")) {
-        target.setAttribute("type", "text");
-      }
-    }, true);
+    document.addEventListener(
+      "focusin",
+      async e => {
+        if (!settings || !settings.uncensorOnFocus) return;
 
-    document.addEventListener("focusout", async e => {
-      if (!enabled) return;
-      const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-      if (target.matches("input[type='text'][data-ds-cinput='true']")) {
-        target.setAttribute("type", "password");
-      }
-    }, true);
-  }
+        const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+        if (target.matches("input[type='password'][data-ds-cinput='true']")) {
+          target.setAttribute("type", "text");
+        }
+      },
+      true
+    );
+
+    document.addEventListener(
+      "focusout",
+      async e => {
+        if (!settings || !settings.uncensorOnFocus) return;
+
+        const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+        if (target.matches("input[type='text'][data-ds-cinput='true']")) {
+          target.setAttribute("type", "password");
+        }
+      },
+      true
+    );
+  },
 });

@@ -101,6 +101,28 @@ export default function Page() {
                 />
               </div>
 
+              {/* Uncensor on Focus Setting */}
+              <div className="flex items-center justify-between py-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <EyeIcon className="text-success h-5 w-5" />
+                    <h3 className="font-semibold">Uncensor on Focus</h3>
+                  </div>
+                  <p className="text-base-content/70 max-w-2xl">
+                    Automatically uncensors input fields when focused, allowing you to see the
+                    original content while typing.
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-primary"
+                  checked={settings.uncensorOnFocus ?? true}
+                  onChange={() =>
+                    updateSetting("uncensorOnFocus", !(settings.uncensorOnFocus ?? true))
+                  }
+                />
+              </div>
+
               {/* Enable on Localhost Setting */}
               <div className="flex items-center justify-between py-4">
                 <div className="space-y-1">

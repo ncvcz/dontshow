@@ -5,8 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function App() {
   return (
-    <div className="container mx-auto max-w-3xl p-4">
-      <Tabs defaultValue="account">
+    <div className="container mx-auto max-w-4xl p-4">
+      <Tabs defaultValue="general">
         <TabsList className="w-full">
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="filters">Filters</TabsTrigger>

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -23,11 +24,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Filter } from "@/types";
+import { Filter, Settings } from "@/types";
 import { EditIcon, TrashIcon } from "lucide-react";
 
 export default function Filters() {
+  const [enabled, _setEnabled] = useStorage<boolean>("local:enabled", true);
   const [filters, setFilters] = useStorage<Filter[]>("local:filters", []);
+  const [settings, _setSettings] = useStorage<Settings>("local:settings", {});
+  const [isSensitiveAlertEnabled, setIsSensitiveAlertEnabled] = useState(true);
   const [expression, setExpression] = useState("");
   const [domain, setDomain] = useState("*");
   const [type, setType] = useState<Filter["type"]>("censor");
@@ -77,13 +81,33 @@ export default function Filters() {
     setIsEditing(false);
   };
 
+  if (enabled && settings.sensitiveAlert && isSensitiveAlertEnabled) {
+    return (
+      <Card className="flex items-center justify-center p-6">
+        <h1 className="text-3xl font-bold">This section contains sensitive content!</h1>
+        <p className="text-muted-foreground text-center text-base">
+          This section contains all your filters, which may include sensitive content. Click the
+          button below to continue.
+        </p>
+        <Button
+          className="w-full"
+          onClick={() => {
+            setIsSensitiveAlertEnabled(false);
+          }}
+        >
+          Continue to Filters
+        </Button>
+      </Card>
+    );
+  }
+
   return (
-    <div className="container mx-auto max-w-3xl p-4">
+    <div className="p-3">
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <div className="flex items-center justify-between">
           <div>
             <h2 className="mb-2 text-2xl font-bold">Filters</h2>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               Manage your filters here. You can add, edit, or remove filters that hide unwanted
               content.
             </p>
@@ -157,7 +181,7 @@ export default function Filters() {
         <TableBody>
           {filters.map((filter, index) => (
             <TableRow key={index}>
-              <TableCell className="font-medium">{filter.expression}</TableCell>
+              <TableCell className="font-mono font-medium">{filter.expression}</TableCell>
               <TableCell>{filter.domain}</TableCell>
               <TableCell>{filter.type}</TableCell>
               <TableCell className="flex items-center gap-2">

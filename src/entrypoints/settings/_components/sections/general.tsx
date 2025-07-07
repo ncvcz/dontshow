@@ -6,7 +6,7 @@ export default function General() {
   return (
     <div>
       <h1 className="text-2xl font-bold">General Settings</h1>
-      <p className="mt-2 text-base">
+      <p className="text-muted-foreground mt-2">
         Here you can manage general settings for the extension, such as enabling or disabling it,
         and adjusting other preferences.
       </p>

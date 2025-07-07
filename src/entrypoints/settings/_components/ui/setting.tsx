@@ -9,7 +9,7 @@ interface Props {
 
 export function Setting({ title, description, checked, onChange }: Props) {
   return (
-    <div className="flex items-center justify-between rounded-lg border bg-black/3 p-4">
+    <div className="flex items-center justify-between rounded-lg border p-4">
       <div>
         <h2 className="text-lg font-semibold">{title}</h2>
         {description && <p className="text-muted-foreground text-sm">{description}</p>}

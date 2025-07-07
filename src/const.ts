@@ -5,4 +5,5 @@ export const defaultSettings: Settings = {
   inputCensoring: true,
   uncensorOnFocus: true,
   enableOnLocalhost: false,
+  debugMessages: false,
 };

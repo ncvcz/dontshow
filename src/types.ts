@@ -3,6 +3,7 @@ export interface Settings {
   inputCensoring?: boolean;
   uncensorOnFocus?: boolean;
   enableOnLocalhost?: boolean;
+  debugMessages?: boolean;
 }
 
 export interface Filter {

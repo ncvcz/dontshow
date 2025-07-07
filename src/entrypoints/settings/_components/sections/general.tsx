@@ -2,16 +2,28 @@ import { Setting } from "../ui/setting";
 import { Settings } from "@/types";
 
 export default function General() {
+  const [enable, setEnable] = useStorage<boolean>("local:enabled", true);
   const [settings, setSettings] = useStorage<Settings>("local:settings", {});
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold">General Settings</h1>
-      <p className="text-muted-foreground mt-2">
+    <div className="space-y-4 py-4">
+      <h1 className="text-3xl font-bold">Settings</h1>
+      <p className="text-muted-foreground text-base">
         Here you can manage general settings for the extension, such as enabling or disabling it,
         and adjusting other preferences.
       </p>
 
-      <div className="mt-4 flex flex-col gap-4">
+      <div>
+        <Setting
+          title="Enable Extension"
+          description="Toggle the extension on or off."
+          checked={enable}
+          onChange={value => setEnable(value)}
+        />
+      </div>
+
+      <h2 className="mt-6 text-2xl font-semibold">General Settings</h2>
+      <div className="mt-4 flex flex-col gap-2">
         <Setting
           title="Sensitive Alert"
           description="Show a warning when a page contains sensitive content."
@@ -35,6 +47,16 @@ export default function General() {
           description="Uncensor inputs when they are focused, allowing you to see the original content."
           checked={settings.uncensorOnFocus}
           onChange={value => setSettings({ ...settings, uncensorOnFocus: value })}
+        />
+      </div>
+
+      <h2 className="mt-6 text-2xl font-semibold">Developer Settings</h2>
+      <div className="mt-4 flex flex-col gap-2">
+        <Setting
+          title="Debug Messages"
+          description="Show debug messages in the console."
+          checked={settings.debugMessages}
+          onChange={value => setSettings({ ...settings, debugMessages: value })}
         />
       </div>
     </div>

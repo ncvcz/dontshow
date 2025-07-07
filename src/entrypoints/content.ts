@@ -63,7 +63,10 @@ export default defineContentScript({
   async main() {
     const enabled = await storage.getItem<boolean>("local:enabled");
 
-    if (!enabled) return;
+    if (!enabled) {
+      document.documentElement.setAttribute("data-ds-ready", "true");
+      return;
+    }
 
     await processDOM();
 
@@ -74,5 +77,7 @@ export default defineContentScript({
       subtree: true,
       characterData: true,
     });
+
+    document.documentElement.setAttribute("data-ds-ready", "true");
   },
 });

@@ -26,4 +26,14 @@ export default defineBackground(() => {
       storage.setItem(`local:settings`, updatedSettings);
     }
   });
+
+  storage.watch("local:enabled", async (newValue, oldValue) => {
+    if (newValue === oldValue) return;
+
+    const tabs = await browser.tabs.query({ url: "<all_urls>" });
+
+    for (const tab of tabs) {
+      browser.tabs.reload(tab.id!);
+    }
+  });
 });

@@ -10,7 +10,7 @@ export default function About() {
         filter out specific words or phrases. You can add filters to censor or remove content that
         you find inappropriate, too sensitive, or simply distracting.
       </p>
-      <h2 className="text-2xl font-semibold">Usefull Links</h2>
+      <h2 className="text-2xl font-semibold">Useful Links</h2>
       <div className="flex items-center gap-2">
         <a href="https://github.com/ncvcz/dontshow">
           <Button variant={"outline"}>
@@ -39,7 +39,8 @@ export default function About() {
       </div>
       <footer>
         <span className="text-muted-foreground text-base">
-          Distributed under the MIT License by Valerio Clemenzi
+          Don't Show {browser.runtime.getManifest().version} distributed under the MIT License by
+          Valerio Clemenzi
         </span>
       </footer>
     </div>

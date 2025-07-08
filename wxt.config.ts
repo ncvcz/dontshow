@@ -23,6 +23,7 @@ export default defineConfig({
       name: "Don't Show",
       permissions: ["storage", "contextMenus"],
       author: "Valerio Clemenzi",
+      options_page: "settings.html",
     };
   },
 });

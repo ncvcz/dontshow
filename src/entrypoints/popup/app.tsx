@@ -6,15 +6,18 @@ import { SettingsIcon } from "lucide-react";
 function App() {
   const [enabled, setEnabled] = useStorage("local:enabled", true);
   return (
-    <div className="flex h-[300px] w-[250px] items-center justify-center">
-      <div>
+    <div className="h-[300px] w-[250px]">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-4">
         <Switch className="scale-[400%]" checked={enabled} onCheckedChange={setEnabled} />
       </div>
-
-      <div className="absolute right-4 bottom-4">
-        <Button className="cursor-pointer">
-          <SettingsIcon className="h-4 w-4" />
-          Settings
+      <div>
+        <Button
+          className="absolute right-2 bottom-2"
+          variant="ghost"
+          size="icon"
+          onClick={() => browser.runtime.openOptionsPage()}
+        >
+          <SettingsIcon />
         </Button>
       </div>
     </div>

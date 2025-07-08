@@ -1,5 +1,6 @@
 import { defaultSettings } from "@/const";
-import { Settings } from "@/types";
+import { log } from "@/lib/log";
+import { Filter, Settings } from "@/types";
 
 export default defineBackground(() => {
   browser.runtime.onInstalled.addListener(async e => {
@@ -34,6 +35,45 @@ export default defineBackground(() => {
 
     for (const tab of tabs) {
       browser.tabs.reload(tab.id!);
+    }
+  });
+
+  browser.contextMenus.create({
+    id: "filter-menu",
+    title: "Add to word filters",
+    contexts: ["selection"],
+  });
+
+  browser.contextMenus.create({
+    id: "add-to-global-filters",
+    title: "All websites",
+    contexts: ["selection"],
+    parentId: "filter-menu",
+  });
+
+  browser.contextMenus.create({
+    id: "add-to-filters",
+    title: "Only this website",
+    contexts: ["selection"],
+    parentId: "filter-menu",
+  });
+
+  browser.contextMenus.onClicked.addListener(async (info, tab) => {
+    if (info.menuItemId === "add-to-global-filters" || info.menuItemId === "add-to-filters") {
+      const filters = (await storage.getItem<Filter[]>("local:filters")) || [];
+      const newFilter = info.selectionText?.trim();
+
+      if (newFilter && !filters.some(filter => filter.expression === newFilter)) {
+        filters.push({
+          expression: newFilter,
+          type: "censor",
+          domain: info.menuItemId === "add-to-global-filters" ? "*" : tab?.url || "*",
+        });
+        storage.setItem("local:filters", filters);
+        log.info(`Added filter: ${newFilter}`);
+      } else {
+        log.warn(`Filter already exists or is empty: ${newFilter}`);
+      }
     }
   });
 });

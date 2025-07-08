@@ -1,11 +1,18 @@
 import { log } from "@/lib/log";
 import { textReplacement } from "@/lib/utils";
 import { Filter } from "@/types";
+import { isMatch } from "matcher";
 
 // Process the DOM to find and replace text based on filters
 async function processDOM() {
-  const filters = await storage.getItem<Filter[]>("local:filters");
+  const rawFilters = await storage.getItem<Filter[]>("local:filters");
   const matchedWords = new Map<Node, Filter>();
+
+  const filters = rawFilters?.filter(filter => {
+    const url = new URL(document.location.href);
+
+    return isMatch(url.hostname, filter.domain);
+  });
 
   log.info("Processing DOM. Looking to apply " + (filters?.length ?? 0) + " filters...");
 
@@ -54,7 +61,7 @@ async function processDOM() {
     node.textContent = textReplacement(matchedWord.type, node.textContent, matchedWord.expression);
   }
 
-  log.info("DOM Processed.", matchedWords.size + " matches found.");
+  log.info("DOM Processed successfully.");
 }
 
 export default defineContentScript({

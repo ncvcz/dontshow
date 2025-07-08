@@ -8,7 +8,8 @@ export default defineBackground(() => {
       const isEnabled = (await storage.getItem("local:enabled")) ?? true;
       storage.setItem("local:enabled", isEnabled);
 
-      storage.setItem("local:settings", defaultSettings);
+      const settings = (await storage.getItem<Settings>("local:settings")) || defaultSettings;
+      storage.setItem("local:settings", settings);
     }
 
     if (e.reason === "update") {
@@ -25,16 +26,6 @@ export default defineBackground(() => {
       );
 
       storage.setItem(`local:settings`, updatedSettings);
-    }
-  });
-
-  storage.watch("local:enabled", async (newValue, oldValue) => {
-    if (newValue === oldValue) return;
-
-    const tabs = await browser.tabs.query({ url: "<all_urls>" });
-
-    for (const tab of tabs) {
-      browser.tabs.reload(tab.id!);
     }
   });
 

@@ -1,10 +1,10 @@
 import { log } from "@/lib/log";
-import { textReplacement } from "@/lib/utils";
+import { isEnabled, textReplacement } from "@/lib/utils";
 import { Filter } from "@/types";
 import { isMatch } from "matcher";
 
 // Process the DOM to find and replace text based on filters
-async function processDOM() {
+const processDOM = async () => {
   const rawFilters = await storage.getItem<Filter[]>("local:filters");
   const matchedWords = new Map<Node, Filter>();
 
@@ -62,15 +62,13 @@ async function processDOM() {
   }
 
   log.info("DOM Processed successfully.");
-}
+};
 
 export default defineContentScript({
   matches: ["<all_urls>"],
   runAt: "document_start",
   async main() {
-    const enabled = await storage.getItem<boolean>("local:enabled");
-
-    if (!enabled) {
+    if (!(await isEnabled())) {
       document.documentElement.setAttribute("data-ds-ready", "true");
       return;
     }

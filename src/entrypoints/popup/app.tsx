@@ -1,3 +1,4 @@
+import Disabled from "./_components/disabled";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -30,13 +31,7 @@ function App() {
     currentTab.url.startsWith("about:") ||
     currentTab.url.startsWith("chrome://")
   ) {
-    return (
-      <div className="flex h-[300px] w-[250px] items-center justify-center">
-        <h1 className="text-center text-lg font-semibold">
-          Don't Show is not available on this page.
-        </h1>
-      </div>
-    );
+    return <Disabled />;
   }
 
   return (

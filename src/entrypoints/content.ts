@@ -75,7 +75,15 @@ export default defineContentScript({
 
     await processDOM();
 
-    const observer = new MutationObserver(async el => processDOM());
+    const observer = new MutationObserver(async el => {
+      if (el.length === 0) return;
+
+      log.info("DOM changed, reprocessing...");
+
+      if (el.some(mutation => mutation.type === "childList" || mutation.type === "characterData")) {
+        await processDOM();
+      }
+    });
 
     observer.observe(document.documentElement, {
       childList: true,

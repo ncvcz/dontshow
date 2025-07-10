@@ -1,3 +1,4 @@
+import "../assets/hide.css";
 import { log } from "@/lib/log";
 import { isEnabled, textReplacement } from "@/lib/utils";
 import { Filter } from "@/types";
@@ -82,6 +83,7 @@ export default defineContentScript({
 
       if (el.some(mutation => mutation.type === "childList" || mutation.type === "characterData")) {
         await processDOM();
+        document.documentElement.setAttribute("data-ds-ready", "true");
       }
     });
 

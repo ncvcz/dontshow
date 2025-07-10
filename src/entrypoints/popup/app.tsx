@@ -29,7 +29,9 @@ function App() {
     !currentTab ||
     !currentTab.url ||
     currentTab.url.startsWith("about:") ||
-    currentTab.url.startsWith("chrome://")
+    currentTab.url.startsWith("chrome://") ||
+    currentTab.url.startsWith("chrome-extension://") ||
+    currentTab.url.startsWith("file://")
   ) {
     return <Disabled />;
   }

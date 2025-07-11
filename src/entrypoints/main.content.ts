@@ -1,7 +1,7 @@
 import "../assets/hide.css";
 import { log } from "@/lib/log";
 import { isEnabled, textReplacement } from "@/lib/utils";
-import { ExposingElement, Filter } from "@/types";
+import { Element as ExposingElement, Filter } from "@/types";
 import { isMatch } from "matcher";
 
 // Process the DOM to find and replace text based on filters
@@ -65,21 +65,19 @@ const processGeneralFilters = async () => {
   log.info("DOM Processed successfully.");
 };
 
-const processExposingElements = async () => {
-  const rawExposingElements = await storage.getItem<ExposingElement[]>("local:exposingElements");
+const processElements = async () => {
+  const rawelements = await storage.getItem<ExposingElement[]>("local:elements");
   const url = new URL(document.location.href);
-  const exposingElements = rawExposingElements?.filter(element =>
-    isMatch(url.hostname, element.website)
-  );
+  const elements = rawelements?.filter(element => isMatch(url.hostname, element.website));
 
-  if (!exposingElements?.length) {
+  if (!elements?.length) {
     log.info("No exposing elements found for this page.");
     return;
   }
 
-  log.info(`Processing ${exposingElements.length} exposing elements.`);
+  log.info(`Processing ${elements.length} exposing elements.`);
 
-  exposingElements.forEach(element => {
+  elements.forEach(element => {
     const nodes = document.querySelectorAll(element.selector);
     nodes.forEach(node => {
       if (node.textContent) {
@@ -109,7 +107,7 @@ export default defineContentScript({
       return;
     }
 
-    Promise.all([processGeneralFilters(), processExposingElements()]);
+    Promise.all([processGeneralFilters(), processElements()]);
 
     const observer = new MutationObserver(async el => {
       if (el.length === 0) return;
@@ -117,7 +115,7 @@ export default defineContentScript({
       log.info("DOM changed, reprocessing...");
 
       if (el.some(mutation => mutation.type === "childList" || mutation.type === "characterData")) {
-        Promise.all([processGeneralFilters(), processExposingElements()]);
+        Promise.all([processGeneralFilters(), processElements()]);
         document.documentElement.setAttribute("data-ds-ready", "true");
       }
     });

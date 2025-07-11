@@ -1,4 +1,4 @@
-import { ExposingElement } from "@/types";
+import { Element as ExposingElement } from "@/types";
 import { getCssSelector } from "css-selector-generator";
 
 export default defineContentScript({
@@ -29,8 +29,7 @@ export default defineContentScript({
 
           const target = event.target as Element;
           const selector = getCssSelector(target);
-          const elements =
-            (await storage.getItem<ExposingElement[]>("local:exposingElements")) || [];
+          const elements = (await storage.getItem<ExposingElement[]>("local:elements")) || [];
 
           const newElement: ExposingElement = {
             selector,
@@ -39,7 +38,7 @@ export default defineContentScript({
           };
 
           elements.push(newElement);
-          await storage.setItem("local:exposingElements", elements);
+          await storage.setItem("local:elements", elements);
         });
       },
     });

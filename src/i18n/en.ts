@@ -3,6 +3,7 @@ export default {
     tabs: {
       settings: "Settings",
       filters: "Filters",
+      elements: "Elements",
       about: "About",
     },
     settings: {
@@ -97,6 +98,27 @@ export default {
         label: "Actions",
       },
       cancel: "Cancel",
+    },
+    elements: {
+      title: "Elements",
+      description:
+        "This section allows you to view and delete elements that have been selected on web pages. These elements are used to identify and manage content that you want to censor or remove.",
+      tabs: {
+        list: "List",
+        raw: "Raw",
+      },
+      list: {
+        website: "Website",
+        selector: "Selector",
+        action: "Action",
+        actions: "Actions",
+      },
+      raw: {
+        save: "Save",
+        help: {
+          pattern: "Note: Each line should follow the pattern:",
+        },
+      },
     },
     about: {
       title: "About this Extension",

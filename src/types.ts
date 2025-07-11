@@ -12,7 +12,7 @@ export interface Filter {
   type: "censor" | "remove";
 }
 
-export interface ExposingElement {
+export interface Element {
   website: string;
   selector: string;
   action: "censor" | "remove";

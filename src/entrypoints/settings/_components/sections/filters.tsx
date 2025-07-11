@@ -27,6 +27,7 @@ import {
 import { Filter, Settings } from "@/types";
 import { EditIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface FilterFormData {
   expression: string;
@@ -41,6 +42,7 @@ const DEFAULT_FORM_DATA: FilterFormData = {
 };
 
 export default function Filters() {
+  const { t } = useTranslation("settings", { keyPrefix: "filters" });
   const [enabled] = useStorage<boolean>("local:enabled", true);
   const [filters, setFilters] = useStorage<Filter[]>("local:filters", []);
   const [settings] = useStorage<Settings>("local:settings", {});
@@ -116,13 +118,12 @@ export default function Filters() {
   if (enabled && settings.sensitiveAlert && isSensitiveAlertEnabled) {
     return (
       <Card className="flex flex-col items-center justify-center gap-4 p-6">
-        <h1 className="text-3xl font-bold">This section contains sensitive content!</h1>
+        <h1 className="text-3xl font-bold">{t("sensitiveAlert.title")}</h1>
         <p className="text-muted-foreground max-w-md text-center text-base">
-          This section contains all your filters, which may include sensitive content. Click the
-          button below to continue.
+          {t("sensitiveAlert.description")}
         </p>
         <Button className="w-full max-w-xs" onClick={() => setIsSensitiveAlertEnabled(false)}>
-          Continue to Filters
+          {t("sensitiveAlert.button")}
         </Button>
       </Card>
     );
@@ -132,74 +133,69 @@ export default function Filters() {
     <div className="space-y-6 py-4">
       <div className="flex items-start justify-between">
         <div className="space-y-2">
-          <h2 className="text-3xl font-bold">Filters</h2>
-          <p className="text-muted-foreground max-w-2xl text-base">
-            Manage your filters here. You can add, edit, or remove filters that hide unwanted
-            content.
-          </p>
+          <h2 className="text-3xl font-bold">{t("title")}</h2>
+          <p className="text-muted-foreground max-w-2xl text-base">{t("description")}</p>
         </div>
 
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
             <Button className="flex items-center gap-2">
               <PlusIcon className="h-4 w-4" />
-              <span>Add Filter</span>
+              <span>{t("addFilter.title")}</span>
             </Button>
           </DialogTrigger>
 
           <DialogContent className="sm:max-w-md">
-            <DialogTitle>{isEditing ? "Edit Filter" : "Add New Filter"}</DialogTitle>
+            <DialogTitle>{isEditing ? t("editFilter.title") : t("addFilter.title")}</DialogTitle>
             <DialogDescription>
-              {isEditing
-                ? "Edit the details of the filter you want to modify."
-                : "Enter the details of the new filter you want to add."}
+              {isEditing ? t("editFilter.description") : t("addFilter.description")}
             </DialogDescription>
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="expression">Expression *</Label>
+                <Label htmlFor="expression">{t("expression.label")}</Label>
                 <Input
                   id="expression"
-                  placeholder="Enter the expression to filter"
+                  placeholder={t("expression.placeholder")}
                   value={formData.expression}
                   onChange={e => setFormData(prev => ({ ...prev, expression: e.target.value }))}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="domain">Domain</Label>
+                <Label htmlFor="domain">{t("domain.label")}</Label>
                 <Input
                   id="domain"
-                  placeholder="Enter the domain (* for all domains)"
+                  placeholder={t("domain.placeholder")}
                   value={formData.domain}
                   onChange={e => setFormData(prev => ({ ...prev, domain: e.target.value }))}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="type">Action</Label>
+                <Label htmlFor="action">{t("action.label")}</Label>
                 <Select
                   value={formData.type}
                   onValueChange={value =>
                     setFormData(prev => ({ ...prev, type: value as Filter["type"] }))
                   }
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select action type" />
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder={t("action.placeholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="censor">Censor</SelectItem>
-                    <SelectItem value="remove">Remove</SelectItem>
+                    <SelectItem value="censor">{t("action.options.censor")}</SelectItem>
+                    <SelectItem value="remove">{t("action.options.remove")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="flex gap-2 pt-4">
                 <Button variant="outline" className="flex-1" onClick={closeDialog}>
-                  Cancel
+                  {t("cancel")}
                 </Button>
                 <Button className="flex-1" onClick={handleSubmit} disabled={!validateForm()}>
-                  {isEditing ? "Update Filter" : "Add Filter"}
+                  {isEditing ? t("updateFilter.title") : t("addFilter.title")}
                 </Button>
               </div>
             </div>
@@ -209,19 +205,17 @@ export default function Filters() {
 
       {filters.length === 0 ? (
         <Card className="flex flex-col items-center justify-center p-8">
-          <h3 className="mb-2 text-lg font-semibold">No filters yet</h3>
-          <p className="text-muted-foreground mb-4 text-center">
-            Get started by adding your first filter to hide unwanted content.
-          </p>
+          <h3 className="mb-2 text-lg font-semibold">{t("noFilters.title")}</h3>
+          <p className="text-muted-foreground mb-4 text-center">{t("noFilters.description")}</p>
         </Card>
       ) : (
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Expression</TableHead>
-              <TableHead>Domain</TableHead>
-              <TableHead>Action</TableHead>
-              <TableHead className="w-[100px]">Actions</TableHead>
+              <TableHead>{t("expression.label")}</TableHead>
+              <TableHead>{t("domain.label")}</TableHead>
+              <TableHead>{t("action.label")}</TableHead>
+              <TableHead className="w-[100px]">{t("actions.label")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

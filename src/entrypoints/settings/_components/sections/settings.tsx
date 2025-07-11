@@ -11,8 +11,10 @@ import {
 } from "@/components/ui/table";
 import { Settings } from "@/types";
 import { Trash2Icon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
-export default function General() {
+export default function SettingsComponent() {
+  const { t } = useTranslation("settings", { keyPrefix: "settings" });
   const [enable, setEnable] = useStorage<boolean>("local:enabled", true);
   const [settings, setSettings] = useStorage<Settings>("local:settings", {});
   const [disabledWebsites, setDisabledWebsites] = useStorage<string[]>(
@@ -22,64 +24,58 @@ export default function General() {
 
   return (
     <div className="space-y-4 py-4">
-      <h1 className="text-3xl font-bold">Settings</h1>
-      <p className="text-muted-foreground text-base">
-        Here you can manage general settings for the extension, such as enabling or disabling it,
-        and adjusting other preferences.
-      </p>
+      <h1 className="text-3xl font-bold">{t("title")}</h1>
+      <p className="text-muted-foreground text-base">{t("description")}</p>
 
       <div>
         <Setting
-          title="Enable Extension"
-          description="Toggle the extension on or off globally."
+          title={t("enableExtension.title")}
+          description={t("enableExtension.description")}
           checked={enable}
           onChange={value => setEnable(value)}
         />
       </div>
 
-      <h2 className="mt-6 text-2xl font-semibold">General Settings</h2>
+      <h2 className="mt-6 text-2xl font-semibold">{t("general.title")}</h2>
       <div className="mt-4 flex flex-col gap-2">
         <Setting
-          title="Sensitive Alert"
-          description="Show a warning when a page contains sensitive content."
+          title={t("general.sensitiveAlert.title")}
+          description={t("general.sensitiveAlert.description")}
           checked={settings.sensitiveAlert}
           onChange={value => setSettings({ ...settings, sensitiveAlert: value })}
         />
         <Setting
-          title="Censure Inputs"
-          description="Automatically censure inputs containing sensitive content."
+          title={t("general.inputCensoring.title")}
+          description={t("general.inputCensoring.description")}
           checked={settings.inputCensoring}
           onChange={value => setSettings({ ...settings, inputCensoring: value })}
         />
         <Setting
-          title="Uncensor Inputs on Focus"
-          description="Uncensor inputs when they are focused, allowing you to see the original content."
+          title={t("general.uncensorOnFocus.title")}
+          description={t("general.uncensorOnFocus.description")}
           checked={settings.uncensorOnFocus}
           onChange={value => setSettings({ ...settings, uncensorOnFocus: value })}
         />
       </div>
 
-      <h2 className="mt-6 text-2xl font-semibold">Websites Settings</h2>
+      <h2 className="mt-6 text-2xl font-semibold">{t("websites.title")}</h2>
       <Setting
-        title="Enable on Localhost"
-        description="Enable the extension on localhost for development purposes."
+        title={t("websites.enableOnLocalhost.title")}
+        description={t("websites.enableOnLocalhost.description")}
         checked={settings.enableOnLocalhost}
         onChange={value => setSettings({ ...settings, enableOnLocalhost: value })}
       />
       <Card>
         <CardContent>
-          <h3 className="mt-2 text-lg font-semibold">Ignored Websites</h3>
+          <h3 className="mt-2 text-lg font-semibold">{t("disabledWebsites.title")}</h3>
           {disabledWebsites.length === 0 ? (
-            <p className="text-muted-foreground text-base">
-              No websites are disabled. You can disable websites by going to it and disabling it
-              from the extension popup.
-            </p>
+            <p className="text-muted-foreground text-base">{t("disabledWebsites.description")}</p>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Website</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>{t("disabledWebsites.table.website")}</TableHead>
+                  <TableHead>{t("disabledWebsites.table.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -104,11 +100,11 @@ export default function General() {
         </CardContent>
       </Card>
 
-      <h2 className="mt-6 text-2xl font-semibold">Developer Settings</h2>
+      <h2 className="mt-6 text-2xl font-semibold">{t("developer.title")}</h2>
       <div className="mt-4 flex flex-col gap-2">
         <Setting
-          title="Debug Messages"
-          description="Show debug messages in the console."
+          title={t("developer.debugMessages.title")}
+          description={t("developer.debugMessages.description")}
           checked={settings.debugMessages}
           onChange={value => setSettings({ ...settings, debugMessages: value })}
         />

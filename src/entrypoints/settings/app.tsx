@@ -1,19 +1,22 @@
 import About from "./_components/sections/about";
 import Filters from "./_components/sections/filters";
-import General from "./_components/sections/general";
+import Settings from "./_components/sections/settings";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslation } from "react-i18next";
 
 function App() {
+  const { t } = useTranslation("settings", { keyPrefix: "tabs" });
+
   return (
     <div className="container mx-auto max-w-4xl p-4">
-      <Tabs defaultValue="general">
+      <Tabs defaultValue="settings">
         <TabsList className="w-full">
-          <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="filters">Filters</TabsTrigger>
-          <TabsTrigger value="about">About</TabsTrigger>
+          <TabsTrigger value="settings">{t("settings")}</TabsTrigger>
+          <TabsTrigger value="filters">{t("filters")}</TabsTrigger>
+          <TabsTrigger value="about">{t("about")}</TabsTrigger>
         </TabsList>
-        <TabsContent value="general">
-          <General />
+        <TabsContent value="settings">
+          <Settings />
         </TabsContent>
         <TabsContent value="filters">
           <Filters />

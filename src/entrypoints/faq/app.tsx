@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/accordion";
 
 // TODO: move this page to dontshow.app/faq
+// NOT TRANSLATED BECAUSE NEEDS TO BE MOVED
 
 function App() {
   return (

@@ -70,7 +70,7 @@ const processElements = async () => {
   const url = new URL(document.location.href);
   const elements = rawelements?.filter(element => isMatch(url.hostname, element.website));
 
-  if (!elements?.length) {
+  if (!elements) {
     log.info("No exposing elements found for this page.");
     return;
   }
@@ -118,6 +118,18 @@ export default defineContentScript({
         Promise.all([processGeneralFilters(), processElements()]);
         document.documentElement.setAttribute("data-ds-ready", "true");
       }
+    });
+
+    storage.watch("local:filters", async () => {
+      log.info("Filters changed, reprocessing...");
+      await processGeneralFilters();
+      document.documentElement.setAttribute("data-ds-ready", "true");
+    });
+
+    storage.watch("local:elements", async () => {
+      log.info("Exposing elements changed, reprocessing...");
+      await processElements();
+      document.documentElement.setAttribute("data-ds-ready", "true");
     });
 
     observer.observe(document.documentElement, {

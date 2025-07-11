@@ -4,7 +4,7 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useCurrentTab } from "@/hooks/browser";
 import { useStorage } from "@/hooks/storage";
-import { SettingsIcon } from "lucide-react";
+import { PointerIcon, SettingsIcon } from "lucide-react";
 
 function App() {
   const currentTab = useCurrentTab();
@@ -48,13 +48,17 @@ function App() {
           onCheckedChange={handleDisableWebsite}
         />
       </div>
-      <div>
+      <div className="absolute right-2 bottom-2">
         <Button
-          className="absolute right-2 bottom-2"
           variant="ghost"
           size="icon"
-          onClick={() => browser.runtime.openOptionsPage()}
+          onClick={async () =>
+            await browser.tabs.sendMessage(currentTab.id!, "exposing-element-selection")
+          }
         >
+          <PointerIcon />
+        </Button>
+        <Button variant="ghost" size="icon" onClick={() => browser.runtime.openOptionsPage()}>
           <SettingsIcon />
         </Button>
       </div>

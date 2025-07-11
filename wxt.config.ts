@@ -8,8 +8,8 @@ export default defineConfig({
   srcDir: "src",
   outDir: "dist",
 
-  // @ts-ignore
   vite: () => ({
+    // @ts-ignore
     plugins: [tailwindcss()],
     resolve: {
       alias: {

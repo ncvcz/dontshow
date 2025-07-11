@@ -11,3 +11,9 @@ export interface Filter {
   domain: string;
   type: "censor" | "remove";
 }
+
+export interface ExposingElement {
+  website: string;
+  selector: string;
+  action: "censor" | "remove";
+}

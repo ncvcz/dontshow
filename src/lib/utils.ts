@@ -32,7 +32,5 @@ export const isEnabled = async (): Promise<boolean> => {
     res = false;
   }
 
-  console.log("isEnabled result", res);
-
   return res;
 };

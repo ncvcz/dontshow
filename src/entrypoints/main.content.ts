@@ -1,11 +1,11 @@
 import "../assets/hide.css";
 import { log } from "@/lib/log";
 import { isEnabled, textReplacement } from "@/lib/utils";
-import { Filter } from "@/types";
+import { ExposingElement, Filter } from "@/types";
 import { isMatch } from "matcher";
 
 // Process the DOM to find and replace text based on filters
-const processDOM = async () => {
+const processGeneralFilters = async () => {
   const rawFilters = await storage.getItem<Filter[]>("local:filters");
   const matchedWords = new Map<Node, Filter>();
 
@@ -65,6 +65,41 @@ const processDOM = async () => {
   log.info("DOM Processed successfully.");
 };
 
+const processExposingElements = async () => {
+  const rawExposingElements = await storage.getItem<ExposingElement[]>("local:exposingElements");
+  const url = new URL(document.location.href);
+  const exposingElements = rawExposingElements?.filter(element =>
+    isMatch(url.hostname, element.website)
+  );
+
+  if (!exposingElements?.length) {
+    log.info("No exposing elements found for this page.");
+    return;
+  }
+
+  log.info(`Processing ${exposingElements.length} exposing elements.`);
+
+  exposingElements.forEach(element => {
+    const nodes = document.querySelectorAll(element.selector);
+    nodes.forEach(node => {
+      if (node.textContent) {
+        switch (element.action) {
+          case "censor":
+            node.textContent = "*".repeat(node.textContent.length);
+            break;
+          case "remove":
+            node.textContent = "";
+            break;
+          default:
+            log.warn(`Unknown action: ${element.action}`);
+        }
+      }
+    });
+  });
+
+  log.info("Exposing elements processed successfully.");
+};
+
 export default defineContentScript({
   matches: ["<all_urls>"],
   runAt: "document_start",
@@ -74,7 +109,7 @@ export default defineContentScript({
       return;
     }
 
-    await processDOM();
+    Promise.all([processGeneralFilters(), processExposingElements()]);
 
     const observer = new MutationObserver(async el => {
       if (el.length === 0) return;
@@ -82,7 +117,7 @@ export default defineContentScript({
       log.info("DOM changed, reprocessing...");
 
       if (el.some(mutation => mutation.type === "childList" || mutation.type === "characterData")) {
-        await processDOM();
+        Promise.all([processGeneralFilters(), processExposingElements()]);
         document.documentElement.setAttribute("data-ds-ready", "true");
       }
     });

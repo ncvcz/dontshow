@@ -1,6 +1,5 @@
 import { Element as ExposingElement } from "@/types";
 import { getCssSelector } from "css-selector-generator";
-import { XIcon } from "lucide-react";
 
 export default function App() {
   const [elements, setElements] = useStorage<ExposingElement[]>("local:elements", []);

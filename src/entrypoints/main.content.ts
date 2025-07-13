@@ -98,6 +98,35 @@ const processElements = async () => {
   log.info("Exposing elements processed successfully.");
 };
 
+const processInputs = async () => {
+  const inputs = document.querySelectorAll("input[type='text'], input[type='search']");
+  const rawFilters = await storage.getItem<Filter[]>("local:filters");
+  const filters = rawFilters?.filter(filter => {
+    const url = new URL(document.location.href);
+    return isMatch(url.hostname, filter.domain);
+  });
+
+  for (const input of inputs) {
+    const target = input as HTMLInputElement;
+
+    if (!target.value) continue;
+
+    for (const filter of filters ?? []) {
+      if (filter.expression.startsWith("/") && filter.expression.endsWith("/")) {
+        const regex = new RegExp(filter.expression.slice(1, -1), "gi");
+
+        if (regex.test(target.value)) {
+          target.type = "password";
+          target.setAttribute("data-ds-filtered", "true");
+        }
+      } else if (target.value.toLowerCase().includes(filter.expression.toLowerCase())) {
+        target.type = "password";
+        target.setAttribute("data-ds-filtered", "true");
+      }
+    }
+  }
+};
+
 export default defineContentScript({
   matches: ["<all_urls>"],
   runAt: "document_start",
@@ -107,22 +136,24 @@ export default defineContentScript({
       return;
     }
 
-    Promise.all([processGeneralFilters(), processElements()]);
+    Promise.all([processGeneralFilters(), processElements(), processInputs()]);
 
-    const observer = new MutationObserver(async el => {
-      if (el.length === 0) return;
+    const observer = new MutationObserver(async mutations => {
+      if (
+        !mutations.some(
+          mutation => mutation.type === "childList" || mutation.type === "characterData"
+        )
+      )
+        return;
 
       log.info("DOM changed, reprocessing...");
-
-      if (el.some(mutation => mutation.type === "childList" || mutation.type === "characterData")) {
-        Promise.all([processGeneralFilters(), processElements()]);
-        document.documentElement.setAttribute("data-ds-ready", "true");
-      }
+      await Promise.all([processGeneralFilters(), processElements(), processInputs()]);
+      document.documentElement.setAttribute("data-ds-ready", "true");
     });
 
     storage.watch("local:filters", async () => {
       log.info("Filters changed, reprocessing...");
-      await processGeneralFilters();
+      Promise.all([processGeneralFilters(), processInputs()]);
       document.documentElement.setAttribute("data-ds-ready", "true");
     });
 
@@ -139,5 +170,16 @@ export default defineContentScript({
     });
 
     document.documentElement.setAttribute("data-ds-ready", "true");
+
+    document.addEventListener("focusin", async event => {
+      const target = event.target as HTMLInputElement;
+
+      if (target.type === "password" && target.getAttribute("data-ds-filtered") === "true") {
+        target.type = "text";
+        target.removeAttribute("data-ds-filtered");
+      }
+    });
+
+    document.addEventListener("focusout", async () => await processInputs());
   },
 });

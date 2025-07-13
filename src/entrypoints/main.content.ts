@@ -62,6 +62,13 @@ const processGeneralFilters = async () => {
     node.textContent = textReplacement(matchedWord.type, node.textContent, matchedWord.expression);
   }
 
+  if (matchedWords.size > 0) {
+    await browser.runtime.sendMessage({
+      type: "itemsProcessed",
+      count: matchedWords.size,
+    });
+  }
+
   log.info("DOM Processed successfully.");
 };
 
@@ -79,6 +86,7 @@ const processElements = async () => {
 
   elements.forEach(element => {
     const nodes = document.querySelectorAll(element.selector);
+
     nodes.forEach(node => {
       if (node.textContent) {
         switch (element.action) {

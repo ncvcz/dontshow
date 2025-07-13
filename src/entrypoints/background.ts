@@ -67,4 +67,15 @@ export default defineBackground(() => {
       }
     }
   });
+
+  browser.runtime.onMessage.addListener((message, sender) => {
+    if (message.type === "itemsProcessed") {
+      const { count } = message;
+
+      browser.action.setBadgeText({
+        text: count > 0 ? count.toString() : "",
+        tabId: sender.tab?.id || -1,
+      });
+    }
+  });
 });

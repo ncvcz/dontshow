@@ -4,7 +4,7 @@ import { defineConfig } from "wxt";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
-  modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
+  modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons", "@wxt-dev/i18n/module"],
   srcDir: "src",
   outDir: "dist",
 
@@ -18,12 +18,10 @@ export default defineConfig({
     },
   }),
 
-  manifest: ({}) => {
-    return {
-      name: "Don't Show",
-      permissions: ["storage", "contextMenus"],
-      author: "Valerio Clemenzi",
-      options_page: "settings.html",
-    };
+  manifest: {
+    name: "Don't Show",
+    permissions: ["storage", "contextMenus"],
+    options_page: "settings.html",
+    default_locale: "en",
   },
 });

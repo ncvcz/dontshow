@@ -11,10 +11,9 @@ import {
 } from "@/components/ui/table";
 import { Settings } from "@/types";
 import { Trash2Icon } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 export default function SettingsComponent() {
-  const { t } = useTranslation("settings", { keyPrefix: "settings" });
+  const { t } = useTranslation("settings.settings");
   const [enable, setEnable] = useStorage<boolean>("local:enabled", true);
   const [settings, setSettings] = useStorage<Settings>("local:settings", {});
   const [disabledWebsites, setDisabledWebsites] = useStorage<string[]>(

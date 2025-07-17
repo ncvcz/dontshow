@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { BookIcon, BugIcon, Globe2Icon, HeartIcon } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 export default function About() {
-  const { t } = useTranslation("settings", { keyPrefix: "about" });
+  const { t } = useTranslation("settings.about");
 
   return (
     <div className="space-y-4 py-4">
@@ -38,7 +37,7 @@ export default function About() {
       </div>
       <footer>
         <span className="text-muted-foreground text-base">
-          {t("footer", { version: browser.runtime.getManifest().version })}
+          {t("footer", [browser.runtime.getManifest().version])}
         </span>
       </footer>
     </div>

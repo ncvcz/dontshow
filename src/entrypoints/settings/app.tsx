@@ -3,10 +3,9 @@ import Elements from "./_components/sections/elements";
 import Filters from "./_components/sections/filters";
 import Settings from "./_components/sections/settings";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useTranslation } from "react-i18next";
 
 function App() {
-  const { t } = useTranslation("settings", { keyPrefix: "tabs" });
+  const { t } = useTranslation("settings.tabs");
 
   return (
     <div className="container mx-auto max-w-4xl p-4">

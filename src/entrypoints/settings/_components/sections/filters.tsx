@@ -27,7 +27,6 @@ import {
 import { Filter, Settings } from "@/types";
 import { EditIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 interface FilterFormData {
   expression: string;
@@ -42,7 +41,7 @@ const DEFAULT_FORM_DATA: FilterFormData = {
 };
 
 export default function Filters() {
-  const { t } = useTranslation("settings", { keyPrefix: "filters" });
+  const { t } = useTranslation("settings.filters");
   const [enabled] = useStorage<boolean>("local:enabled", true);
   const [filters, setFilters] = useStorage<Filter[]>("local:filters", []);
   const [settings] = useStorage<Settings>("local:settings", {});

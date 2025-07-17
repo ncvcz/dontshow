@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
+import { useTranslation } from "@/hooks/i18n";
 import { SettingsIcon } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 export default function Disabled() {
   const { t } = useTranslation("popup");
@@ -19,7 +19,7 @@ export default function Disabled() {
           <button
             className="font-semibold underline"
             onClick={async () => {
-              const url = await browser.runtime.getURL("/faq.html");
+              const url = browser.runtime.getURL("/faq.html");
               window.open(url + "#disabled", "_blank");
             }}
           >

@@ -12,10 +12,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Element } from "@/types";
 import { TrashIcon } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 export default function Elements() {
-  const { t } = useTranslation("settings", { keyPrefix: "elements" });
+  const { t } = useTranslation("settings.elements");
   const [elements, setElements] = useStorage<Element[]>("local:elements", []);
   const [content, setContent] = useState("");
 

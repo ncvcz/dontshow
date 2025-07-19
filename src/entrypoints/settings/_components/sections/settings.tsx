@@ -58,46 +58,50 @@ export default function SettingsComponent() {
       </div>
 
       <h2 className="mt-6 text-2xl font-semibold">{t("websites.title")}</h2>
-      <Setting
-        title={t("websites.enableOnLocalhost.title")}
-        description={t("websites.enableOnLocalhost.description")}
-        checked={settings.enableOnLocalhost}
-        onChange={value => setSettings({ ...settings, enableOnLocalhost: value })}
-      />
-      <Card>
-        <CardContent>
-          <h3 className="mt-2 text-lg font-semibold">{t("disabledWebsites.title")}</h3>
-          {disabledWebsites.length === 0 ? (
-            <p className="text-muted-foreground text-base">{t("disabledWebsites.description")}</p>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("disabledWebsites.table.website")}</TableHead>
-                  <TableHead>{t("disabledWebsites.table.actions")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {disabledWebsites.map(website => (
-                  <TableRow key={website}>
-                    <TableCell>{website}</TableCell>
-                    <TableCell>
-                      <Button
-                        onClick={() =>
-                          setDisabledWebsites(disabledWebsites.filter(w => w !== website))
-                        }
-                        variant="destructive"
-                      >
-                        <Trash2Icon className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
+      <div className="mt-4 flex flex-col gap-2">
+        <Setting
+          title={t("websites.enableOnLocalhost.title")}
+          description={t("websites.enableOnLocalhost.description")}
+          checked={settings.enableOnLocalhost}
+          onChange={value => setSettings({ ...settings, enableOnLocalhost: value })}
+        />
+        {disabledWebsites.length > 0 && (
+          <Card>
+            <CardContent>
+              <h3 className="text-lg font-semibold">{t("websites.disabledWebsites.title")}</h3>
+              <p className="text-muted-foreground text-base">
+                {t("websites.disabledWebsites.description")}
+              </p>
+
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>{t("websites.disabledWebsites.table.website")}</TableHead>
+                    <TableHead>{t("websites.disabledWebsites.table.actions")}</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+                </TableHeader>
+                <TableBody>
+                  {disabledWebsites.map(website => (
+                    <TableRow key={website}>
+                      <TableCell>{website}</TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() =>
+                            setDisabledWebsites(disabledWebsites.filter(w => w !== website))
+                          }
+                          variant="destructive"
+                        >
+                          <Trash2Icon className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+      </div>
 
       <h2 className="mt-6 text-2xl font-semibold">{t("developer.title")}</h2>
       <div className="mt-4 flex flex-col gap-2">

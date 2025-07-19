@@ -26,12 +26,12 @@ settings:
       enableOnLocalhost:
         title: "Enable on Localhost"
         description: "Enable the extension on localhost for development purposes."
-    disabledWebsites:
-      title: "Disabled Websites"
-      description: "Manage websites that are disabled from using the extension."
-      table:
-        website: "Website"
-        actions: "Actions"
+      disabledWebsites:
+        title: "Disabled Websites"
+        description: "Manage websites that are disabled from using the extension."
+        table:
+          website: "Website"
+          actions: "Actions"
     developer:
       title: "Developer Settings"
       debugMessages:

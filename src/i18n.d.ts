@@ -19,14 +19,6 @@ export type GeneratedI18nStructure = {
   "settings.settings.websites.enableOnLocalhost.description": { substitutions: 0; plural: false };
   "settings.settings.websites.disabledWebsites.title": { substitutions: 0; plural: false };
   "settings.settings.websites.disabledWebsites.description": { substitutions: 0; plural: false };
-  "settings.settings.websites.disabledWebsites.noDisabledWebsites.title": {
-    substitutions: 0;
-    plural: false;
-  };
-  "settings.settings.websites.disabledWebsites.noDisabledWebsites.description": {
-    substitutions: 0;
-    plural: false;
-  };
   "settings.settings.websites.disabledWebsites.table.website": { substitutions: 0; plural: false };
   "settings.settings.websites.disabledWebsites.table.actions": { substitutions: 0; plural: false };
   "settings.settings.developer.title": { substitutions: 0; plural: false };

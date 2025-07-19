@@ -1,5 +1,5 @@
+import { GeneratedI18nStructure } from "@/i18n";
 import { createI18n } from "@wxt-dev/i18n";
-import { GeneratedI18nStructure } from "wxt-i18n-structure";
 
 type KeysStartingWith<T, Prefix extends string> = {
   [K in keyof T]: K extends `${Prefix}.${infer Rest}` ? Rest : never;

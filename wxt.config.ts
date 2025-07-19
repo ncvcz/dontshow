@@ -1,4 +1,6 @@
 import tailwindcss from "@tailwindcss/vite";
+import { generateTypeFile, parseMessagesFile } from "@wxt-dev/i18n/build";
+import { matcher } from "matcher";
 import path from "path";
 import { defineConfig } from "wxt";
 
@@ -9,8 +11,19 @@ export default defineConfig({
   outDir: "dist",
 
   vite: () => ({
-    // @ts-ignore
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      {
+        name: "gen-language-types",
+        async handleHotUpdate({ file }) {
+          if (!matcher(file, ["src/locales/*.yml"])) return;
+
+          const en = await parseMessagesFile("src/locales/en.yml");
+
+          await generateTypeFile("src/i18n.d.ts", en);
+        },
+      },
+    ],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

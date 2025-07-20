@@ -15,7 +15,7 @@ export default defineContentScript({
         container.append(app);
 
         const root = ReactDOM.createRoot(app);
-        root.render(<App />);
+        root.render(<App onClose={() => ui.remove()} />);
         return root;
       },
     });

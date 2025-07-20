@@ -53,7 +53,9 @@ function App() {
           variant="ghost"
           size="icon"
           onClick={async () =>
-            await browser.tabs.sendMessage(currentTab.id!, "exposing-element-selection")
+            await browser.tabs
+              .sendMessage(currentTab.id!, "exposing-element-selection")
+              .then(() => window.close())
           }
         >
           <PointerIcon />

@@ -1,9 +1,23 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useStorage } from "@/hooks/storage";
 import { Element as ExposingElement } from "@/types";
 import { getCssSelector } from "css-selector-generator";
+import { XIcon } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
-export default function App() {
+interface Props {
+  onClose?: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export default function App({ onClose }: Props) {
   const [elements, setElements] = useStorage<ExposingElement[]>("local:elements", []);
   const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
+  const [isHoverUI, setIsHoverUI] = useState(false);
+
+  const handleClose: React.MouseEventHandler<HTMLButtonElement> = event => {
+    onClose?.(event);
+  };
 
   useEffect(() => {
     const handleMouseOver = (event: MouseEvent) => {
@@ -12,16 +26,19 @@ export default function App() {
       if (target.textContent?.trim() === "") return;
       target.style.outline = "2px solid blue";
       target.style.cursor = "pointer";
+      target.setAttribute("data-ds-hovered", "true");
     };
 
     const handleMouseOut = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       target.style.outline = "";
+      target.removeAttribute("data-ds-hovered");
     };
 
     const handleClick = async (event: MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
+      if (isHoverUI) return;
       const target = event.target as Element;
       const selector = getCssSelector(target);
 
@@ -50,6 +67,19 @@ export default function App() {
 
   return (
     <>
+      <div
+        className="absolute bottom-0 left-0 z-[99999] p-4"
+        onMouseOver={() => {
+          setHoveredElement(null);
+          setIsHoverUI(true);
+        }}
+        onMouseOut={() => setIsHoverUI(false)}
+      >
+        <Button variant="outline" onClick={handleClose}>
+          <XIcon className="h-4 w-4" />
+        </Button>
+      </div>
+
       {elements.map((element, index) => {
         const popover = document.querySelector(element.selector) as HTMLElement;
 

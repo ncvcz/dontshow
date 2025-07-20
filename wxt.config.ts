@@ -15,12 +15,14 @@ export default defineConfig({
       tailwindcss(),
       {
         name: "gen-language-types",
-        async handleHotUpdate({ file }) {
-          if (!matcher(file, ["src/locales/*.yml"])) return;
+        async configureServer({ watcher }) {
+          watcher.on("change", async file => {
+            if (file.endsWith(".yml") && file.includes("locales")) {
+              const en = await parseMessagesFile("src/locales/en.yml");
 
-          const en = await parseMessagesFile("src/locales/en.yml");
-
-          await generateTypeFile("src/i18n.d.ts", en);
+              await generateTypeFile("src/i18n.d.ts", en);
+            }
+          });
         },
       },
     ],

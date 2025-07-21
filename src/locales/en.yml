@@ -98,3 +98,4 @@ popup:
   disabled: "Extension Disabled"
   notAvailable: "Not available in this tab."
   why: "Why?"
+  reload: "Reload page to apply changes"

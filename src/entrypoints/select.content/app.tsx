@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useStorage } from "@/hooks/storage";
 import { Element as ExposingElement } from "@/types";
 import { getCssSelector } from "css-selector-generator";

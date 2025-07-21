@@ -1,13 +1,15 @@
 import Disabled from "./_components/disabled";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useCurrentTab } from "@/hooks/browser";
 import { useStorage } from "@/hooks/storage";
-import { PointerIcon, SettingsIcon } from "lucide-react";
+import { PointerIcon, RefreshCwIcon, SettingsIcon } from "lucide-react";
 
 function App() {
+  const { t } = useTranslation("popup");
   const currentTab = useCurrentTab();
+  const [askToReload, setAskToReload] = useState<boolean>(false);
   const [disabledWebsites, setDisabledWebsites] = useStorage<string[]>(
     "local:disabledWebsites",
     []
@@ -23,6 +25,8 @@ function App() {
     } else {
       setDisabledWebsites([...disabledWebsites, hostname]);
     }
+
+    setAskToReload(true);
   };
 
   if (
@@ -41,6 +45,19 @@ function App() {
       <Card className="flex h-[50px] w-full items-center justify-center rounded-none border-x-0 border-t-0">
         <h1 className="text-center text-lg font-semibold">{new URL(currentTab.url).hostname}</h1>
       </Card>
+      {askToReload && (
+        <Button
+          size={"sm"}
+          className="absolute top-14 right-1 text-xs"
+          onClick={async () => {
+            await browser.tabs.reload(currentTab.id!);
+            setAskToReload(false);
+          }}
+        >
+          <RefreshCwIcon className="inline h-4 w-4" />
+          {t("reload")}
+        </Button>
+      )}
       <div className="flex h-full w-full flex-col items-center justify-center gap-4">
         <Switch
           className="scale-[400%]"

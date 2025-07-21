@@ -1,6 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
 import { generateTypeFile, parseMessagesFile } from "@wxt-dev/i18n/build";
-import { matcher } from "matcher";
 import path from "path";
 import { defineConfig } from "wxt";
 

@@ -9,9 +9,13 @@ export default function Disabled() {
   const currentTab = useCurrentTab();
 
   return (
-    <div className="h-[300px] w-[250px]">
+    <div className="h-[300px] w-[250px] overflow-hidden">
       <Card className="flex h-[50px] w-full items-center justify-center rounded-none border-x-0 border-t-0">
-        <h1 className="text-center text-lg font-semibold">{currentTab?.title || t("disabled")}</h1>
+        <h1 className="text-center text-lg font-semibold">
+          {currentTab?.title
+            ? currentTab.title.substring(0, 20) + (currentTab.title.length > 20 ? "..." : "")
+            : t("disabled")}
+        </h1>
       </Card>
       <div className="absolute top-14 right-1 rounded-md bg-amber-300 px-2 py-0.5 text-amber-900">
         <p className="text-sm">

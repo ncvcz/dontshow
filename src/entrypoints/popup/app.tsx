@@ -35,13 +35,14 @@ function App() {
     currentTab.url.startsWith("about:") ||
     currentTab.url.startsWith("chrome://") ||
     currentTab.url.startsWith("chrome-extension://") ||
-    currentTab.url.startsWith("file://")
+    currentTab.url.startsWith("file://") ||
+    currentTab.url.startsWith("moz-extension://")
   ) {
     return <Disabled />;
   }
 
   return (
-    <div className="h-[300px] w-[250px]">
+    <div className="h-[300px] w-[250px] overflow-hidden">
       <Card className="flex h-[50px] w-full items-center justify-center rounded-none border-x-0 border-t-0">
         <h1 className="text-center text-lg font-semibold">{new URL(currentTab.url).hostname}</h1>
       </Card>

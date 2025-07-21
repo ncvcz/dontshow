@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useStorage } from "@/hooks/storage";
 import { Element as ExposingElement } from "@/types";
 import { getCssSelector } from "css-selector-generator";
-import { XIcon } from "lucide-react";
+import { TrashIcon, XIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 interface Props {
@@ -16,29 +16,34 @@ export default function App({ onClose }: Props) {
   const [isHoverUI, setIsHoverUI] = useState(false);
 
   const handleClose: React.MouseEventHandler<HTMLButtonElement> = event => {
+    setIsHoverUI(true);
+    setHoveredElement(null);
     onClose?.(event);
   };
 
   useEffect(() => {
     const handleMouseOver = (event: MouseEvent) => {
+      if (isHoverUI) return;
       const target = event.target as HTMLElement;
 
       if (target.textContent?.trim() === "") return;
       target.style.outline = "2px solid blue";
       target.style.cursor = "pointer";
-      target.setAttribute("data-ds-hovered", "true");
     };
 
     const handleMouseOut = (event: MouseEvent) => {
+      if (isHoverUI) return;
+
       const target = event.target as HTMLElement;
       target.style.outline = "";
-      target.removeAttribute("data-ds-hovered");
     };
 
     const handleClick = async (event: MouseEvent) => {
+      if (isHoverUI) return;
+
       event.preventDefault();
       event.stopPropagation();
-      if (isHoverUI) return;
+
       const target = event.target as Element;
       const selector = getCssSelector(target);
 
@@ -108,7 +113,7 @@ export default function App({ onClose }: Props) {
           >
             {hoveredElement === popover && (
               <button
-                className="h-full w-full bg-red-400 text-center"
+                className="flex h-full w-full items-center justify-center bg-red-400 text-center"
                 onClick={e => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -117,7 +122,7 @@ export default function App({ onClose }: Props) {
                   setElements(updatedElements);
                 }}
               >
-                <span>Remove</span>
+                <TrashIcon className="h-6 w-6" />
               </button>
             )}
           </div>

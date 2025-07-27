@@ -31,7 +31,7 @@ export default function Disabled() {
           </button>
         </p>
       </div>
-      <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+      <div className="flex h-[calc(100vh-50px)] w-full flex-col items-center justify-center gap-4">
         <Switch className="scale-[400%]" disabled />
       </div>
       <div>

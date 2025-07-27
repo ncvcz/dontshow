@@ -13,11 +13,14 @@ export default function App({ onClose }: Props) {
   const [elements, setElements] = useStorage<ExposingElement[]>("local:elements", []);
   const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
   const [isHoverUI, setIsHoverUI] = useState(false);
+  const [elementsRemoved, setElementsRemoved] = useState<ExposingElement[]>([]);
 
   const handleClose: React.MouseEventHandler<HTMLButtonElement> = event => {
     setIsHoverUI(true);
     setHoveredElement(null);
     onClose?.(event);
+
+    if (elementsRemoved.length > 0) window.location.reload();
   };
 
   useEffect(() => {
@@ -119,6 +122,7 @@ export default function App({ onClose }: Props) {
 
                   const updatedElements = elements.filter((_, i) => i !== index);
                   setElements(updatedElements);
+                  setElementsRemoved([...elementsRemoved, element]);
                 }}
               >
                 <TrashIcon className="h-6 w-6" />

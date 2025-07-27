@@ -59,7 +59,7 @@ function App() {
           {t("reload")}
         </Button>
       )}
-      <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+      <div className="flex h-[calc(100vh-50px)] w-full flex-col items-center justify-center gap-4">
         <Switch
           className="scale-[400%]"
           checked={!disabledWebsites.includes(new URL(currentTab.url!).hostname)}

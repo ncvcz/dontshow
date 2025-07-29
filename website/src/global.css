@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #6366f1;
+  --font-spline: "Spline Sans", sans-serif;
+}

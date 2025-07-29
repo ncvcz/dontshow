@@ -1,0 +1,136 @@
+import { Button } from "@/components/ui/button";
+import { useStorage } from "@/hooks/storage";
+import { Element as ExposingElement } from "@/types";
+import { getCssSelector } from "css-selector-generator";
+import { TrashIcon, XIcon } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
+interface Props {
+  onClose?: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export default function App({ onClose }: Props) {
+  const [elements, setElements] = useStorage<ExposingElement[]>("local:elements", []);
+  const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
+  const [isHoverUI, setIsHoverUI] = useState(false);
+  const [elementsRemoved, setElementsRemoved] = useState<ExposingElement[]>([]);
+
+  const handleClose: React.MouseEventHandler<HTMLButtonElement> = event => {
+    setIsHoverUI(true);
+    setHoveredElement(null);
+    onClose?.(event);
+
+    if (elementsRemoved.length > 0) window.location.reload();
+  };
+
+  useEffect(() => {
+    const handleMouseOver = (event: MouseEvent) => {
+      if (isHoverUI) return;
+      const target = event.target as HTMLElement;
+
+      if (target.textContent?.trim() === "") return;
+      target.style.outline = "2px solid blue";
+      target.style.cursor = "pointer";
+    };
+
+    const handleMouseOut = (event: MouseEvent) => {
+      if (isHoverUI) return;
+
+      const target = event.target as HTMLElement;
+      target.style.outline = "";
+    };
+
+    const handleClick = async (event: MouseEvent) => {
+      if (isHoverUI) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const target = event.target as Element;
+      const selector = getCssSelector(target);
+
+      const newElement: ExposingElement = {
+        selector,
+        website: new URL(document.location.href).hostname,
+        action: "censor",
+      };
+
+      const updatedElements = [...elements, newElement];
+
+      setElements(updatedElements);
+      setHoveredElement(null);
+    };
+
+    document.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseout", handleMouseOut);
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
+      document.removeEventListener("click", handleClick);
+    };
+  }, [elements]);
+
+  return (
+    <>
+      <div
+        className="absolute bottom-0 left-0 z-[99999] p-4"
+        onMouseOver={() => {
+          setHoveredElement(null);
+          setIsHoverUI(true);
+        }}
+        onMouseOut={() => setIsHoverUI(false)}
+      >
+        <Button variant="outline" onClick={handleClose}>
+          <XIcon className="h-4 w-4" />
+        </Button>
+      </div>
+
+      {elements.map((element, index) => {
+        const popover = document.querySelector(element.selector) as HTMLElement;
+
+        if (!popover) {
+          console.warn(`Element with selector "${element.selector}" not found.`);
+          return null;
+        }
+        if (popover.textContent?.trim() === "") return null;
+
+        return (
+          <div
+            key={index}
+            className="absolute cursor-pointer border-2 border-red-500"
+            onMouseOver={() => {
+              setHoveredElement(popover);
+            }}
+            onMouseOut={() => {
+              setHoveredElement(null);
+            }}
+            style={{
+              top: popover.getBoundingClientRect().top + window.scrollY,
+              left: popover.getBoundingClientRect().left + window.scrollX,
+              width: popover.getBoundingClientRect().width,
+              height: popover.getBoundingClientRect().height,
+            }}
+          >
+            {hoveredElement === popover && (
+              <button
+                className="flex h-full w-full items-center justify-center bg-red-400 text-center"
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  const updatedElements = elements.filter((_, i) => i !== index);
+                  setElements(updatedElements);
+                  setElementsRemoved([...elementsRemoved, element]);
+                }}
+              >
+                <TrashIcon className="h-6 w-6" />
+              </button>
+            )}
+          </div>
+        );
+      })}
+    </>
+  );
+}

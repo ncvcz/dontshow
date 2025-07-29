@@ -1,0 +1,36 @@
+---
+import Layout from "../layouts/layout.astro";
+import Faq from "./_components/faq.astro";
+import Features from "./_components/features.astro";
+import Preview from "./_components/preview.astro";
+---
+
+<Layout title="Don't Show">
+  <div class="flex flex-col items-center justify-center py-24">
+    <h1 class="text-6xl/16 font-bold mb-4 text-center">
+      The privacy filter your <br />browser is missing
+    </h1>
+    <p class="text-lg text-center mb-8 max-w-2xl">
+      Auto-hide names, emails, messages, and anything you don't want others to see, while screen
+      sharing, streaming, or recording. One click. Zero leaks. 100% open-source.
+    </p>
+    <div class="flex items-center">
+      <a
+        href=""
+        id="download-button"
+        class="bg-white text-black px-6 py-2 rounded-full text-lg font-semibold hover:bg-gray-200 transition-colors"
+      >
+        Download Now
+      </a>
+      <a
+        href="https://github.com/ncvcz/dontshow"
+        class="ml-4 border border-white text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-white hover:text-black transition-colors"
+      >
+        Source Code
+      </a>
+    </div>
+  </div>
+  <Features />
+  <Faq />
+  <Preview />
+</Layout>

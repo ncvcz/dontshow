@@ -1,0 +1,17 @@
+---
+import Preview from "../../components/preview";
+import p1 from "../../assets/p-1.png";
+import p2 from "../../assets/p-2.png";
+import p3 from "../../assets/p-3.png";
+---
+
+<div class="bg-white/10">
+  <div class="container mx-auto px-4 py-12">
+    <h2 class="text-4xl font-bold mb-8 text-center text-white">See it in action</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <Preview src={p1.src} client:load alt="Preview 1" />
+      <Preview src={p2.src} client:load alt="Preview 2" />
+      <Preview src={p3.src} client:load alt="Preview 3" />
+    </div>
+  </div>
+</div>

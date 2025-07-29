@@ -5,7 +5,7 @@ interface Props {
   alt: string;
 }
 
-export default function Preview({ src, alt }: Props) {
+export default function ImagePreview({ src, alt }: Props) {
   const [fullScreen, setFullScreen] = useState(false);
 
   // Handle escape key to close fullscreen

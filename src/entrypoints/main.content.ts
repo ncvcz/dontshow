@@ -1,8 +1,8 @@
-import "../assets/hide.css";
 import { log } from "@/lib/log";
 import { isEnabled, textReplacement } from "@/lib/utils";
 import { Element as ExposingElement, Filter } from "@/types";
 import { isMatch } from "matcher";
+import "../assets/hide.css";
 
 // Process the DOM to find and replace text based on filters
 const processGeneralFilters = async () => {

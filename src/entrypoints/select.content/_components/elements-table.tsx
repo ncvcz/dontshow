@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import { Element as ExposingElement } from "@/types";
 import { TrashIcon } from "lucide-react";
-import React from "react";
 
 interface ElementsTableProps {
   elements: ExposingElement[];

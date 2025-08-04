@@ -1,10 +1,10 @@
-import Disabled from "./_components/disabled";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useCurrentTab } from "@/hooks/browser";
 import { useStorage } from "@/hooks/storage";
 import { PointerIcon, RefreshCwIcon, SettingsIcon } from "lucide-react";
+import Disabled from "./_components/disabled";
 
 function App() {
   const { t } = useTranslation("popup");

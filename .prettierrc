@@ -7,10 +7,8 @@
   "arrowParens": "avoid",
   "endOfLine": "lf",
   "plugins": [
-    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-organize-imports",
     "prettier-plugin-tailwindcss",
     "prettier-plugin-astro"
-  ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  ]
 }

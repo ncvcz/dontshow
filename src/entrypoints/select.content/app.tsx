@@ -1,11 +1,11 @@
-import { ControlButtons } from "./_components/control-buttons";
-import { ElementOverlay } from "./_components/element-overlay";
-import { ElementsTable } from "./_components/elements-table";
-import { HighlightOverlay } from "./_components/highlight-overlay";
 import { useStorage } from "@/hooks/storage";
 import { Element as ExposingElement } from "@/types";
 import { getCssSelector } from "css-selector-generator";
 import React, { useEffect, useState } from "react";
+import { ControlButtons } from "./_components/control-buttons";
+import { ElementOverlay } from "./_components/element-overlay";
+import { ElementsTable } from "./_components/elements-table";
+import { HighlightOverlay } from "./_components/highlight-overlay";
 
 interface Props {
   onClose?: React.MouseEventHandler<HTMLButtonElement>;

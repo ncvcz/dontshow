@@ -1,4 +1,3 @@
-import { Setting } from "../ui/setting";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -11,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Settings } from "@/types";
 import { Trash2Icon } from "lucide-react";
+import { Setting } from "../ui/setting";
 
 export default function SettingsComponent() {
   const { t } = useTranslation("settings.settings");

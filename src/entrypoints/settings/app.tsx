@@ -1,8 +1,8 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import About from "./_components/sections/about";
 import Elements from "./_components/sections/elements";
 import Filters from "./_components/sections/filters";
 import Settings from "./_components/sections/settings";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function App() {
   const { t } = useTranslation("settings.tabs");

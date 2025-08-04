@@ -1,6 +1,6 @@
-import App from "./app.tsx";
 import "@/assets/global.css";
 import ReactDOM from "react-dom/client";
+import App from "./app.tsx";
 
 export default defineContentScript({
   matches: ["<all_urls>"],

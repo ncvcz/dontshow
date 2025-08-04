@@ -1,6 +1,5 @@
 import { Element as ExposingElement } from "@/types";
 import { TrashIcon } from "lucide-react";
-import React from "react";
 
 interface ElementOverlayProps {
   element: ExposingElement;

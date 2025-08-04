@@ -10,7 +10,7 @@ export default function About() {
       <p className="text-muted-foreground text-base">{t("description")}</p>
       <h2 className="text-2xl font-semibold">{t("usefulLinks")}</h2>
       <div className="flex items-center gap-2">
-        <a href="https://github.com/ncvcz/dontshow">
+        <a href="https://github.com/clemenzi/dontshow">
           <Button variant={"outline"}>
             <BookIcon className="h-4 w-4" />
             {t("githubRepository")}
@@ -22,13 +22,13 @@ export default function About() {
             {t("officialWebsite")}
           </Button>
         </a>
-        <a href="https://github.com/ncvcz/dontshow/issues">
+        <a href="https://github.com/clemenzi/dontshow/issues">
           <Button variant={"outline"}>
             <BugIcon className="h-4 w-4" />
             {t("reportIssue")}
           </Button>
         </a>
-        <a href="https://github.com/sponsors/ncvcz">
+        <a href="https://github.com/sponsors/clemenzi">
           <Button variant={"outline"}>
             <HeartIcon className="h-4 w-4" />
             {t("supportProject")}

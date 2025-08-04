@@ -1,8 +1,10 @@
-import { Button } from "@/components/ui/button";
+import { ControlButtons } from "./_components/control-buttons";
+import { ElementOverlay } from "./_components/element-overlay";
+import { ElementsTable } from "./_components/elements-table";
+import { HighlightOverlay } from "./_components/highlight-overlay";
 import { useStorage } from "@/hooks/storage";
 import { Element as ExposingElement } from "@/types";
 import { getCssSelector } from "css-selector-generator";
-import { TrashIcon, XIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 interface Props {
@@ -14,6 +16,30 @@ export default function App({ onClose }: Props) {
   const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
   const [isHoverUI, setIsHoverUI] = useState(false);
   const [elementsRemoved, setElementsRemoved] = useState<ExposingElement[]>([]);
+  const [highlightedElement, setHighlightedElement] = useState<HTMLElement | null>(null);
+
+  const resetElements = () => {
+    setElements([]);
+    setElementsRemoved([]);
+    setHoveredElement(null);
+    setHighlightedElement(null);
+  };
+
+  const handleElementHover = (element: HTMLElement | null) => {
+    setHighlightedElement(element);
+  };
+
+  const handleElementRemove = (index: number, element: ExposingElement) => {
+    resetElements();
+    setElements(elements.filter((_, i) => i !== index));
+    setElementsRemoved([...elementsRemoved, element]);
+  };
+
+  const handleDeleteAll = () => {
+    resetElements();
+    setElementsRemoved([...elementsRemoved, ...elements]);
+    setElements([]);
+  };
 
   const handleClose: React.MouseEventHandler<HTMLButtonElement> = event => {
     setIsHoverUI(true);
@@ -75,62 +101,37 @@ export default function App({ onClose }: Props) {
   return (
     <>
       <div
-        className="absolute bottom-0 left-0 z-[99999] p-4"
+        className="fixed bottom-0 left-0 z-[99999] p-4"
         onMouseOver={() => {
           setHoveredElement(null);
           setIsHoverUI(true);
         }}
         onMouseOut={() => setIsHoverUI(false)}
       >
-        <Button variant="outline" onClick={handleClose}>
-          <XIcon className="h-4 w-4" />
-        </Button>
+        <ElementsTable
+          elements={elements}
+          onElementHover={handleElementHover}
+          onElementRemove={handleElementRemove}
+        />
+        <ControlButtons elements={elements} onClose={handleClose} onDeleteAll={handleDeleteAll} />
       </div>
 
-      {elements.map((element, index) => {
-        const popover = document.querySelector(element.selector) as HTMLElement;
+      {elements.map((element, index) => (
+        <ElementOverlay
+          key={index}
+          element={element}
+          index={index}
+          hoveredElement={hoveredElement}
+          onElementHover={setHoveredElement}
+          onElementRemove={(idx, elem) => {
+            const updatedElements = elements.filter((_, i) => i !== idx);
+            setElements(updatedElements);
+            setElementsRemoved([...elementsRemoved, elem]);
+          }}
+        />
+      ))}
 
-        if (!popover) {
-          console.warn(`Element with selector "${element.selector}" not found.`);
-          return null;
-        }
-        if (popover.textContent?.trim() === "") return null;
-
-        return (
-          <div
-            key={index}
-            className="absolute cursor-pointer border-2 border-red-500"
-            onMouseOver={() => {
-              setHoveredElement(popover);
-            }}
-            onMouseOut={() => {
-              setHoveredElement(null);
-            }}
-            style={{
-              top: popover.getBoundingClientRect().top + window.scrollY,
-              left: popover.getBoundingClientRect().left + window.scrollX,
-              width: popover.getBoundingClientRect().width,
-              height: popover.getBoundingClientRect().height,
-            }}
-          >
-            {hoveredElement === popover && (
-              <button
-                className="flex h-full w-full items-center justify-center bg-red-400 text-center"
-                onClick={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-
-                  const updatedElements = elements.filter((_, i) => i !== index);
-                  setElements(updatedElements);
-                  setElementsRemoved([...elementsRemoved, element]);
-                }}
-              >
-                <TrashIcon className="h-6 w-6" />
-              </button>
-            )}
-          </div>
-        );
-      })}
+      {highlightedElement && <HighlightOverlay element={highlightedElement} />}
     </>
   );
 }

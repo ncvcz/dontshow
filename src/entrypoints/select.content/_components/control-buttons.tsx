@@ -9,6 +9,8 @@ interface ControlButtonsProps {
 }
 
 export function ControlButtons({ elements, onClose, onDeleteAll }: ControlButtonsProps) {
+  const { t } = useTranslation("elementSelection");
+
   return (
     <div className="flex items-center">
       <Button variant="outline" onClick={onClose}>
@@ -17,7 +19,7 @@ export function ControlButtons({ elements, onClose, onDeleteAll }: ControlButton
       {elements.length > 0 && (
         <Button variant="destructive" className="ml-2" onClick={onDeleteAll}>
           <TrashIcon className="h-4 w-4" />
-          Delete All
+          {t("deleteAll")}
         </Button>
       )}
     </div>

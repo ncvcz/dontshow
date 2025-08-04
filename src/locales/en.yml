@@ -99,3 +99,5 @@ popup:
   notAvailable: "Not available in this tab."
   why: "Why?"
   reload: "Reload page to apply changes"
+elementSelection:
+  deleteAll: "Delete All"

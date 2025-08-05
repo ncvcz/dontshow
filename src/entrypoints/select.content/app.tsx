@@ -1,6 +1,6 @@
 import { useStorage } from "@/hooks/storage";
+import { getSelector } from "@/lib/selector";
 import { Element as ExposingElement } from "@/types";
-import { getCssSelector } from "css-selector-generator";
 import React, { useEffect, useState } from "react";
 import { ControlButtons } from "./_components/control-buttons";
 import { ElementOverlay } from "./_components/element-overlay";
@@ -72,8 +72,8 @@ export default function App({ onClose }: Props) {
       event.preventDefault();
       event.stopPropagation();
 
-      const target = event.target as Element;
-      const selector = getCssSelector(target);
+      const target = event.target as HTMLElement;
+      const selector = getSelector(target);
 
       const newElement: ExposingElement = {
         selector,

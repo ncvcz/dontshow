@@ -1,6 +1,7 @@
 import { defaultSettings } from "@/const";
 import { log } from "@/lib/log";
 import { Filter, Settings } from "@/types";
+import { updateDynamicFilters } from "./dynamic";
 
 export default defineBackground(() => {
   browser.runtime.onInstalled.addListener(async e => {
@@ -27,6 +28,13 @@ export default defineBackground(() => {
 
       storage.setItem(`local:settings`, updatedSettings);
     }
+  });
+
+  browser.runtime.onStartup.addListener(async () => {
+    const settings = (await storage.getItem<Settings>("local:settings")) || defaultSettings;
+    console.log("Current settings:", settings);
+
+    if (settings.dynamicFiltersIp) updateDynamicFilters.ip();
   });
 
   browser.contextMenus.create({
@@ -68,7 +76,7 @@ export default defineBackground(() => {
     }
   });
 
-  browser.runtime.onMessage.addListener((message, sender) => {
+  browser.runtime.onMessage.addListener(async (message, sender) => {
     if (message.type === "itemsProcessed") {
       const { count } = message;
 
@@ -76,6 +84,18 @@ export default defineBackground(() => {
         text: count > 0 ? count.toString() : "",
         tabId: sender.tab?.id || -1,
       });
+    } else if (message.type === "dynamicFilters:ip") {
+      if (!message.enable) {
+        const filters = (await storage.getItem<Filter[]>("local:filters")) || [];
+        const updatedFilters = filters.filter(
+          filter =>
+            !filter.automatic && !filter.expression.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/)
+        );
+
+        storage.setItem("local:filters", updatedFilters);
+      }
+
+      updateDynamicFilters.ip();
     }
   });
 });

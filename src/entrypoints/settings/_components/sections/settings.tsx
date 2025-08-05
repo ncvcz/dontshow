@@ -57,6 +57,20 @@ export default function SettingsComponent() {
         />
       </div>
 
+      <h2 className="mt-6 text-2xl font-semibold">{t("dynamicFilters.title")}</h2>
+      <div className="mt-4 flex flex-col gap-2">
+        <Setting
+          title={t("dynamicFilters.ip.title")}
+          description={t("dynamicFilters.ip.description")}
+          checked={settings.dynamicFiltersIp}
+          onChange={value => {
+            setSettings({ ...settings, dynamicFiltersIp: value });
+
+            browser.runtime.sendMessage({ type: `dynamicFilters:ip`, enable: value });
+          }}
+        />
+      </div>
+
       <h2 className="mt-6 text-2xl font-semibold">{t("websites.title")}</h2>
       <div className="mt-4 flex flex-col gap-2">
         <Setting

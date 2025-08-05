@@ -24,8 +24,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Filter, Settings } from "@/types";
-import { EditIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { BotIcon, EditIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 
 interface FilterFormData {
@@ -220,7 +221,17 @@ export default function Filters() {
           <TableBody>
             {filters.map((filter, index) => (
               <TableRow key={index}>
-                <TableCell className="font-mono font-medium">{filter.expression}</TableCell>
+                <TableCell className="flex items-center space-x-1.5 font-mono font-medium">
+                  <span>{filter.expression}</span>
+                  {filter.automatic && (
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <BotIcon className="text-primary h-5 w-5" />
+                      </TooltipTrigger>
+                      <TooltipContent>{t("automatic")}</TooltipContent>
+                    </Tooltip>
+                  )}
+                </TableCell>
                 <TableCell>{filter.domain}</TableCell>
                 <TableCell className="capitalize">{filter.type}</TableCell>
                 <TableCell>

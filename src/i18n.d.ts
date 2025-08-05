@@ -14,6 +14,9 @@ export type GeneratedI18nStructure = {
   "settings.settings.general.inputCensoring.description": { substitutions: 0; plural: false };
   "settings.settings.general.uncensorOnFocus.title": { substitutions: 0; plural: false };
   "settings.settings.general.uncensorOnFocus.description": { substitutions: 0; plural: false };
+  "settings.settings.dynamicFilters.title": { substitutions: 0; plural: false };
+  "settings.settings.dynamicFilters.ip.title": { substitutions: 0; plural: false };
+  "settings.settings.dynamicFilters.ip.description": { substitutions: 0; plural: false };
   "settings.settings.websites.title": { substitutions: 0; plural: false };
   "settings.settings.websites.enableOnLocalhost.title": { substitutions: 0; plural: false };
   "settings.settings.websites.enableOnLocalhost.description": { substitutions: 0; plural: false };
@@ -46,6 +49,7 @@ export type GeneratedI18nStructure = {
   "settings.filters.action.options.remove": { substitutions: 0; plural: false };
   "settings.filters.actions.label": { substitutions: 0; plural: false };
   "settings.filters.cancel": { substitutions: 0; plural: false };
+  "settings.filters.automatic": { substitutions: 0; plural: false };
   "settings.elements.title": { substitutions: 0; plural: false };
   "settings.elements.description": { substitutions: 0; plural: false };
   "settings.elements.tabs.list": { substitutions: 0; plural: false };

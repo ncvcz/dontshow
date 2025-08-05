@@ -4,12 +4,14 @@ export interface Settings {
   uncensorOnFocus?: boolean;
   enableOnLocalhost?: boolean;
   debugMessages?: boolean;
+  dynamicFiltersIp?: boolean;
 }
 
 export interface Filter {
   expression: string;
   domain: string;
   type: "censor" | "remove";
+  automatic?: boolean;
 }
 
 export interface Element {

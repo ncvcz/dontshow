@@ -21,6 +21,11 @@ settings:
       uncensorOnFocus:
         title: "Uncensor Inputs on Focus"
         description: "Uncensor inputs when they are focused, allowing you to see the original content."
+    dynamicFilters:
+      title: "Dynamic Filters Settings"
+      ip:
+        title: "Personal IP Address Filter"
+        description: "Automatically filters your personal IP address."
     websites:
       title: "Websites Settings"
       enableOnLocalhost:
@@ -70,6 +75,7 @@ settings:
     actions:
       label: "Actions"
     cancel: "Cancel"
+    automatic: "This filter is generated and managed by the extension."
   elements:
     title: "Elements"
     description: "This section allows you to view and delete elements that have been selected on web pages. These elements are used to identify and manage content that you want to censor or remove."

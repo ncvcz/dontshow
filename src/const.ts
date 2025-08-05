@@ -6,4 +6,5 @@ export const defaultSettings: Settings = {
   uncensorOnFocus: true,
   enableOnLocalhost: false,
   debugMessages: false,
+  dynamicFiltersIp: false,
 };

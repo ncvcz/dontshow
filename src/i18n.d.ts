@@ -48,8 +48,11 @@ export type GeneratedI18nStructure = {
   "settings.filters.action.options.censor": { substitutions: 0; plural: false };
   "settings.filters.action.options.remove": { substitutions: 0; plural: false };
   "settings.filters.actions.label": { substitutions: 0; plural: false };
+  "settings.filters.tooltips.automatic": { substitutions: 0; plural: false };
+  "settings.filters.tooltips.switch": { substitutions: 0; plural: false };
+  "settings.filters.tooltips.edit": { substitutions: 0; plural: false };
+  "settings.filters.tooltips.delete": { substitutions: 0; plural: false };
   "settings.filters.cancel": { substitutions: 0; plural: false };
-  "settings.filters.automatic": { substitutions: 0; plural: false };
   "settings.elements.title": { substitutions: 0; plural: false };
   "settings.elements.description": { substitutions: 0; plural: false };
   "settings.elements.tabs.list": { substitutions: 0; plural: false };

@@ -16,6 +16,7 @@ export const updateDynamicFilters = {
       domain: "*",
       type: "censor",
       automatic: true,
+      enabled: true,
     };
 
     filters.push(newFilter);

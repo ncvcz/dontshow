@@ -1,19 +1,13 @@
 import { log } from "@/lib/log";
-import { isEnabled, textReplacement } from "@/lib/utils";
+import { getProcessableFilters, isEnabled, textReplacement } from "@/lib/utils";
 import { Element as ExposingElement, Filter } from "@/types";
 import { isMatch } from "matcher";
 import "../assets/hide.css";
 
 // Process the DOM to find and replace text based on filters
 const processGeneralFilters = async () => {
-  const rawFilters = await storage.getItem<Filter[]>("local:filters");
+  const filters = await getProcessableFilters();
   const matchedWords = new Map<Node, Filter>();
-
-  const filters = rawFilters?.filter(filter => {
-    const url = new URL(document.location.href);
-
-    return isMatch(url.hostname, filter.domain);
-  });
 
   log.info("Processing DOM. Looking to apply " + (filters?.length ?? 0) + " filters...");
 
@@ -108,11 +102,7 @@ const processElements = async () => {
 
 const processInputs = async () => {
   const inputs = document.querySelectorAll("input[type='text'], input[type='search']");
-  const rawFilters = await storage.getItem<Filter[]>("local:filters");
-  const filters = rawFilters?.filter(filter => {
-    const url = new URL(document.location.href);
-    return isMatch(url.hostname, filter.domain);
-  });
+  const filters = await getProcessableFilters();
 
   for (const input of inputs) {
     const target = input as HTMLInputElement;

@@ -12,6 +12,7 @@ export interface Filter {
   domain: string;
   type: "censor" | "remove";
   automatic?: boolean;
+  enabled: boolean;
 }
 
 export interface Element {

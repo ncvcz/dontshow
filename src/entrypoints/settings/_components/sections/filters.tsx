@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import {
   Table,
   TableBody,
@@ -76,7 +77,7 @@ export default function Filters() {
   const handleAddFilter = () => {
     if (!validateForm()) return;
 
-    const newFilter: Filter = { ...formData };
+    const newFilter: Filter = { ...formData, enabled: true, automatic: false };
     setFilters([...filters, newFilter]);
     closeDialog();
   };
@@ -96,7 +97,7 @@ export default function Filters() {
     if (!validateForm() || editingIndex === null) return;
 
     const updatedFilters = filters.map((filter, i) =>
-      i === editingIndex ? { ...formData } : filter
+      i === editingIndex ? { ...formData, enabled: true, automatic: false } : filter
     );
     setFilters(updatedFilters);
     closeDialog();
@@ -228,7 +229,7 @@ export default function Filters() {
                       <TooltipTrigger>
                         <BotIcon className="text-primary h-5 w-5" />
                       </TooltipTrigger>
-                      <TooltipContent>{t("automatic")}</TooltipContent>
+                      <TooltipContent>{t("tooltips.automatic")}</TooltipContent>
                     </Tooltip>
                   )}
                 </TableCell>
@@ -236,22 +237,48 @@ export default function Filters() {
                 <TableCell className="capitalize">{filter.type}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleEditFilter(index)}
-                      className="h-8 w-8 p-0"
-                    >
-                      <EditIcon className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleRemoveFilter(index)}
-                      className="text-destructive hover:text-destructive h-8 w-8 p-0"
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </Button>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Switch
+                          checked={filter.enabled}
+                          onCheckedChange={checked =>
+                            setFilters(
+                              filters.map((f, i) => (i === index ? { ...f, enabled: checked } : f))
+                            )
+                          }
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent>{t("tooltips.switch")}</TooltipContent>
+                    </Tooltip>
+
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleEditFilter(index)}
+                          className="h-8 w-8 p-0"
+                          disabled={filter.automatic}
+                        >
+                          <EditIcon className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>{t("tooltips.edit")}</TooltipContent>
+                    </Tooltip>
+
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleRemoveFilter(index)}
+                          className="h-8 w-8 p-0"
+                        >
+                          <TrashIcon className="h-4 w-4 text-red-500" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>{t("tooltips.delete")}</TooltipContent>
+                    </Tooltip>
                   </div>
                 </TableCell>
               </TableRow>

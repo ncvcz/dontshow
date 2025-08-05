@@ -27,6 +27,16 @@ export default defineBackground(() => {
       );
 
       storage.setItem(`local:settings`, updatedSettings);
+
+      // Migrate filters from v0 to v1
+      const filters = (await storage.getItem<Filter[]>("local:filters")) || [];
+      const updatedFilters = filters.map(filter => ({
+        ...filter,
+        enabled: filter.enabled ?? true,
+        automatic: filter.automatic ?? false,
+      }));
+
+      storage.setItem("local:filters", updatedFilters);
     }
   });
 
@@ -67,6 +77,8 @@ export default defineBackground(() => {
           expression: newFilter,
           type: "censor",
           domain: info.menuItemId === "add-to-global-filters" ? "*" : tab?.url || "*",
+          enabled: true,
+          automatic: false,
         });
         storage.setItem("local:filters", filters);
         log.info(`Added filter: ${newFilter}`);

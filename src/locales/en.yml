@@ -74,8 +74,12 @@ settings:
         remove: "Remove"
     actions:
       label: "Actions"
+    tooltips:
+      automatic: "This filter is generated and managed by the extension."
+      switch: "Enable/disable this filter"
+      edit: "Edit this filter"
+      delete: "Delete this filter"
     cancel: "Cancel"
-    automatic: "This filter is generated and managed by the extension."
   elements:
     title: "Elements"
     description: "This section allows you to view and delete elements that have been selected on web pages. These elements are used to identify and manage content that you want to censor or remove."

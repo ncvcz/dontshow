@@ -221,7 +221,7 @@ export default function Filters() {
           </TableHeader>
           <TableBody>
             {filters.map((filter, index) => (
-              <TableRow key={index}>
+              <TableRow key={index} className={!filter.enabled ? "opacity-50" : ""}>
                 <TableCell className="flex items-center space-x-1.5 font-mono font-medium">
                   <span>{filter.expression}</span>
                   {filter.automatic && (

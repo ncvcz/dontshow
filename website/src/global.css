@@ -4,3 +4,14 @@
   --color-primary: #6366f1;
   --font-spline: "Spline Sans", sans-serif;
 }
+
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}

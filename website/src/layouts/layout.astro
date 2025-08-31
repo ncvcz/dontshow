@@ -1,7 +1,7 @@
 ---
-import Navbar from "../components/navbar.astro";
-import Footer from "../components/footer.astro";
-import "../global.css";
+import Footer from "@/components/footer.astro";
+import Navbar from "@/components/navbar.astro";
+import "@/global.css";
 
 interface Props {
   title?: string;
@@ -24,6 +24,16 @@ const { title } = Astro.props;
       rel="stylesheet"
     />
     <title>{title}</title>
+    <meta
+      name="description"
+      content="Don't Show is a privacy extension that automatically hides sensitive information while screen sharing, streaming, or recording."
+    />
+    <link rel="canonical" href={Astro.request.url} />
+    <meta property="og:title" content={title} />
+    <meta
+      property="og:description"
+      content="Don't Show is a privacy extension that automatically hides sensitive information while screen sharing, streaming, or recording."
+    />
   </head>
   <body class="bg-primary font-spline text-white">
     <Navbar />
@@ -31,3 +41,22 @@ const { title } = Astro.props;
     <Footer />
   </body>
 </html>
+
+<script>
+  import { UAParser } from "ua-parser-js";
+
+  const ua = UAParser(navigator.userAgent);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const installButtons: NodeListOf<HTMLAnchorElement> =
+      document.querySelectorAll("#install-button");
+
+    if (!installButtons) return;
+
+    installButtons.forEach(installButton => {
+      if (ua.browser.name === "Firefox") {
+        installButton.href = "https://addons.mozilla.org/firefox/addon/dontshow/";
+      }
+    });
+  });
+</script>

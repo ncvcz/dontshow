@@ -15,7 +15,7 @@ export default function Compare() {
         <button
           className={
             section === "amz"
-              ? "w-full rounded-full border-2 border-white bg-white px-6 py-3 font-semibold text-black transition hover:bg-gray-200"
+              ? "rounded-full border-2 border-white bg-white px-6 py-3 font-semibold text-black transition hover:bg-gray-200"
               : "rounded-full border-2 border-white px-6 py-3 font-semibold transition hover:bg-white hover:text-black"
           }
           onClick={() => setSection("amz")}

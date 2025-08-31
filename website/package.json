@@ -23,6 +23,7 @@
     "ua-parser-js": "^2.0.4"
   },
   "devDependencies": {
+    "sharp": "^0.34.3",
     "wrangler": "^4.26.1"
   }
 }

@@ -1,4 +1,4 @@
-import { useStorage } from "@/hooks/storage";
+import { useSiteElements } from "@/hooks/elements";
 import { getSelector } from "@/lib/selector";
 import { Element as ExposingElement } from "@/types";
 import React, { useEffect, useState } from "react";
@@ -12,41 +12,23 @@ interface Props {
 }
 
 export default function App({ onClose }: Props) {
-  const [elements, setElements] = useStorage<ExposingElement[]>("local:elements", []);
+  const { elements, add, removeAt, clear } = useSiteElements();
   const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
   const [isHoverUI, setIsHoverUI] = useState(false);
-  const [elementsRemoved, setElementsRemoved] = useState<ExposingElement[]>([]);
   const [highlightedElement, setHighlightedElement] = useState<HTMLElement | null>(null);
-
-  const resetElements = () => {
-    setElements([]);
-    setElementsRemoved([]);
-    setHoveredElement(null);
-    setHighlightedElement(null);
-  };
 
   const handleElementHover = (element: HTMLElement | null) => {
     setHighlightedElement(element);
   };
 
-  const handleElementRemove = (index: number, element: ExposingElement) => {
-    resetElements();
-    setElements(elements.filter((_, i) => i !== index));
-    setElementsRemoved([...elementsRemoved, element]);
-  };
+  const handleElementRemove = (index: number, _element: ExposingElement) => removeAt(index);
 
-  const handleDeleteAll = () => {
-    resetElements();
-    setElementsRemoved([...elementsRemoved, ...elements]);
-    setElements([]);
-  };
+  const handleDeleteAll = () => clear();
 
   const handleClose: React.MouseEventHandler<HTMLButtonElement> = event => {
     setIsHoverUI(true);
     setHoveredElement(null);
     onClose?.(event);
-
-    if (elementsRemoved.length > 0) window.location.reload();
   };
 
   useEffect(() => {
@@ -75,15 +57,7 @@ export default function App({ onClose }: Props) {
       const target = event.target as HTMLElement;
       const selector = getSelector(target);
 
-      const newElement: ExposingElement = {
-        selector,
-        website: new URL(document.location.href).hostname,
-        action: "censor",
-      };
-
-      const updatedElements = [...elements, newElement];
-
-      setElements(updatedElements);
+      await add({ selector, action: "censor" });
       setHoveredElement(null);
     };
 
@@ -96,7 +70,7 @@ export default function App({ onClose }: Props) {
       document.removeEventListener("mouseout", handleMouseOut);
       document.removeEventListener("click", handleClick);
     };
-  }, [elements]);
+  }, [elements, isHoverUI, add]);
 
   return (
     <>
@@ -123,11 +97,7 @@ export default function App({ onClose }: Props) {
           index={index}
           hoveredElement={hoveredElement}
           onElementHover={setHoveredElement}
-          onElementRemove={(idx, elem) => {
-            const updatedElements = elements.filter((_, i) => i !== idx);
-            setElements(updatedElements);
-            setElementsRemoved([...elementsRemoved, elem]);
-          }}
+          onElementRemove={(idx, _elem) => removeAt(idx)}
         />
       ))}
 

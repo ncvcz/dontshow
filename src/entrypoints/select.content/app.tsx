@@ -1,6 +1,6 @@
 import { useSiteElements } from "@/hooks/elements";
-import { getSelector } from "@/lib/selector";
 import { Element as ExposingElement } from "@/types";
+import { getCssSelector } from "css-selector-generator";
 import React, { useEffect, useState } from "react";
 import { ControlButtons } from "./_components/control-buttons";
 import { ElementOverlay } from "./_components/element-overlay";
@@ -37,15 +37,12 @@ export default function App({ onClose }: Props) {
       const target = event.target as HTMLElement;
 
       if (target.textContent?.trim() === "") return;
-      target.style.outline = "2px solid blue";
-      target.style.cursor = "pointer";
+      setHoveredElement(target);
     };
 
     const handleMouseOut = (event: MouseEvent) => {
       if (isHoverUI) return;
-
-      const target = event.target as HTMLElement;
-      target.style.outline = "";
+      setHoveredElement(null);
     };
 
     const handleClick = async (event: MouseEvent) => {
@@ -55,7 +52,7 @@ export default function App({ onClose }: Props) {
       event.stopPropagation();
 
       const target = event.target as HTMLElement;
-      const selector = getSelector(target);
+      const selector = getCssSelector(target);
 
       await add({ selector, action: "censor" });
       setHoveredElement(null);
@@ -101,7 +98,8 @@ export default function App({ onClose }: Props) {
         />
       ))}
 
-      {highlightedElement && <HighlightOverlay element={highlightedElement} />}
+      {hoveredElement && <HighlightOverlay element={hoveredElement} color="red" />}
+      {highlightedElement && <HighlightOverlay element={highlightedElement} color="green" />}
     </>
   );
 }

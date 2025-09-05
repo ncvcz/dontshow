@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Element as ExposingElement } from "@/types";
 import { TrashIcon } from "lucide-react";
+import { useState } from "react";
 
 interface ElementsTableProps {
   elements: ExposingElement[];
@@ -18,7 +19,18 @@ interface ElementsTableProps {
 }
 
 export function ElementsTable({ elements, onElementHover, onElementRemove }: ElementsTableProps) {
+  const [expanded, setExpanded] = useState<Record<number, boolean>>({});
+
+  const toggleExpanded = (i: number) => setExpanded(prev => ({ ...prev, [i]: !prev[i] }));
+
   if (elements.length === 0) return null;
+
+  const middleEllipsis = (text: string, max = 60) => {
+    if (!text) return "";
+    if (text.length <= max) return text;
+    const keep = Math.max(1, Math.floor((max - 3) / 2));
+    return `${text.slice(0, keep)}...${text.slice(text.length - keep)}`;
+  };
 
   return (
     <Card className="mb-3">
@@ -41,7 +53,16 @@ export function ElementsTable({ elements, onElementHover, onElementRemove }: Ele
                 onMouseOut={() => onElementHover(null)}
               >
                 <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell>{element.selector}</TableCell>
+                <TableCell>
+                  <button
+                    type="button"
+                    className="w-full cursor-pointer text-left font-mono break-all underline-offset-2 hover:underline"
+                    title={element.selector}
+                    onClick={() => toggleExpanded(index)}
+                  >
+                    {expanded[index] ? element.selector : middleEllipsis(element.selector, 30)}
+                  </button>
+                </TableCell>
                 <TableCell className="text-right">
                   <Button variant="ghost" onClick={() => onElementRemove(index, element)}>
                     <TrashIcon className="h-4 w-4" />

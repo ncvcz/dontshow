@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useCurrentTab } from "@/hooks/browser";
 import { useStorage } from "@/hooks/storage";
-import { PointerIcon, RefreshCwIcon, SettingsIcon } from "lucide-react";
+import { MousePointerClick, RefreshCwIcon, SettingsIcon } from "lucide-react";
 import Disabled from "./_components/disabled";
 
 function App() {
@@ -66,7 +66,7 @@ function App() {
           onCheckedChange={handleDisableWebsite}
         />
       </div>
-      <div className="absolute right-2 bottom-2">
+      <div className="absolute bottom-0 flex w-full justify-end p-1">
         <Button
           variant="ghost"
           size="icon"
@@ -76,7 +76,7 @@ function App() {
               .then(() => window.close())
           }
         >
-          <PointerIcon />
+          <MousePointerClick />
         </Button>
         <Button variant="ghost" size="icon" onClick={() => browser.runtime.openOptionsPage()}>
           <SettingsIcon />
